@@ -1,0 +1,24 @@
+{
+  "name": "react-native-env-files",
+  "version": "1.0.0",
+  "description": "React Native environment configs made easy",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergeyshpadyrev/react-native-env-files.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "env",
+    "environment",
+    "config"
+  ],
+  "author": "Sergey Shpadyrev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sergeyshpadyrev/react-native-env-files/issues"
+  },
+  "homepage": "https://github.com/sergeyshpadyrev/react-native-env-files#readme"
+}
