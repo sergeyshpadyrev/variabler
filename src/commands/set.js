@@ -24,6 +24,7 @@ module.exports = envName => {
     }
 
     Object.keys(templates).forEach(fileName => processFile(fileName, templates[fileName]))
+    console.log(`Successfully set environment to ${envName}`)
   } catch (error) {
     logError(`Failed to set environment to ${envName}`)
     logError(error)
