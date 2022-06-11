@@ -13,6 +13,12 @@ program
   .action(require('./commands/init'))
 
 program
+  .command('add')
+  .description('Makes file dependent on environment')
+  .argument('{path}', 'path to file')
+  .action(require('./commands/add'))
+
+program
   .command('set')
   .description('Sets environment')
   .argument('{env}', 'environment name')
