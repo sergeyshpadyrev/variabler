@@ -3,7 +3,7 @@ const program = new Command()
 
 program
   .name('react-native-envy')
-  .description('CLI for managing React Native environment files')
+  .description('CLI for managing React Native environment configs')
   .version('1.0.0')
 
 program
