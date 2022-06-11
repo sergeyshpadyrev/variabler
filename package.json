@@ -2,7 +2,7 @@
   "name": "react-native-env-files",
   "version": "1.0.0",
   "description": "React Native environment configs made easy",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/sergeyshpadyrev/react-native-env-files/issues"
   },
-  "homepage": "https://github.com/sergeyshpadyrev/react-native-env-files#readme"
+  "homepage": "https://github.com/sergeyshpadyrev/react-native-env-files#readme",
+  "dependencies": {
+    "commander": "9.3.0"
+  }
 }
