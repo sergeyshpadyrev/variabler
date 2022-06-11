@@ -2,7 +2,7 @@ const { Command } = require('commander')
 const program = new Command()
 
 program
-  .name('react-native-env-files')
+  .name('react-native-envy')
   .description('CLI for managing React Native environment files')
   .version('1.0.0')
 

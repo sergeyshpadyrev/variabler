@@ -1,2 +1,3 @@
-# react-native-env-files
+# react-native-envy
+
 React Native environments made easy!
