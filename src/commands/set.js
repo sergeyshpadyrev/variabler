@@ -1,9 +1,9 @@
-const { getRepositoryRelativePath, logError, readFile, readJSON, writeFile } = require('../util')
+const { logError, readFile, readJSON, repoPath, writeFile } = require('../util')
 
 module.exports = envName => {
   try {
-    const config = readJSON(getRepositoryRelativePath('envy/config.json'))
-    const variablesConfig = readJSON(getRepositoryRelativePath('envy/variables.json'))
+    const config = readJSON(repoPath('envy/config.json'))
+    const variablesConfig = readJSON(repoPath('envy/variables.json'))
     const variables = { ...variablesConfig.common, ...variablesConfig.env[envName] }
 
     const substituteVariables = content => {
@@ -16,10 +16,10 @@ module.exports = envName => {
     }
 
     const processFile = ({ from, to }) => {
-      const templateFilePath = getRepositoryRelativePath(`./envy/templates/${from}`)
+      const templateFilePath = repoPath(`./envy/templates/${from}`)
       const content = readFile(templateFilePath)
       const contentWithSubstitutions = substituteVariables(content)
-      writeFile(getRepositoryRelativePath(to), contentWithSubstitutions)
+      writeFile(repoPath(to), contentWithSubstitutions)
     }
 
     config.forEach(processFile)

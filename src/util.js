@@ -1,8 +1,8 @@
 const fse = require('fs-extra')
 const path = require('path')
 
-const getScriptRelativePath = filePath => path.resolve(__dirname, filePath)
-const getRepositoryRelativePath = filePath => path.resolve(process.cwd(), filePath)
+const repoPath = filePath => path.resolve(process.cwd(), filePath)
+const scriptPath = filePath => path.resolve(__dirname, filePath)
 
 const logError = (...args) => console.log('\x1b[31m%s\x1b[0m', ...args)
 
@@ -14,10 +14,10 @@ const writeFile = (filePath, content) => {
 }
 
 module.exports = {
-  getScriptRelativePath,
-  getRepositoryRelativePath,
   logError,
   readFile,
   readJSON,
+  repoPath,
+  scriptPath,
   writeFile
 }
