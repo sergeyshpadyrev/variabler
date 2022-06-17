@@ -1,6 +1,6 @@
 {
   "name": "react-native-envy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React Native environment configs made easy",
   "main": "src/index.js",
   "bin": {
