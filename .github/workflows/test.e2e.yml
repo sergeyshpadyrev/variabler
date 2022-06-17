@@ -10,6 +10,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Create a React Native app
-        run: cd .. && npx create-react-native-app --yes
+        run: cd .. && npx create-react-native-app example --yes
       - name: Install envy to the React Native app
         run: cd ../ && pwd && ls
