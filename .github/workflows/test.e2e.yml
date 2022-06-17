@@ -14,4 +14,8 @@ jobs:
       - name: Install envy to the React Native app
         run: cd ../example && npm install --save-dev ../react-native-envy
       - name: Init envy
-        run: pwd && ls ../example/node_modules/.bin/
+        run: cd ../example && react-native-envy init
+      - name: Set dev environment
+        run: cd ../example && npm run envy:set dev
+      - name: Show the app directory
+        run: cd ../example && ls
