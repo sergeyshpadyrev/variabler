@@ -1,9 +1,9 @@
 const {
+  logError,
   readFile,
   readJSON,
   repoPath,
   scriptPath,
-  logError,
   writeFile,
   writeJSON
 } = require('../util')
@@ -11,8 +11,8 @@ const {
 const fse = require('fs-extra')
 const path = require('path')
 
-const checkAlreadyExists = path => {
-  if (fse.existsSync(path)) {
+const checkAlreadyExists = directoryPath => {
+  if (fse.existsSync(directoryPath)) {
     logError('Failed to initialize. Envy has been already initialized')
     process.exit(1)
   }
