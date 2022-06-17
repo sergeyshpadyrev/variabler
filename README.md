@@ -1,3 +1,8 @@
+[![npm version](https://img.shields.io/npm/v/react-native-envy)](https://badge.fury.io/js/react-native-envy)
+[![License: MIT](https://img.shields.io/npm/l/una-language)](https://opensource.org/licenses/MIT)
+
+**If you like this project, please support it with a star** 🌟
+
 # React Native Envy
 
 React Native environments made easy!
@@ -21,3 +26,7 @@ yarn add --dev react-native-envy
 ```
 react-native-easy init
 ```
+
+## Add file
+
+## Set environment
