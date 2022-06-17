@@ -1,11 +1,19 @@
-const { readJSON, repoPath, scriptPath, logError, writeJSON } = require('../util')
+const {
+  readFile,
+  readJSON,
+  repoPath,
+  scriptPath,
+  logError,
+  writeFile,
+  writeJSON
+} = require('../util')
 
 const fse = require('fs-extra')
 const path = require('path')
 
 const checkAlreadyExists = path => {
   if (fse.existsSync(path)) {
-    logError('Failed to initialize. Envy has already been initialized in the repository')
+    logError('Failed to initialize. Envy has been already initialized')
     process.exit(1)
   }
 }
@@ -26,13 +34,27 @@ const addScripts = () => {
   writeJSON(packagePath, packageContent)
 }
 
+const addGitIgnoreSection = () => {
+  const gitignoreTemplate = `\n
+# Envy files start
+/src/api.js
+/settings.json
+# Envy files end
+`
+  const gitignorePath = repoPath('./.gitignore')
+  const content = readFile(gitignorePath)
+  const updatedContent = content + gitignoreTemplate
+
+  writeFile(gitignorePath, updatedContent)
+}
+
 module.exports = destinationPath => {
   const envyPath = path.resolve(repoPath(destinationPath), 'envy')
 
   checkAlreadyExists(envyPath)
   copyTemplate(envyPath)
   addScripts()
+  addGitIgnoreSection()
 
-  // TODO add success message
-  // TODO add envy section to .gitignore
+  console.log('Envy has been successfully initialized')
 }
