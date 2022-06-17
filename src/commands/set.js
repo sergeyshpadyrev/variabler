@@ -2,7 +2,7 @@ const { logError, readFile, readJSON, writeFile } = require('../util')
 
 module.exports = envName => {
   try {
-    const paths = readJSON('envy/paths.json')
+    const config = readJSON('envy/config.json')
     const variables = readJSON('envy/variables.json')[envName]
 
     const substituteVariables = content => {
@@ -14,16 +14,14 @@ module.exports = envName => {
       return Object.keys(variables).reduce(reducer, content)
     }
 
-    const processFile = (fileName, filePathValue) => {
-      const templateFilePath = `./envy/templates/${fileName}`
-      const destinationFilePath = `./${filePathValue}/${fileName}`
-
+    const processFile = ({ from, to }) => {
+      const templateFilePath = `./envy/templates/${from}`
       const content = readFile(templateFilePath)
       const contentWithSubstitutions = substituteVariables(content)
-      writeFile(destinationFilePath, contentWithSubstitutions)
+      writeFile(to, contentWithSubstitutions)
     }
 
-    Object.keys(paths).forEach(fileName => processFile(fileName, paths[fileName]))
+    config.forEach(processFile)
     console.log(`Successfully set environment to ${envName}`)
   } catch (error) {
     logError(`Failed to set environment to ${envName}`)

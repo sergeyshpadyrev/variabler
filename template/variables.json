@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "API_URL": "http://localhost:8080",
+    "APP_NAME": "Example dev"
+  },
+  "staging": {
+    "API_URL": "https://staging.example.com",
+    "APP_NAME": "Example staging"
+  },
+  "production": {
+    "API_URL": "https://production.example.com",
+    "APP_NAME": "Example production"
+  }
+}

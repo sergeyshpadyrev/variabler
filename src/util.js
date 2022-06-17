@@ -1,4 +1,3 @@
-const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 
@@ -16,10 +15,13 @@ const copyDirectory = (sourcePath, destinationPath, destinationFolderName) => {
 // const createDirectory = (parentDirectory, name) =>
 //   fs.mkdir(path.resolve(getRepositoryRelativePath(parentDirectory), name))
 const logError = (...args) => console.log('\x1b[31m%s\x1b[0m', ...args)
-const readFile = filePath => fs.readFileSync(getRepositoryRelativePath(filePath), 'utf-8')
+const readFile = filePath => fse.readFileSync(getRepositoryRelativePath(filePath), 'utf-8')
 const readJSON = filePath => JSON.parse(readFile(filePath))
-const writeFile = (filePath, content) =>
-  fs.writeFileSync(getRepositoryRelativePath(filePath), content)
+const writeFile = (filePath, content) => {
+  const fullPath = getRepositoryRelativePath(filePath)
+  fse.ensureFileSync(fullPath)
+  fse.writeFileSync(fullPath, content)
+}
 
 module.exports = {
   copyDirectory,
