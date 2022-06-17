@@ -1,0 +1,15 @@
+name: 'Test e2e'
+on:
+  push:
+    branches: [main]
+jobs:
+  test-e2e:
+    name: Test e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create a React Native app
+        run: cd .. && npx create-react-native-app
+      - name: Install envy to the React Native app
+        run: pwd

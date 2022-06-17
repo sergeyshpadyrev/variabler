@@ -23,6 +23,7 @@ module.exports = envName => {
 
     envName = envName || selectEnvName(Object.keys(variablesConfig.env))
 
+    // TODO make production.candidate extend production
     const variables = { ...variablesConfig.common, ...variablesConfig.env[envName] }
 
     const substituteVariables = content => {
