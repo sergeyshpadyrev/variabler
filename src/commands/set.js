@@ -3,7 +3,8 @@ const { logError, readFile, readJSON, writeFile } = require('../util')
 module.exports = envName => {
   try {
     const config = readJSON('envy/config.json')
-    const variables = readJSON('envy/variables.json')[envName]
+    const variablesConfig = readJSON('envy/variables.json')
+    const variables = { ...variablesConfig.common, ...variablesConfig.env[envName] }
 
     const substituteVariables = content => {
       const reducer = (currentContent, variableName) => {

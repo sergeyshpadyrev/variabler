@@ -1,14 +1,22 @@
 {
-  "dev": {
-    "API_URL": "http://localhost:8080",
-    "APP_NAME": "Example dev"
+  "common": {
+    "VERSION": "1.2.3"
   },
-  "staging": {
-    "API_URL": "https://staging.example.com",
-    "APP_NAME": "Example staging"
-  },
-  "production": {
-    "API_URL": "https://production.example.com",
-    "APP_NAME": "Example production"
+  "env": {
+    "dev": {
+      "API_URL": "http://localhost:8080",
+      "APP_NAME": "Example dev"
+    },
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "APP_NAME": "Example staging"
+    },
+    "production": {
+      "API_URL": "https://production.example.com",
+      "APP_NAME": "Example production"
+    },
+    "production.candidate": {
+      "APP_NAME": "Example production candidate"
+    }
   }
 }

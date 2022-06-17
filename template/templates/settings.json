@@ -1,3 +1,4 @@
 {
-    "appName": "@APP_NAME@"
+    "appName": "@APP_NAME@",
+    "appVersion": "@VERSION@"
 }
