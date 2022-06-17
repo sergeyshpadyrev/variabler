@@ -21,7 +21,7 @@ program
 program
   .command('set')
   .description('Sets environment')
-  .argument('{env}', 'environment name')
+  .argument('[env]', 'environment name')
   .action(require('./commands/set'))
 
 program.parse()
