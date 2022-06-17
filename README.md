@@ -13,7 +13,7 @@ React Native environments made easy!
 #### npm
 
 ```
-npm i --dev react-native-envy
+npm install --save-dev react-native-envy
 ```
 
 #### yarn
