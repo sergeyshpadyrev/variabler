@@ -10,17 +10,12 @@ const checkAlreadyExists = path => {
   }
 }
 
-const copyDirectory = (sourcePath, destinationPath) => {
-  fse.ensureDirSync(destinationPath)
-  fse.copySync(sourcePath, destinationPath)
+const copyTemplate = envyPath => {
+  fse.ensureDirSync(envyPath)
+  fse.copySync(scriptPath('../template'), envyPath)
 }
 
-module.exports = destinationPath => {
-  const envyPath = path.resolve(repoPath(destinationPath), 'envy')
-
-  checkAlreadyExists(envyPath)
-  copyDirectory(scriptPath('../template'), envyPath)
-
+const addScripts = () => {
   const packagePath = repoPath('./package.json')
   const packageContent = readJSON(packagePath)
   packageContent.scripts = {
@@ -28,11 +23,16 @@ module.exports = destinationPath => {
     'envy:add': 'react-native-envy add',
     'envy:set': 'react-native-envy set'
   }
-
-  // TODO add prettier here
   writeJSON(packagePath, packageContent)
+}
 
-  // TODO add envy:add to package.json scripts
-  // TODO add envy:set to package.json scriptss
+module.exports = destinationPath => {
+  const envyPath = path.resolve(repoPath(destinationPath), 'envy')
+
+  checkAlreadyExists(envyPath)
+  copyTemplate(envyPath)
+  addScripts()
+
+  // TODO add success message
   // TODO add envy section to .gitignore
 }
