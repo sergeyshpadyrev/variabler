@@ -1,6 +1,7 @@
 const { logError, readFile, readJSON, repoPath, writeFile } = require('../util')
 
 module.exports = envName => {
+  // TODO add ability to choose env manually
   try {
     const config = readJSON(repoPath('envy/config.json'))
     const variablesConfig = readJSON(repoPath('envy/variables.json'))
