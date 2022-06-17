@@ -1,4 +1,4 @@
-const { repoPath, scriptPath, logError } = require('../util')
+const { readJSON, repoPath, scriptPath, logError, writeJSON } = require('../util')
 
 const fse = require('fs-extra')
 const path = require('path')
@@ -20,6 +20,17 @@ module.exports = destinationPath => {
 
   checkAlreadyExists(envyPath)
   copyDirectory(scriptPath('../template'), envyPath)
+
+  const packagePath = repoPath('./package.json')
+  const packageContent = readJSON(packagePath)
+  packageContent.scripts = {
+    ...packageContent.scripts,
+    'envy:add': 'react-native-envy add',
+    'envy:set': 'react-native-envy set'
+  }
+
+  // TODO add prettier here
+  writeJSON(packagePath, packageContent)
 
   // TODO add envy:add to package.json scripts
   // TODO add envy:set to package.json scriptss

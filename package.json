@@ -26,8 +26,7 @@
   "homepage": "https://github.com/sergeyshpadyrev/react-native-envy#readme",
   "dependencies": {
     "commander": "9.3.0",
-    "fs-extra": "^10.1.0",
-    "install": "^0.13.0",
-    "npm": "^8.12.1"
+    "fs-extra": "10.1.0",
+    "jsonfile": "6.1.0"
   }
 }
