@@ -1,4 +1,4 @@
-name: 'Test github code'
+name: 'e2e github'
 on:
   push:
     branches: [main]
