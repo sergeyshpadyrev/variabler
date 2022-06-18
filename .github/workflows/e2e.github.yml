@@ -9,13 +9,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Create a React Native app
-        run: cd .. && npx create-react-native-app example --yes --use-npm
       - name: Install envy globally
         run: npm ci && npm link
+      - name: Create a React Native app
+        run: cd .. && npx create-react-native-app example --yes --use-npm
       - name: Init envy
-        run: cd ../example && react-native-envy init
+        run: react-native-envy init
+        working-directory: ../example
       - name: Set dev environment
-        run: cd ../example && npm run envy:set dev
-      - name: Show the app directory
-        run: cd ../example && ls
+        run: npm run envy:set dev
+        working-directory: ../example
+      - name: Check that files exist
+        run: |
+          exit ([ -e "./src/api.js" ] && echo 0 || echo 1)
+          exit ([ -e "./settings.json" ] && echo 0 || echo 1)
+        working-directory: ../example
