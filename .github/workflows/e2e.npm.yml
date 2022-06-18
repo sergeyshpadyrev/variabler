@@ -1,4 +1,4 @@
-name: 'Test e2e'
+name: 'Test npm package'
 on:
   push:
     branches: [main]
