@@ -49,8 +49,9 @@ Setting the environment does the following things:
 To select environment from the list of all the available in `variables.json` environments run:
 
 ```sh
+# npm
 npm run envy:set
-# or
+# yarn
 yarn envy:set
 ```
 
@@ -59,15 +60,17 @@ yarn envy:set
 To set the specific environment run:
 
 ```sh
+# npm
 npm run envy:set <environment_name>
-#
+# yarn
 yarn envy:set <environment_name>
 ```
 
 Example:
 
 ```sh
+# npm
 npm run envy:set dev
-# or
+# yarn
 yarn envy:set dev
 ```
