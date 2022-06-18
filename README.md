@@ -64,7 +64,7 @@ npm run envy:set <environment_name>
 yarn envy:set <environment_name>
 ```
 
-E.g.:
+Example:
 
 ```sh
 npm run envy:set dev
