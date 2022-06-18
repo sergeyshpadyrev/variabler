@@ -12,9 +12,9 @@ jobs:
       - name: Create a React Native app
         run: cd .. && npx create-react-native-app example --yes --use-npm
       - name: Install envy to the React Native app
-        run: cd ../example && npm install --save-dev ../react-native-envy && npm link react-native-envy
+        run: npm link && cd ../example && npm link react-native-envy
       - name: Init envy
-        run: cd ../example && ls node_modules && react-native-envy init
+        run: cd ../example && ls node_modules && ./node_modules/.bin/react-native-envy init
       - name: Set dev environment
         run: cd ../example && npm run envy:set dev
       - name: Show the app directory
