@@ -1,8 +1,7 @@
 name: 'test npm'
 on:
-  schedule:
-    # Every friday at 8am
-    - cron: '0 8 * * 5'
+  push:
+    branches: [main]
 jobs:
   test-e2e:
     name: Test e2e
