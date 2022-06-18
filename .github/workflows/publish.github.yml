@@ -17,8 +17,8 @@ jobs:
       - name: Install modules
         run: npm ci
       - name: Set registry to Github
-        run: npm config set registry 'https://npm.pkg.github.com'
+        run: npm config set registry https://npm.pkg.github.com
+      - name: Set auth token
+        run: npm set //https://npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
