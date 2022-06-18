@@ -1,4 +1,4 @@
-name: 'e2e npm'
+name: 'test npm'
 on:
   schedule:
     # Every friday at 8am
