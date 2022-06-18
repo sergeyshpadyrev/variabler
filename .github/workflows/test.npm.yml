@@ -21,8 +21,3 @@ jobs:
       - name: Set dev environment
         run: npm run envy:set dev
         working-directory: ../example
-      - name: Check environment files exist
-        run: |
-          [ -e "./src/api.js" ] && echo "api.js exists" || exit 1
-          [ -e "./settings.json" ] && echo "settings.json exists" || exit 1
-        working-directory: ../example
