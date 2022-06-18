@@ -7,9 +7,11 @@
 
 **If you like this project, please support it with a star** 🌟
 
-## Motivation to use
+## What is it for?
 
-## Install
+TODO: add description
+
+## Installation
 
 #### npm
 
@@ -23,12 +25,20 @@ npm install --save-dev react-native-envy
 yarn add --dev react-native-envy
 ```
 
-## Init
+## Initialization
+
+To add `react-native-envy` to your React Native project run the following command in your project directory:
 
 ```
 npx react-native-envy init
 ```
 
-## Add file
+It does the following things:
+
+- Adds `envy` directory with templates, configs and variables
+- Adds `envy:add` and `envy:set` scripts into `package.json`
+- Adds envy files section into `.gitignore`
+
+## Add file to Envy
 
 ## Set environment
