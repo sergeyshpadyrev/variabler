@@ -2,8 +2,8 @@
   "name": "react-native-envy",
   "version": "0.0.2",
   "description": "React Native environment configs made easy",
-  "main": "src/index.js",
-  "bin": "./src/index.js",
+  "main": "src/cli.js",
+  "bin": "./src/cli.js",
   "scripts": {},
   "repository": {
     "type": "git",
