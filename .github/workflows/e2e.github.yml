@@ -11,10 +11,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Create a React Native app
         run: cd .. && npx create-react-native-app example --yes --use-npm
-      - name: Install envy to the React Native app
-        run: npm ci && npm link && cd ../example && npm link react-native-envy
+      - name: Install envy globally
+        run: npm ci && npm link
       - name: Init envy
-        run: cd ../example && ./node_modules/.bin/react-native-envy init
+        run: cd ../example && react-native-envy init
       - name: Set dev environment
         run: cd ../example && npm run envy:set dev
       - name: Show the app directory
