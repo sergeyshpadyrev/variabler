@@ -15,7 +15,11 @@ jobs:
         run: npx create-react-native-app example --yes --use-npm
         working-directory: ../
       - name: Init git repo for the React Native app
-        run: git init && git add --all && git commit -m "Init"
+        run: |
+          git config --global user.email "test@example.com"
+          git config --global user.name "John Example"
+          git add --all
+          git commit -m "Init"
         working-directory: ../example
       - name: Init envy
         run: react-native-envy init
