@@ -16,6 +16,16 @@ const selectEnvName = envNames => {
   return envName
 }
 
+const getEnvVariables = (environments, envName) => {
+  const envNameParts = envName.split('.')
+
+  let vars = {}
+  for (let i = 0; i < envNameParts.length; i++) {
+    vars = { ...vars, ...environments[envNameParts.slice(0, i + 1).join('.')] }
+  }
+  return vars
+}
+
 module.exports = envName => {
   try {
     const config = readJSON(repoPath('envy/config.json'))
@@ -24,7 +34,10 @@ module.exports = envName => {
     envName = envName || selectEnvName(Object.keys(variablesConfig.env))
 
     // TODO make production.candidate extend production
-    const variables = { ...variablesConfig.common, ...variablesConfig.env[envName] }
+    const variables = {
+      ...variablesConfig.common,
+      ...getEnvVariables(variablesConfig.env, envName)
+    }
 
     const substituteVariables = content => {
       const reducer = (currentContent, variableName) => {
