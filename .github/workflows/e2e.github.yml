@@ -20,7 +20,5 @@ jobs:
         run: npm run envy:set dev
         working-directory: ../example
       - name: Check that files exist
-        run: |
-          exit ([ -e "./src/api.js" ] && echo 0 || echo 1)
-          exit ([ -e "./settings.json" ] && echo 0 || echo 1)
+        run: ([ -e "./src/api.js" ] && [ -e "./settings.json" ] && echo 0 || echo 1) | exit
         working-directory: ../example
