@@ -1,0 +1,21 @@
+name: 'Test e2e'
+on:
+  push:
+    branches: [main]
+jobs:
+  test-e2e:
+    name: Test e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Create a React Native app
+        run: cd .. && npx create-react-native-app example --yes --use-npm
+      - name: Install envy to the React Native app
+        run: cd ../example && npm install --save-dev react-native-envy
+      - name: Init envy
+        run: cd ../example && ls node_modules && ./node_modules/.bin/react-native-envy init
+      - name: Set dev environment
+        run: cd ../example && npm run envy:set dev
+      - name: Show the app directory
+        run: cd ../example && ls
