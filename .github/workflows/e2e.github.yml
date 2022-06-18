@@ -19,3 +19,6 @@ jobs:
       - name: Set dev environment
         run: npm run envy:set dev
         working-directory: ../example
+      - name: Check environment files exist
+        run: set -e && ([ -e "/you/file.file" ] && exit 1 || exit 0)
+        working-directory: ../example
