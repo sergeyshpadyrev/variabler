@@ -44,9 +44,9 @@ Setting the environment does the following things:
 - Fills these files with values from `envy/variables.json`
 - Copies them to the project according to paths defined in `envy/config.json`
 
-### Select environment
+#### Select environment
 
-To select environment from the list of all available in `variables.json` environments run:
+To select environment from the list of all the available in `variables.json` environments run:
 
 ```sh
 npm run envy:set
@@ -54,7 +54,7 @@ npm run envy:set
 yarn envy:set
 ```
 
-### Set specific environment
+#### Set specific environment
 
 To set the specific environment run:
 
