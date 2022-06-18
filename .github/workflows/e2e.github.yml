@@ -23,5 +23,4 @@ jobs:
         run: |
           [ -e "./src/api.js" ] && echo "api.js exists" || exit 1
           [ -e "./settings.json" ] && echo "settings.json exists" || exit 1
-          [ -e "./sdfsdf.json" ] && echo "sdfsdf.json exists" || exit 1
         working-directory: ../example
