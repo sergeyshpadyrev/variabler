@@ -24,3 +24,11 @@ jobs:
           [ -e "./src/api.js" ] && echo "api.js exists" || exit 1
           [ -e "./settings.json" ] && echo "settings.json exists" || exit 1
         working-directory: ../example
+      - name: Add build.gradle file
+        run: npm run envy:add ./android/app/build.gradle
+        working-directory: ../example
+      - name: Check added file moved
+        run: |
+          [ -e "./android/app/build.gradle" ] && exit 1 || echo "android/app/build.gradle doesn't exist"
+          [ -e "./envy/templates/build.gradle" ] && echo "templates/build.gradle exists" || exit 1
+        working-directory: ../example
