@@ -25,7 +25,7 @@ yarn add --dev react-native-envy
 ## Init
 
 ```
-react-native-easy init
+./node_modules/.bin/react-native-envy init
 ```
 
 ## Add file
