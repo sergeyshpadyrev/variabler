@@ -12,13 +12,18 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup npm
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
-      - run: npm ci
-      - run: npm publish
+      - run: cat .npmrc
+      - name: Install modules
+        run: npm ci
+      - name: Publish package
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
