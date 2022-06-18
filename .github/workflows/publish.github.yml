@@ -17,7 +17,7 @@ jobs:
       - name: Install modules
         run: npm ci
       - name: Set registry to Github
-        run: npm config set registry
+        run: npm config set registry 'https://npm.pkg.github.com'
       - name: Publish package
         run: npm publish
         env:
