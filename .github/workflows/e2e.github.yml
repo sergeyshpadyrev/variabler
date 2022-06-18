@@ -12,7 +12,11 @@ jobs:
       - name: Install envy globally
         run: npm ci && npm link
       - name: Create a React Native app
-        run: cd .. && npx create-react-native-app example --yes --use-npm
+        run: npx create-react-native-app example --yes --use-npm
+        working-directory: ../
+      - name: Init git repo for the React Native app
+        run: git init && git add --all && git commit -m "Init"
+        working-directory: ../example
       - name: Init envy
         run: react-native-envy init
         working-directory: ../example
