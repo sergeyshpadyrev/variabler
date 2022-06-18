@@ -20,6 +20,3 @@ jobs:
       - name: Set dev environment
         run: npm run envy:set dev
         working-directory: ../example
-      - name: Show the app directory
-        run: ([ -e "./src/api.js" ] && [ -e "./settings.json" ] && echo 0 || echo 1) | exit
-        working-directory: ../example
