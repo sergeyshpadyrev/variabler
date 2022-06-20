@@ -43,6 +43,14 @@ First, we create variables config:
 
 After it we create file templates:
 
+`api.js`:
+
+```js
+const baseURL = '@API_URL@'
+
+export const get = url => fetch('GET', `${baseUrl}/${url}`)
+```
+
 `build.gradle`:
 
 ```
@@ -50,14 +58,6 @@ After it we create file templates:
 applicationId "@BUNDLE_ID@"
 versionName "@VERSION@"
 ...
-```
-
-`api.js`:
-
-```js
-const baseURL = '@API_URL@'
-
-export const get = url => fetch('GET', `${baseUrl}/${url}`)
 ```
 
 Then we add paths config:
