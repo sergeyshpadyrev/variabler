@@ -9,8 +9,6 @@
 
 ## What is it for?
 
-Usecases:
-
 - For developers who need to build, test and deploy apps in a few different environments <br/>
 - For developers who need to build, test and deploy a few different branded apps that are based on the single white labeled codebase<br/>
 
@@ -21,9 +19,9 @@ All of these environments and branded apps:
 - Have different constants in the app: color themes, titles, etc...
 - Can have different version numbers and code version numbers
 
-With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it becomes super easy.
+With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it's way much easier.
 
-Let's say we want to create `staging` and `production` apps.
+Let's say we want to create `staging` and `production` apps
 
 First, we create variables config:
 
