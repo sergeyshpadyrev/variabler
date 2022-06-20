@@ -19,9 +19,7 @@ All of these environments and branded apps:
 - Have different constants in the app: color themes, titles, etc...
 - Can have different version numbers and code version numbers
 
-With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it's way much easier.
-
-Let's say we want to create `staging` and `production` apps
+With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it's way much easier. Let's say we want to create `staging` and `production` apps.
 
 First, we create variables config:
 
