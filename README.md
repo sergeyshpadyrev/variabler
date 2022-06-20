@@ -34,15 +34,36 @@ It does the following things:
 - Adds `envy:add` and `envy:set` scripts into `package.json`
 - Adds envy files section into `.gitignore`
 
-## Add file
+By default it creates two dummy templates: `api.js` and `settings.json` <br/>
+They are needed just to help you understand how to use `react-native-envy`
 
-## Set environment
+## Adding file
+
+To make a file depend on environment run the following command:
+
+```
+# npm
+npm run envy:add ./path/to/file
+# yarn
+yarn envy:add ./path/to/file
+```
+
+It does the following things:
+
+- Moves the file from original path to `envy/templates`
+- Removes the original file from git (you need to commit this change)
+- Adds path to the original file to `.gitignore`
+- Adds original path and template path to `envy/paths.json`
+
+Now you can open the template file and put into it variable keys from `envy/variables.json`
+
+## Setting environment
 
 Setting the environment does the following things:
 
 - Takes the files from `envy/templates` directory
 - Fills these files with values from `envy/variables.json`
-- Copies them to the project according to paths defined in `envy/config.json`
+- Copies them to the project according to paths defined in `envy/paths.json`
 
 #### Select environment
 
