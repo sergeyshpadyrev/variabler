@@ -24,8 +24,8 @@ jobs:
       - name: Init envy
         run: react-native-envy init
         working-directory: ../example
-      - name: Set dev environment
-        run: npm run envy:set dev
+      - name: Set local environment
+        run: npm run envy:set local
         working-directory: ../example
       - name: Check environment files exist
         run: |

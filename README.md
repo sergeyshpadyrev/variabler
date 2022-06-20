@@ -9,7 +9,9 @@
 
 ## What is it for?
 
-TODO: add description
+A lot of apps need to have
+
+TODO: add description based on build.gradle
 
 ## Installation
 
@@ -91,7 +93,7 @@ Example:
 
 ```sh
 # npm
-npm run envy:set dev
+npm run envy:set local
 # yarn
-yarn envy:set dev
+yarn envy:set local
 ```

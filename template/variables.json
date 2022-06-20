@@ -3,9 +3,9 @@
     "VERSION": "1.2.3"
   },
   "env": {
-    "dev": {
+    "local": {
       "API_URL": "http://localhost:8080",
-      "APP_NAME": "Example dev"
+      "APP_NAME": "Example local"
     },
     "staging": {
       "API_URL": "https://staging.example.com",
