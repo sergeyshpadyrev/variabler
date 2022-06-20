@@ -189,7 +189,8 @@ yarn envy:set local
 
 ## Extending environment
 
-Let's say we need to have production candidate environment that is the same as production one but with different bundle id. To do that we can inherit environment configurations in `variables.json`:
+Let's say we need to have production candidate environment that is the same as production one but it has a different bundle id. <br/>
+To do that we can inherit environment configurations in `variables.json`:
 
 ```json
 {
@@ -212,7 +213,7 @@ Let's say we need to have production candidate environment that is the same as p
 }
 ```
 
-When you set environment to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. In this case the full list of environment variables filled into template will be:
+When you set environment to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of environment variables filled into template is:
 
 ```
 API_URL=https://production.example.com
