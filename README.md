@@ -25,7 +25,7 @@ Let's say we want to create `staging` and `production` apps
 
 First, we create variables config:
 
-```
+```json
 {
   "common": {
     "VERSION": "1.2.3"
@@ -64,7 +64,7 @@ export const get = url => fetch('GET', `${baseUrl}/${url}`)
 
 Then we add paths config:
 
-```
+```json
 [
   { "from": "api.js", "to": "./src/api.js" },
   { "from": "build.gradle", "to": "./android/app/build.gradle" }
@@ -78,8 +78,7 @@ Finally, we add paths to file destinations to `.gitignore`:
 /src/api.js
 ```
 
-That's it! We're done!
-Now we can easily switch environments using the command:
+That's it! Now we can easily switch environments using the command:
 
 ```sh
 # staging
