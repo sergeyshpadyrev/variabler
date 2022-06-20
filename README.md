@@ -11,23 +11,21 @@
 
 Usecases:
 
-- For developers who need to build, test and deploy apps in a few different environments: e.g. `staging` and `production`. <br/>
+- For developers who need to build, test and deploy apps in a few different environments <br/>
 - For developers who need to build, test and deploy a few different branded apps that are based on the single white labeled codebase<br/>
 
 All of these environments and branded apps:
 
-- Should have different bundle ids
-- Often should have different settings files: like `sentry.settings` for Sentry or `appcenter-config.json` for AppCenter
-- Often should have different constants in the app: color themes, titles, etc...
+- Have different bundle ids
+- Have different settings files: e.g `sentry.settings` for Sentry or `branch.json` for Branch.io
+- Have different constants in the app: color themes, titles, etc...
 - Can have different version numbers and code version numbers
 
-With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and/or branded apps. With `react-native-envy` it becomes super easy.
+With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it becomes super easy.
 
 Let's say we want to create `staging` and `production` apps.
 
-#### First step
-
-We create variables config:
+First, we create variables config:
 
 ```
 {
@@ -47,9 +45,7 @@ We create variables config:
 }
 ```
 
-#### Second step
-
-We create file templates:
+After it we create file templates:
 
 `build.gradle`:
 
@@ -69,9 +65,7 @@ export const get = url => {
 }
 ```
 
-#### Third step
-
-We add paths config:
+Then we add paths config:
 
 ```
 [
@@ -80,18 +74,15 @@ We add paths config:
 ]
 ```
 
-#### Fourth step
-
-We add paths to file destinations to `.gitignore`:
+Finally, we add paths to file destinations to `.gitignore`:
 
 ```
 /android/app/build.gradle
 /src/api.js
 ```
 
-#### We're done!
-
-So after it we can easily switch environments using the command:
+That's it! We're done!
+Now we can easily switch environments using the command:
 
 ```sh
 # staging
