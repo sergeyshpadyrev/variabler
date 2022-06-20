@@ -182,9 +182,9 @@ Example:
 
 ```sh
 # npm
-npm run envy:set local
+npm run envy:set staging
 # yarn
-yarn envy:set local
+yarn envy:set staging
 ```
 
 ## Extending environment
