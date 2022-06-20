@@ -82,9 +82,9 @@ That's it! Now we can easily switch environments using the command:
 
 ```sh
 # staging
-envy:set staging
+npm run envy:set staging
 # production
-envy:set production
+npm run envy:set production
 ```
 
 ## Installation
