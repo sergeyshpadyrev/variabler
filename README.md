@@ -58,9 +58,8 @@ versionName "@VERSION@"
 
 ```js
 const baseURL = '@API_URL@'
-export const get = url => {
-  return fetch('GET', baseUrl + url)
-}
+
+export const get = url => fetch('GET', `${baseUrl}/${url}`)
 ```
 
 Then we add paths config:
