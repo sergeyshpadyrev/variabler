@@ -9,9 +9,96 @@
 
 ## What is it for?
 
-A lot of apps need to have
+Usecases:
 
-TODO: add description based on build.gradle
+- For developers who need to build, test and deploy apps in a few different environments: e.g. `staging` and `production`. <br/>
+- For developers who need to build, test and deploy a few different branded apps that are based on the single white labeled codebase<br/>
+
+All of these environments and branded apps:
+
+- Should have different bundle ids
+- Often should have different settings files: like `sentry.settings` for Sentry or `appcenter-config.json` for AppCenter
+- Often should have different constants in the app: color themes, titles, etc...
+- Can have different version numbers and code version numbers
+
+With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and/or branded apps. With `react-native-envy` it becomes super easy.
+
+Let's say we want to create `staging` and `production` apps.
+
+#### First step
+
+We create variables config:
+
+```
+{
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "BUNDLE_ID": "com.example.app.staging"
+    },
+    "production": {
+      "API_URL": "https://production.example.com",
+      "BUNDLE_ID": "com.example.app"
+    }
+  }
+}
+```
+
+#### Second step
+
+We create file templates:
+
+`build.gradle`:
+
+```
+...
+applicationId "@BUNDLE_ID@"
+versionName "@VERSION@"
+...
+```
+
+`api.js`:
+
+```js
+const baseURL = '@API_URL@'
+export const get = url => {
+  return fetch('GET', baseUrl + url)
+}
+```
+
+#### Third step
+
+We add paths config:
+
+```
+[
+  { "from": "api.js", "to": "./src/api.js" },
+  { "from": "build.gradle", "to": "./android/app/build.gradle" }
+]
+```
+
+#### Fourth step
+
+We add paths to file destinations to `.gitignore`:
+
+```
+/android/app/build.gradle
+/src/api.js
+```
+
+#### We're done!
+
+So after it we can easily switch environments using the command:
+
+```sh
+# staging
+envy:set staging
+# production
+envy:set production
+```
 
 ## Installation
 
