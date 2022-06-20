@@ -69,14 +69,15 @@ Then we add paths config:
 ]
 ```
 
-Finally, we add paths to file destinations to `.gitignore`:
+Finally, we add file destination paths to `.gitignore`:
 
 ```
 /android/app/build.gradle
 /src/api.js
 ```
 
-That's it! Now we can easily switch environments using the command:
+**That's it!** <br/>
+Now we can easily switch environments using the command:
 
 ```sh
 # staging
