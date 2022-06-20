@@ -41,7 +41,7 @@ They are needed just to help you understand how to use `react-native-envy`
 
 To make a file depend on environment run the following command:
 
-```
+```sh
 # npm
 npm run envy:add ./path/to/file
 # yarn
