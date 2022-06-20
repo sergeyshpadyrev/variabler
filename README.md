@@ -77,13 +77,30 @@ Finally, we add file destination paths to `.gitignore`:
 ```
 
 **That's it!** <br/>
-Now we can easily switch environments using the command:
+Now we can easily set environment using the command:
 
 ```sh
 # staging
 npm run envy:set staging
-# production
-npm run envy:set production
+```
+
+It will create two files.
+
+`android/app/build.gradle`:
+
+```
+...
+applicationId "com.example.app.staging"
+versionName "1.2.3"
+...
+```
+
+`src/api.js`:
+
+```js
+const baseURL = 'https://staging.example.com'
+
+export const get = url => fetch('GET', `${baseUrl}/${url}`)
 ```
 
 ## Installation
@@ -169,4 +186,39 @@ Example:
 npm run envy:set local
 # yarn
 yarn envy:set local
+```
+
+## Extending environment
+
+It's possible to inherit environment configurations <br/>
+Les's say we need to have production candidate environment that is the same as production one but with different bundle id. <br/>
+To do that we need to write the following code in `variables.json`:
+
+```json
+{
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "BUNDLE_ID": "com.example.app.staging"
+    },
+    "production": {
+      "API_URL": "https://production.example.com",
+      "BUNDLE_ID": "com.example.app"
+    },
+    "production.candidate": {
+      "BUNDLE_ID": "com.example.app.candidate"
+    }
+  }
+}
+```
+
+When you set environment to `production.candidate` it will take all the variables from `common` section, take all the variables from `production` section and override/extend them with variables from `production.candidate` section. In this case the full list of environment variables filled into template will be:
+
+```
+API_URL=https://production.example.com
+BUNDLE_ID=com.example.app.candidate
+VERSION=1.2.3
 ```
