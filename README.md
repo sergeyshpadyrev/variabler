@@ -76,11 +76,10 @@ Finally, we add file destination paths to `.gitignore`:
 /src/api.js
 ```
 
-**That's it!** <br/>
+That's it! <br/>
 Now we can easily set environment using the command:
 
 ```sh
-# staging
 npm run envy:set staging
 ```
 
@@ -190,9 +189,7 @@ yarn envy:set local
 
 ## Extending environment
 
-It's possible to inherit environment configurations <br/>
-Les's say we need to have production candidate environment that is the same as production one but with different bundle id. <br/>
-To do that we need to write the following code in `variables.json`:
+Let's say we need to have production candidate environment that is the same as production one but with different bundle id. To do that we can inherit environment configurations in `variables.json`:
 
 ```json
 {
@@ -215,7 +212,7 @@ To do that we need to write the following code in `variables.json`:
 }
 ```
 
-When you set environment to `production.candidate` it will take all the variables from `common` section, take all the variables from `production` section and override/extend them with variables from `production.candidate` section. In this case the full list of environment variables filled into template will be:
+When you set environment to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. In this case the full list of environment variables filled into template will be:
 
 ```
 API_URL=https://production.example.com
