@@ -28,7 +28,7 @@ const getEnvVariables = (environments, envName) => {
 
 module.exports = envName => {
   try {
-    const config = readJSON(repoPath('envy/config.json'))
+    const paths = readJSON(repoPath('envy/paths.json'))
     const variablesConfig = readJSON(repoPath('envy/variables.json'))
 
     envName = envName || selectEnvName(Object.keys(variablesConfig.env))
@@ -55,7 +55,7 @@ module.exports = envName => {
       writeFile(repoPath(to), contentWithSubstitutions)
     }
 
-    config.forEach(processFile)
+    paths.forEach(processFile)
     console.log(`Successfully set environment to ${envName}`)
   } catch (error) {
     logError(`Failed to set environment to ${envName}`)
