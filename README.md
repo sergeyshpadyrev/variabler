@@ -153,8 +153,8 @@ Now you can open the template file and put into it variable keys from `envy/vari
 Setting the environment does the following things:
 
 - Takes the files from `envy/templates` directory
-- Fills these files with values from `envy/variables.json`
-- Copies them to the project according to paths defined in `envy/paths.json`
+- Fills the values from `envy/variables.json` to these files
+- Copies the files to the project structure according to the paths defined in `envy/paths.json`
 
 #### Select environment
 
