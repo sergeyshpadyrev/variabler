@@ -65,5 +65,5 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   addFileToGitIgnore(configContent)
   removeFileFromGit(filePath)
 
-  console.log(`File '${filePath}' successfully added to variabler`)
+  console.log(`File '${filePath}' successfully added to Variabler`)
 }
