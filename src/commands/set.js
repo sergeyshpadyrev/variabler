@@ -1,5 +1,5 @@
 const { logError, readFile, readJSON, repoPath, writeFile } = require('../util')
-const prompt = require('prompt-sync')()
+const prompt = require('prompt-sync')({ sigint: true })
 
 const selectEnvName = envNames => {
   const envNamesList = envNames.map((envName, index) => `${index + 1}. ${envName}`).join('\n')
@@ -10,7 +10,7 @@ const selectEnvName = envNames => {
     console.log(envNamesList)
     console.log()
     console.log(`What environment do you want to set?`)
-    const selectedIndex = prompt(`> `, { sigint: true }) - 1
+    const selectedIndex = prompt(`> `) - 1
     if (selectedIndex >= 0 && selectedIndex < envNames.length) envName = envNames[selectedIndex]
   }
   return envName

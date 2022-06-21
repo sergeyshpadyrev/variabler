@@ -3,7 +3,7 @@ const { logError, readFile, readJSON, repoPath, writeFile, writeJSON } = require
 const { execSync } = require('child_process')
 const fse = require('fs-extra')
 const path = require('path')
-const prompt = require('prompt-sync')()
+const prompt = require('prompt-sync')({ sigint: true })
 
 const checkFileExists = filePath => {
   if (!fse.existsSync(filePath)) {
@@ -15,10 +15,10 @@ const checkFileExists = filePath => {
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (fse.existsSync(repoPath(`./envy/templates/${templateName}`))) {
+  while (!templateName || fse.existsSync(repoPath(`./envy/templates/${templateName}`))) {
     console.log(`Template named '${templateName}' already exists in envy/templates directory`)
     console.log(`Please choose another name`)
-    templateName = prompt(`> `, templateName, { sigint: true })
+    templateName = prompt(`> `, templateName).trim()
   }
 
   return templateName
