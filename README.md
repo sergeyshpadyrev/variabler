@@ -1,9 +1,9 @@
 # React Native Envy
 
-[![npm version](https://img.shields.io/npm/v/react-native-envy)](https://badge.fury.io/js/react-native-envy)
+[![npm version](https://img.shields.io/npm/v/variabler)](https://badge.fury.io/js/variabler)
 [![License: MIT](https://img.shields.io/npm/l/una-language)](https://opensource.org/licenses/MIT)
-![test github](https://github.com/sergeyshpadyrev/react-native-envy/actions/workflows/test.github.yml/badge.svg?branch=main&event=push)
-![test npm](https://github.com/sergeyshpadyrev/react-native-envy/actions/workflows/test.npm.yml/badge.svg?branch=main&event=push)
+![test github](https://github.com/sergeyshpadyrev/variabler/actions/workflows/test.github.yml/badge.svg?branch=main&event=push)
+![test npm](https://github.com/sergeyshpadyrev/variabler/actions/workflows/test.npm.yml/badge.svg?branch=main&event=push)
 
 **If you like this project, please support it with a star** 🌟
 
@@ -19,7 +19,7 @@ All of these environments and branded apps:
 - Have different constants in the app: color themes, titles, etc...
 - Can have different version numbers and code version numbers
 
-With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `react-native-envy` it's way much easier. Let's say we want to create `staging` and `production` apps.
+With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `variabler` it's way much easier. Let's say we want to create `staging` and `production` apps.
 
 First, we create variables config:
 
@@ -80,7 +80,7 @@ That's it! <br/>
 Now we can easily set environment using the command:
 
 ```sh
-react-native-envy set staging
+variabler set staging
 ```
 
 It will create two files.
@@ -108,36 +108,36 @@ export const get = url => fetch('GET', `${baseUrl}/${url}`)
 
 ```sh
 # npm
-npm install -g react-native-envy
+npm install -g variabler
 # yarn
-yarn global add react-native-envy
+yarn global add variabler
 ```
 
-If you install `react-native-envy` globally you can call it:
+If you install `variabler` globally you can call it:
 
-- As `react-native-envy` from `package.json` scripts
-- As `react-native-envy` from CLI
+- As `variabler` from `package.json` scripts
+- As `variabler` from CLI
 
 #### As dev dependency
 
 ```sh
 # npm
-npm install --save-dev react-native-envy
+npm install --save-dev variabler
 # yarn
-yarn add -D react-native-envy
+yarn add -D variabler
 ```
 
-If you install `react-native-envy` as a dev dependency you can call it:
+If you install `variabler` as a dev dependency you can call it:
 
-- As `react-native-envy` from `package.json` scripts
-- As `./node_modules/.bin/react-native-envy` from command line
+- As `variabler` from `package.json` scripts
+- As `./node_modules/.bin/variabler` from command line
 
 ## Initialization
 
-To add `react-native-envy` into your React Native project run the following command in your project directory:
+To add `variabler` into your React Native project run the following command in your project directory:
 
 ```sh
-react-native-envy init
+variabler init
 ```
 
 It does the following things:
@@ -146,14 +146,14 @@ It does the following things:
 - Adds envy files section into `.gitignore`
 
 By default it creates two dummy templates: `api.js` and `settings.json` <br/>
-They are needed just to help you understand how to use `react-native-envy`
+They are needed just to help you understand how to use `variabler`
 
 ## Adding file
 
 To make a file depend on environment run the following command:
 
 ```sh
-react-native-envy add ./path/to/file
+variabler add ./path/to/file
 ```
 
 It does the following things:
@@ -170,9 +170,9 @@ Other way you need to provide name option to the command:
 
 ```sh
 # long way
-react-native-envy add ./path/to/file.txt --name myfile.txt
+variabler add ./path/to/file.txt --name myfile.txt
 # short way
-react-native-envy add ./path/to/file.txt -n myfile.txt
+variabler add ./path/to/file.txt -n myfile.txt
 ```
 
 ## Setting environment
@@ -188,7 +188,7 @@ Setting the environment does the following things:
 To select environment from the list of all the available in `variables.json` environments run:
 
 ```sh
-react-native-envy set
+variabler set
 ```
 
 #### Set specific environment
@@ -196,13 +196,13 @@ react-native-envy set
 To set the specific environment run:
 
 ```sh
-react-native-envy set <environment_name>
+variabler set <environment_name>
 ```
 
 Example:
 
 ```sh
-react-native-envy set staging
+variabler set staging
 ```
 
 ## Extending environment

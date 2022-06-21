@@ -4,7 +4,7 @@ const { Command } = require('commander')
 const program = new Command()
 
 program
-  .name('react-native-envy')
+  .name('variabler')
   .description('CLI for managing React Native environment configs')
   .version('1.0.0')
 

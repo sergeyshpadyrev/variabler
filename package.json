@@ -1,13 +1,13 @@
 {
-  "name": "react-native-envy",
-  "version": "0.0.10",
+  "name": "variabler",
+  "version": "0.1.0",
   "description": "React Native environment configs made easy",
   "main": "src/cli.js",
   "bin": "./src/cli.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sergeyshpadyrev/react-native-envy.git"
+    "url": "git+https://github.com/sergeyshpadyrev/variabler.git"
   },
   "keywords": [
     "react",
@@ -19,9 +19,9 @@
   "author": "Sergey Shpadyrev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sergeyshpadyrev/react-native-envy/issues"
+    "url": "https://github.com/sergeyshpadyrev/variabler/issues"
   },
-  "homepage": "https://github.com/sergeyshpadyrev/react-native-envy#readme",
+  "homepage": "https://github.com/sergeyshpadyrev/variabler#readme",
   "dependencies": {
     "commander": "9.3.0",
     "fs-extra": "10.1.0",

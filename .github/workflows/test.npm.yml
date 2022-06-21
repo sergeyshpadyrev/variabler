@@ -13,11 +13,11 @@ jobs:
       - name: Create a React Native app
         run: cd .. && npx create-react-native-app example --yes --use-npm
       - name: Install envy to the React Native app
-        run: npm install -g react-native-envy
+        run: npm install -g variabler
         working-directory: ../example
       - name: Init envy
-        run: react-native-envy init
+        run: variabler init
         working-directory: ../example
       - name: Set local environment
-        run: react-native-envy set staging
+        run: variabler set staging
         working-directory: ../example
