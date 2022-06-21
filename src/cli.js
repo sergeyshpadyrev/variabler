@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 const { Command } = require('commander')
-const program = new Command()
+const { readJSON, scriptPath } = require('./util')
 
-program.name('variabler').description('CLI for managing environment configs').version('1.0.0')
+const program = new Command()
+const version = readJSON(scriptPath('../package.json')).version
+
+program.name('variabler').description('CLI for managing environment configs').version(version)
 
 program
   .command('init')

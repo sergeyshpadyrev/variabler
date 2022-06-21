@@ -21,6 +21,9 @@ jobs:
           git add --all
           git commit -m "Init"
         working-directory: ../example
+      - name: Check variabler version
+        run: variabler -V
+        working-directory: ../example
       - name: Init variabler
         run: variabler init
         working-directory: ../example
