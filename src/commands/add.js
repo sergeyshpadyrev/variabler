@@ -15,8 +15,8 @@ const checkFileExists = filePath => {
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (fse.existsSync(repoPath(`./envy/templates/${fileName}`))) {
-    console.log(`Template named '${fileName}' already exists in envy/templates directory`)
+  while (fse.existsSync(repoPath(`./envy/templates/${templateName}`))) {
+    console.log(`Template named '${templateName}' already exists in envy/templates directory`)
     console.log(`Please choose another name`)
     templateName = prompt(`> `, templateName, { sigint: true })
   }
