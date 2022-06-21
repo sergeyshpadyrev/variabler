@@ -47,3 +47,9 @@ jobs:
         run: |
           [ -e "./android/build.gradle" ] && exit 1 || echo "android/build.gradle doesn't exist"
           [ -e "./envy/templates/build.main.gradle" ] && echo "templates/build.main.gradle exists" || exit 1
+      - name: Set staging environment
+        run: react-native-envy set staging
+      - name: Check set files
+        run: |
+          [ -e "./android/build.gradle" ] && echo "android/build.gradle exists" || exit 1
+          [ -e "./android/app/build.gradle" ] && echo "android/app/build.gradle exists" || exit 1
