@@ -7,19 +7,18 @@
 
 **If you like this project, please support it with a star** 🌟
 
-## What is it for?
+## Who is it for?
 
-- For developers who need to build, test and deploy apps in a few different environments <br/>
-- For developers who need to build, test and deploy a few different branded apps that are based on the single white labeled codebase<br/>
+Variabler was created to manage environments in React Native apps but you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
 
-All of these environments and branded apps:
+So `variabler` is very convinient in the following cases:
 
-- Have different bundle ids
-- Have different settings files: e.g `sentry.settings` for Sentry or `branch.json` for Branch.io
-- Have different constants in the app: color themes, titles, etc...
-- Can have different version numbers and code version numbers
+- To manage environments of the app. E.g., `local`, `staging` and `production`
+- To manage branded apps that are based on the single white labeled codebase
 
-With classic approach you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `variabler` it's way much easier. Let's say we want to create `staging` and `production` apps.
+Usually environments and branded apps have different bundle ids, have different setting files (like `sentry.settings` for Sentry or `branch.json` for Branch.io), have different constants (color themes, titles, etc...) and can even have different version numbers.
+
+To manage it all in React Native you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `variabler` it's way much easier. Let's say we want to create `staging` and `production` apps.
 
 First, we create variables config:
 
