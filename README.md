@@ -1,5 +1,3 @@
-# Variabler
-
 [![npm version](https://img.shields.io/npm/v/variabler)](https://badge.fury.io/js/variabler)
 [![License: MIT](https://img.shields.io/npm/l/una-language)](https://opensource.org/licenses/MIT)
 ![test github](https://github.com/sergeyshpadyrev/variabler/actions/workflows/test.github.yml/badge.svg?branch=main&event=push)
@@ -7,8 +5,10 @@
 
 **If you like this project, please support it with a star** 🌟
 
-Variabler manages variables in JavaScript projects. <br/>
-Originally it was created to manage environments and branding in React Native apps but indeed you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
+# Variabler
+
+Variabler is simple tool for managing environment-dependent variables in JavaScript projects.<br/>
+Originally it was created to manage environments and branded in React Native apps but indeed you can use it for React, Node.js or any other JavaScript framework as well. It's platform independent.
 
 ## Installation
 
@@ -21,7 +21,7 @@ npm install -g variabler
 yarn global add variabler
 ```
 
-If you install `variabler` globally you can call it:
+If you install Variabler globally you can call it:
 
 - As `variabler` from `package.json` scripts
 - As `variabler` from CLI
@@ -35,14 +35,14 @@ npm install --save-dev variabler
 yarn add -D variabler
 ```
 
-If you install `variabler` as a dev dependency you can call it:
+If you install Variabler as a dev dependency you can call it:
 
 - As `variabler` from `package.json` scripts
 - As `./node_modules/.bin/variabler` from command line
 
 ## Initialization
 
-To add `variabler` into your project run the following command in your project directory:
+To add Variabler into your project run the following command in your project directory:
 
 ```sh
 variabler init
@@ -54,7 +54,7 @@ It does the following things:
 - Adds variabler files section into `.gitignore`
 
 By default it creates two dummy templates: `api.js` and `settings.json` <br/>
-They are needed just to help you understand how to use `variabler`
+They are needed just to help you understand how to use Variabler
 
 ## Description
 
@@ -65,7 +65,7 @@ Variabler is very convinient in the following cases:
 
 Usually environments and branded apps have different bundle ids, have different setting files (like `sentry.settings` for Sentry or `branch.json` for Branch.io), have different constants (color themes, titles, etc...) and can even have different version numbers.
 
-To manage it all in React Native you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. With `variabler` it's way much easier. Let's say we want to create `staging` and `production` apps.
+To manage it all in React Native you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. Variabler make it way much easier. Let's say we want to create `staging` and `production` apps.
 
 First, we create variables config:
 
@@ -199,8 +199,12 @@ If you don't pass any values to this command or don't pass enough of them, it wi
 
 ## Multiple variable lists
 
-It's possible to use a few lists of variables. <br/>
-Let's say, we have a white labeled app that can be branded as 'cola' or 'pepsi' and can be built for `staging` and `production` environments.
+It's possible to use a few lists of variables.
+
+Let's say, we have a white labeled app that can:
+
+- Be branded as `cola` or `pepsi`
+- Be built for `staging` and `production` environments.
 
 First, we create variables config:
 
@@ -255,12 +259,12 @@ Now we can set variables:
 variabler set brand:pepsi env:staging
 ```
 
-In `android/app/build.gradle` we gonna see the following code:
+After we set variables, we gonna see the following code in `android/app/build.gradle`:
 
 ```
 ...
 applicationId "com.example.pepsi.staging"
-versionName "@VERSION@"
+versionName "1.2.3"
 ...
 ```
 
@@ -293,7 +297,7 @@ To do that we can inherit configurations in `variables.json`:
 When you set env to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of variables filled into template is:
 
 ```
-API_URL=https://production.example.com
-BUNDLE_ID=com.example.app.candidate
-VERSION=1.2.3
+API_URL: https://production.example.com
+BUNDLE_ID: com.example.app.candidate
+VERSION: 1.2.3
 ```
