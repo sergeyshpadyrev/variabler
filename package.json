@@ -1,7 +1,7 @@
 {
   "name": "variabler",
   "version": "0.1.0",
-  "description": "React Native environment configs made easy",
+  "description": "Environment configs made easy",
   "main": "src/cli.js",
   "bin": "./src/cli.js",
   "scripts": {},
@@ -10,11 +10,11 @@
     "url": "git+https://github.com/sergeyshpadyrev/variabler.git"
   },
   "keywords": [
-    "react",
-    "native",
     "env",
     "environment",
-    "config"
+    "config",
+    "react",
+    "react native"
   ],
   "author": "Sergey Shpadyrev",
   "license": "MIT",

@@ -1,4 +1,4 @@
-# React Native Envy
+# Variabler
 
 [![npm version](https://img.shields.io/npm/v/variabler)](https://badge.fury.io/js/variabler)
 [![License: MIT](https://img.shields.io/npm/l/una-language)](https://opensource.org/licenses/MIT)

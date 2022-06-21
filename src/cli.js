@@ -3,14 +3,11 @@
 const { Command } = require('commander')
 const program = new Command()
 
-program
-  .name('variabler')
-  .description('CLI for managing React Native environment configs')
-  .version('1.0.0')
+program.name('variabler').description('CLI for managing environment configs').version('1.0.0')
 
 program
   .command('init')
-  .description('Initialize setup in React Native repository')
+  .description('Initialize setup in repository')
   .argument('[path]', 'path to repository', '.')
   .action(require('./commands/init'))
 
