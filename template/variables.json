@@ -5,15 +5,26 @@
   "env": {
     "local": {
       "API_URL": "http://localhost:8080",
-      "APP_NAME": "Example local"
+      "APP_NAME": "Local",
+      "BUNDLE_EXTENSION": ""
     },
     "staging": {
       "API_URL": "https://staging.example.com",
-      "APP_NAME": "Example staging"
+      "APP_NAME": "Staging",
+      "BUNDLE_EXTENSION": ".staging"
     },
     "production": {
       "API_URL": "https://production.example.com",
-      "APP_NAME": "Example production"
+      "APP_NAME": "Production",
+      "BUNDLE_EXTENSION": ""
+    }
+  },
+  "brand": {
+    "cola": {
+      "BUNDLE_ID": "com.example.cola"
+    },
+    "pepsi": {
+      "BUNDLE_ID": "com.example.pepsi"
     }
   }
 }

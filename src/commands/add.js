@@ -15,8 +15,8 @@ const checkFileExists = filePath => {
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (!templateName || fse.existsSync(repoPath(`./envy/templates/${templateName}`))) {
-    console.log(`Template named '${templateName}' already exists in envy/templates directory`)
+  while (!templateName || fse.existsSync(repoPath(`./variabler/templates/${templateName}`))) {
+    console.log(`Template named '${templateName}' already exists in variabler/templates directory`)
     console.log(`Please choose another name`)
     templateName = prompt(`> `, templateName).trim()
   }
@@ -29,7 +29,7 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
 }
 
 const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = repoPath('./envy/paths.json')
+  const configPath = repoPath('./variabler/paths.json')
   const configContent = readJSON(configPath)
   configContent.push({ from: fileName, to: filePath })
   writeJSON(configPath, configContent)
@@ -45,9 +45,9 @@ const addFileToGitIgnore = configContent => {
     return `/${relativePath}`
   }
 
-  const originalIgnoreLines = new RegExp('# Envy files start[^]*# Envy files end', 'g')
+  const originalIgnoreLines = new RegExp('# variabler files start[^]*# variabler files end', 'g')
   const updatedIgnoreLines =
-    '# Envy files start\n' + configContent.map(getIgnorePath).join('\n') + '\n# Envy files end'
+    '# <variabler>\n' + configContent.map(getIgnorePath).join('\n') + '\n# </variabler>'
   const updatedContent = content.replace(originalIgnoreLines, updatedIgnoreLines)
   writeFile(gitignorePath, updatedContent)
 }
@@ -58,12 +58,12 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   checkFileExists(filePath)
 
   const templateName = getTemplateName(filePath, providedTemplateName)
-  const templatePath = repoPath(`./envy/templates/${templateName}`)
+  const templatePath = repoPath(`./variabler/templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
   const configContent = addTemplateToConfig(templateName, filePath)
   addFileToGitIgnore(configContent)
   removeFileFromGit(filePath)
 
-  console.log(`File '${filePath}' successfully added to envy`)
+  console.log(`File '${filePath}' successfully added to variabler`)
 }

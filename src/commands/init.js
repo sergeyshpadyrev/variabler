@@ -5,22 +5,24 @@ const path = require('path')
 
 const checkAlreadyExists = directoryPath => {
   if (fse.existsSync(directoryPath)) {
-    logError('Failed to initialize. Envy has been already initialized')
+    logError(
+      'Variabler failed to initialize. It has been already initialized in the current directory'
+    )
     process.exit(1)
   }
 }
 
-const copyTemplate = envyPath => {
-  fse.ensureDirSync(envyPath)
-  fse.copySync(scriptPath('../template'), envyPath)
+const copyTemplate = variablerPath => {
+  fse.ensureDirSync(variablerPath)
+  fse.copySync(scriptPath('../template'), variablerPath)
 }
 
 const addGitIgnoreSection = () => {
   const gitignoreTemplate = `\n
-# Envy files start
+# <variabler>
 /src/api.js
 /settings.json
-# Envy files end
+# </variabler>
 `
   const gitignorePath = repoPath('./.gitignore')
   const content = readFile(gitignorePath)
@@ -30,11 +32,11 @@ const addGitIgnoreSection = () => {
 }
 
 module.exports = destinationPath => {
-  const envyPath = path.resolve(repoPath(destinationPath), 'envy')
+  const variablerPath = path.resolve(repoPath(destinationPath), 'variabler')
 
-  checkAlreadyExists(envyPath)
-  copyTemplate(envyPath)
+  checkAlreadyExists(variablerPath)
+  copyTemplate(variablerPath)
   addGitIgnoreSection()
 
-  console.log('Envy has been successfully initialized')
+  console.log('Variabler has been successfully initialized')
 }

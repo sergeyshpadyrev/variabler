@@ -141,8 +141,8 @@ variabler init
 
 It does the following things:
 
-- Adds `envy` directory that contains templates, configs and variables
-- Adds envy files section into `.gitignore`
+- Adds `variabler` directory that contains templates, configs and variables
+- Adds variabler files section into `.gitignore`
 
 By default it creates two dummy templates: `api.js` and `settings.json` <br/>
 They are needed just to help you understand how to use `variabler`
@@ -157,12 +157,12 @@ variabler add ./path/to/file
 
 It does the following things:
 
-- Moves the file from original path to `envy/templates`
+- Moves the file from original path to `variabler/templates`
 - Removes the original file from git (you need to commit this change)
 - Adds path to the original file to `.gitignore`
-- Adds original path and template path to `envy/paths.json`
+- Adds original path and template path to `variabler/paths.json`
 
-Now you can open the template file and put into it variable keys from `envy/variables.json`
+Now you can open the template file and put into it variable keys from `variabler/variables.json`
 
 If there already exists a template with the same name you will be asked to choose a new name.
 Other way you need to provide name option to the command:
@@ -178,9 +178,9 @@ variabler add ./path/to/file.txt -n myfile.txt
 
 Setting the environment does the following things:
 
-- Takes the files from `envy/templates` directory
-- Fills the values from `envy/variables.json` to these files
-- Copies the files to the project structure according to the paths defined in `envy/paths.json`
+- Takes the files from `variabler/templates` directory
+- Fills the values from `variabler/variables.json` to these files
+- Copies the files to the project structure according to the paths defined in `variabler/paths.json`
 
 #### Select environment
 

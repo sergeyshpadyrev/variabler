@@ -1,4 +1,5 @@
 {
     "appName": "@APP_NAME@",
-    "appVersion": "@VERSION@"
+    "appVersion": "@VERSION@",
+    "bundleId": "@BUNDLE_ID@@BUNDLE_EXTENSION@"
 }
