@@ -9,7 +9,7 @@
 
 ## Who is it for?
 
-Variabler was created to manage environments in React Native apps but you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
+Variabler was created to manage environments and branded apps in React Native apps but you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
 
 So `variabler` is very convinient in the following cases:
 
@@ -79,7 +79,7 @@ That's it! <br/>
 Now we can easily set environment using the command:
 
 ```sh
-variabler set staging
+variabler set env:staging
 ```
 
 It will create two files.
@@ -149,7 +149,7 @@ They are needed just to help you understand how to use `variabler`
 
 ## Adding file
 
-To make a file depend on environment run the following command:
+To add file to `variabler` run the following command:
 
 ```sh
 variabler add ./path/to/file
@@ -174,40 +174,32 @@ variabler add ./path/to/file.txt --name myfile.txt
 variabler add ./path/to/file.txt -n myfile.txt
 ```
 
-## Setting environment
+## Setting variables
 
-Setting the environment does the following things:
+Setting variables command does the following things:
 
 - Takes the files from `variabler/templates` directory
 - Fills the values from `variabler/variables.json` to these files
 - Copies the files to the project structure according to the paths defined in `variabler/paths.json`
 
-#### Select environment
-
-To select environment from the list of all the available in `variables.json` environments run:
+To set variables run the following command with the list of key/value pairs:
 
 ```sh
+#
+variabler set [key:value]
+
+# Examples
 variabler set
+variabler set env:staging
+variabler set env:production brand:pepsi
 ```
 
-#### Set specific environment
+If you don't pass any values to this command or don't pass enough of them, it will ask you to select one of the available options.
 
-To set the specific environment run:
+## Extending variable variants
 
-```sh
-variabler set <environment_name>
-```
-
-Example:
-
-```sh
-variabler set staging
-```
-
-## Extending environment
-
-Let's say we need to have production candidate environment that is the same as production one but it has a different bundle id. <br/>
-To do that we can inherit environment configurations in `variables.json`:
+Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
+To do that we can inherit configurations in `variables.json`:
 
 ```json
 {
@@ -230,7 +222,7 @@ To do that we can inherit environment configurations in `variables.json`:
 }
 ```
 
-When you set environment to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of environment variables filled into template is:
+When you set env to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of variables filled into template is:
 
 ```
 API_URL=https://production.example.com
