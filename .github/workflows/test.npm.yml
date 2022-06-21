@@ -18,6 +18,6 @@ jobs:
       - name: Init variabler
         run: variabler init
         working-directory: ../example
-      - name: Set local environment
-        run: variabler set staging
+      - name: Set staging environment
+        run: variabler set env:staging
         working-directory: ../example

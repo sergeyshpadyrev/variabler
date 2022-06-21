@@ -40,7 +40,7 @@ First, we create variables config:
 }
 ```
 
-After it we create file templates:
+After, we create file templates:
 
 `api.js`:
 
@@ -228,4 +228,71 @@ When you set env to `production.candidate`, it takes all the variables defined i
 API_URL=https://production.example.com
 BUNDLE_ID=com.example.app.candidate
 VERSION=1.2.3
+```
+
+## Multiple variable lists
+
+It's possible to use a few lists of variables. <br/>
+Let's say, we have a white labeled app that can be branded as 'cola' or 'pepsi' and can be built for `staging` and `production` environments.
+
+First, we create variables config:
+
+```json
+{
+  "brand": {
+    "cola": {
+      "BUNDLE_ID": "com.example.cola"
+    },
+    "pepsi": {
+      "BUNDLE_ID": "com.example.pepsi"
+    }
+  },
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "staging": {
+      "BUNDLE_EXTENSION": ".staging"
+    },
+    "production": {
+      "BUNDLE_EXTENSION": ""
+    }
+  }
+}
+```
+
+After, we create `build.gradle` file template:
+
+```
+...
+applicationId "@BUNDLE_ID@@BUNDLE_EXTENSION@"
+versionName "@VERSION@"
+...
+```
+
+Then we add paths config:
+
+```json
+[{ "from": "build.gradle", "to": "./android/app/build.gradle" }]
+```
+
+Finally, we add file destination paths to `.gitignore`:
+
+```
+/android/app/build.gradle
+```
+
+Now we can set variables:
+
+```sh
+variabler set brand:pepsi env:staging
+```
+
+In `android/app/build.gradle` we gonna see the following code:
+
+```
+...
+applicationId "com.example.pepsi.staging"
+versionName "@VERSION@"
+...
 ```
