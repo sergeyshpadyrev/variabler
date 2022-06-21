@@ -25,7 +25,7 @@ jobs:
         run: variabler init
         working-directory: ../example
       - name: Set staging environment
-        run: variabler set staging
+        run: variabler set env:staging
         working-directory: ../example
       - name: Check environment files exist
         run: |
@@ -49,7 +49,7 @@ jobs:
           [ -e "./variabler/templates/build.main.gradle" ] && echo "templates/build.main.gradle exists" || exit 1
         working-directory: ../example
       - name: Set staging environment
-        run: variabler set staging
+        run: variabler set env:staging
         working-directory: ../example
       - name: Check set files
         run: |
