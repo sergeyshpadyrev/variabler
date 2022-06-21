@@ -18,6 +18,7 @@ program
   .command('add')
   .description('Makes file dependent on environment')
   .argument('{path}', 'path to file')
+  .option('-n, --name <name>', 'template file name')
   .action(require('./commands/add'))
 
 program

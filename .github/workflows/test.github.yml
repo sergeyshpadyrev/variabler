@@ -40,3 +40,10 @@ jobs:
           [ -e "./android/app/build.gradle" ] && exit 1 || echo "android/app/build.gradle doesn't exist"
           [ -e "./envy/templates/build.gradle" ] && echo "templates/build.gradle exists" || exit 1
         working-directory: ../example
+      - name: Add build.gradle file
+        run: npm run envy:add ./android/build.gradle --name build.main.gradle
+        working-directory: ../example
+      - name: Check added file moved
+        run: |
+          [ -e "./android/build.gradle" ] && exit 1 || echo "android/build.gradle doesn't exist"
+          [ -e "./envy/templates/build.main.gradle" ] && echo "templates/build.main.gradle exists" || exit 1
