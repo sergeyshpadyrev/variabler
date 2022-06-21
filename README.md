@@ -7,11 +7,58 @@
 
 **If you like this project, please support it with a star** 🌟
 
-## Who is it for?
+Variabler manages variables in JavaScript projects. <br/>
+Originally it was created to manage environments and branding in React Native apps but indeed you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
 
-Variabler was created to manage environments and branded apps in React Native apps but you can use it with React, Node.js or any other JavaScript framework as well. It's platform independent.
+## Installation
 
-So `variabler` is very convinient in the following cases:
+#### Globally
+
+```sh
+# npm
+npm install -g variabler
+# yarn
+yarn global add variabler
+```
+
+If you install `variabler` globally you can call it:
+
+- As `variabler` from `package.json` scripts
+- As `variabler` from CLI
+
+#### As dev dependency
+
+```sh
+# npm
+npm install --save-dev variabler
+# yarn
+yarn add -D variabler
+```
+
+If you install `variabler` as a dev dependency you can call it:
+
+- As `variabler` from `package.json` scripts
+- As `./node_modules/.bin/variabler` from command line
+
+## Initialization
+
+To add `variabler` into your project run the following command in your project directory:
+
+```sh
+variabler init
+```
+
+It does the following things:
+
+- Adds `variabler` directory that contains templates, configs and variables
+- Adds variabler files section into `.gitignore`
+
+By default it creates two dummy templates: `api.js` and `settings.json` <br/>
+They are needed just to help you understand how to use `variabler`
+
+## Description
+
+Variabler is very convinient in the following cases:
 
 - To manage environments of the app. E.g., `local`, `staging` and `production`
 - To manage branded apps that are based on the single white labeled codebase
@@ -101,55 +148,9 @@ const baseURL = 'https://staging.example.com'
 export const get = url => fetch('GET', `${baseUrl}/${url}`)
 ```
 
-## Installation
-
-#### Globally
-
-```sh
-# npm
-npm install -g variabler
-# yarn
-yarn global add variabler
-```
-
-If you install `variabler` globally you can call it:
-
-- As `variabler` from `package.json` scripts
-- As `variabler` from CLI
-
-#### As dev dependency
-
-```sh
-# npm
-npm install --save-dev variabler
-# yarn
-yarn add -D variabler
-```
-
-If you install `variabler` as a dev dependency you can call it:
-
-- As `variabler` from `package.json` scripts
-- As `./node_modules/.bin/variabler` from command line
-
-## Initialization
-
-To add `variabler` into your React Native project run the following command in your project directory:
-
-```sh
-variabler init
-```
-
-It does the following things:
-
-- Adds `variabler` directory that contains templates, configs and variables
-- Adds variabler files section into `.gitignore`
-
-By default it creates two dummy templates: `api.js` and `settings.json` <br/>
-They are needed just to help you understand how to use `variabler`
-
 ## Adding file
 
-To add file to `variabler` run the following command:
+To make file managed by Variabler run the following command:
 
 ```sh
 variabler add ./path/to/file
@@ -195,40 +196,6 @@ variabler set env:production brand:pepsi
 ```
 
 If you don't pass any values to this command or don't pass enough of them, it will ask you to select one of the available options.
-
-## Extending variable variants
-
-Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
-To do that we can inherit configurations in `variables.json`:
-
-```json
-{
-  "common": {
-    "VERSION": "1.2.3"
-  },
-  "env": {
-    "staging": {
-      "API_URL": "https://staging.example.com",
-      "BUNDLE_ID": "com.example.app.staging"
-    },
-    "production": {
-      "API_URL": "https://production.example.com",
-      "BUNDLE_ID": "com.example.app"
-    },
-    "production.candidate": {
-      "BUNDLE_ID": "com.example.app.candidate"
-    }
-  }
-}
-```
-
-When you set env to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of variables filled into template is:
-
-```
-API_URL=https://production.example.com
-BUNDLE_ID=com.example.app.candidate
-VERSION=1.2.3
-```
 
 ## Multiple variable lists
 
@@ -295,4 +262,38 @@ In `android/app/build.gradle` we gonna see the following code:
 applicationId "com.example.pepsi.staging"
 versionName "@VERSION@"
 ...
+```
+
+## Extending variable lists
+
+Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
+To do that we can inherit configurations in `variables.json`:
+
+```json
+{
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "BUNDLE_ID": "com.example.app.staging"
+    },
+    "production": {
+      "API_URL": "https://production.example.com",
+      "BUNDLE_ID": "com.example.app"
+    },
+    "production.candidate": {
+      "BUNDLE_ID": "com.example.app.candidate"
+    }
+  }
+}
+```
+
+When you set env to `production.candidate`, it takes all the variables defined in the `common` section, takes all the variables defined in the `production` section and overrides/extends them with the variables defined in the `production.candidate` section. So the full list of variables filled into template is:
+
+```
+API_URL=https://production.example.com
+BUNDLE_ID=com.example.app.candidate
+VERSION=1.2.3
 ```
