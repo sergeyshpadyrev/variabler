@@ -7,7 +7,7 @@
 
 # Variabler
 
-Variabler is simple tool for managing environment-dependent variables in JavaScript projects.<br/>
+Variabler is a simple tool for managing environment-dependent variables in JavaScript projects.<br/>
 Originally it was created to manage environments and branded in React Native apps but indeed you can use it for React, Node.js or any other JavaScript framework as well. It's platform independent.
 
 ## Installation
