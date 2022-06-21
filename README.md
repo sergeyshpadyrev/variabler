@@ -80,7 +80,7 @@ That's it! <br/>
 Now we can easily set environment using the command:
 
 ```sh
-npm run envy:set staging
+react-native-envy set staging
 ```
 
 It will create two files.
@@ -106,9 +106,9 @@ export const get = url => fetch('GET', `${baseUrl}/${url}`)
 
 ```sh
 # npm
-npm install --save-dev react-native-envy
+npm install -g react-native-envy
 # yarn
-yarn add --dev react-native-envy
+yarn global add react-native-envy
 ```
 
 ## Initialization
@@ -116,13 +116,12 @@ yarn add --dev react-native-envy
 To add `react-native-envy` into your React Native project run the following command in your project directory:
 
 ```sh
-npx react-native-envy init
+react-native-envy init
 ```
 
 It does the following things:
 
 - Adds `envy` directory that contains templates, configs and variables
-- Adds `envy:add` and `envy:set` scripts into `package.json`
 - Adds envy files section into `.gitignore`
 
 By default it creates two dummy templates: `api.js` and `settings.json` <br/>
@@ -133,10 +132,7 @@ They are needed just to help you understand how to use `react-native-envy`
 To make a file depend on environment run the following command:
 
 ```sh
-# npm
-npm run envy:add ./path/to/file
-# yarn
-yarn envy:add ./path/to/file
+react-native-envy add ./path/to/file
 ```
 
 It does the following things:
@@ -147,6 +143,16 @@ It does the following things:
 - Adds original path and template path to `envy/paths.json`
 
 Now you can open the template file and put into it variable keys from `envy/variables.json`
+
+If there already exists a template with the same name you will be asked to choose a new name.
+Other way you need to provide name option to the command:
+
+```sh
+# long way
+react-native-envy add ./path/to/file.txt --name myfile.txt
+# short way
+react-native-envy add ./path/to/file.txt -n myfile.txt
+```
 
 ## Setting environment
 
@@ -161,10 +167,7 @@ Setting the environment does the following things:
 To select environment from the list of all the available in `variables.json` environments run:
 
 ```sh
-# npm
-npm run envy:set
-# yarn
-yarn envy:set
+react-native-envy set
 ```
 
 #### Set specific environment
@@ -172,19 +175,13 @@ yarn envy:set
 To set the specific environment run:
 
 ```sh
-# npm
-npm run envy:set <environment_name>
-# yarn
-yarn envy:set <environment_name>
+react-native-envy set <environment_name>
 ```
 
 Example:
 
 ```sh
-# npm
-npm run envy:set staging
-# yarn
-yarn envy:set staging
+react-native-envy set staging
 ```
 
 ## Extending environment

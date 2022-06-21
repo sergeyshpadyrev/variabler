@@ -52,17 +52,18 @@ const addFileToGitIgnore = configContent => {
   writeFile(gitignorePath, updatedContent)
 }
 
+const removeFileFromGit = filePath => execSync(`git rm ${filePath}`, { encoding: 'utf-8' })
+
 module.exports = (filePath, { name: providedTemplateName }) => {
   checkFileExists(filePath)
 
   const templateName = getTemplateName(filePath, providedTemplateName)
   const templatePath = repoPath(`./envy/templates/${templateName}`)
-
   copyFileToTemplates(filePath, templatePath)
-  const configContent = addTemplateToConfig(templateName, filePath)
 
+  const configContent = addTemplateToConfig(templateName, filePath)
   addFileToGitIgnore(configContent)
-  execSync(`git rm ${filePath}`, { encoding: 'utf-8' })
+  removeFileFromGit(filePath)
 
   console.log(`File '${filePath}' successfully added to envy`)
 }
