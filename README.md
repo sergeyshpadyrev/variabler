@@ -104,12 +104,33 @@ export const get = url => fetch('GET', `${baseUrl}/${url}`)
 
 ## Installation
 
+#### Globally
+
 ```sh
 # npm
 npm install -g react-native-envy
 # yarn
 yarn global add react-native-envy
 ```
+
+If you install `react-native-envy` globally you can call it:
+
+- As `react-native-envy` from `package.json` scripts
+- As `react-native-envy` from CLI
+
+#### As dev dependency
+
+```sh
+# npm
+npm install --save-dev react-native-envy
+# yarn
+yarn add -D react-native-envy
+```
+
+If you install `react-native-envy` as a dev dependency you can call it:
+
+- As `react-native-envy` from `package.json` scripts
+- As `./node_modules/.bin/react-native-envy` from command line
 
 ## Initialization
 
