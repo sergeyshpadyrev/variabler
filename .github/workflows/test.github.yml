@@ -46,6 +46,7 @@ jobs:
       - name: Check added file moved
         run: |
           [ -e "./android/build.gradle" ] && exit 1 || echo "android/build.gradle doesn't exist"
+          ls envy/templates
           [ -e "./envy/templates/build.main.gradle" ] && echo "templates/build.main.gradle exists" || exit 1
       - name: Set staging environment
         run: react-native-envy set staging
