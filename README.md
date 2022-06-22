@@ -87,7 +87,7 @@ First, we create variables config:
 }
 ```
 
-After, we create file templates:
+After, we create template files:
 
 `api.js`:
 
@@ -106,7 +106,7 @@ versionName "@VERSION@"
 ...
 ```
 
-Then we add paths config:
+Then we add template paths config:
 
 ```json
 [
@@ -161,7 +161,7 @@ It does the following things:
 - Moves the file from original path to `variabler/templates`
 - Removes the original file from git (you need to commit this change)
 - Adds path to the original file to `.gitignore`
-- Adds original path and template path to `variabler/paths.json`
+- Adds original path and template path to `variabler/templates.json`
 
 Now you can open the template file and put into it variable keys from `variabler/variables.json`
 
@@ -181,7 +181,7 @@ Setting variables command does the following things:
 
 - Takes the files from `variabler/templates` directory
 - Fills the values from `variabler/variables.json` to these files
-- Copies the files to the project structure according to the paths defined in `variabler/paths.json`
+- Copies the files to the project structure according to the paths defined in `variabler/templates.json`
 
 To set variables run the following command with the list of key/value pairs:
 
@@ -241,7 +241,7 @@ versionName "@VERSION@"
 ...
 ```
 
-Then we add paths config:
+Then we add template paths config:
 
 ```json
 [{ "from": "build.gradle", "to": "./android/app/build.gradle" }]

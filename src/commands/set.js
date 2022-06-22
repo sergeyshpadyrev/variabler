@@ -85,7 +85,7 @@ const printMapList = (name, mapList) => {
 
 module.exports = settings => {
   try {
-    const paths = readJSON(repoPath('variabler/paths.json'))
+    const templatePaths = readJSON(repoPath('variabler/templates.json'))
     const variablesConfig = readJSON(repoPath('variabler/variables.json'))
 
     const settingsMap = getSettingsMap(settings, variablesConfig)
@@ -93,7 +93,7 @@ module.exports = settings => {
       ...variablesConfig.common,
       ...getSettingVariables(settingsMap, variablesConfig)
     }
-    paths.forEach(file => processFile(file, variables))
+    templatePaths.forEach(file => processFile(file, variables))
 
     console.log()
     console.log(`Successfully set variables`)

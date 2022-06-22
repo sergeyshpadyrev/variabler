@@ -29,7 +29,7 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
 }
 
 const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = repoPath('./variabler/paths.json')
+  const configPath = repoPath('./variabler/templates.json')
   const configContent = readJSON(configPath)
   configContent.push({ from: fileName, to: filePath })
   writeJSON(configPath, configContent)
