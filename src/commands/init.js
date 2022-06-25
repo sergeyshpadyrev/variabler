@@ -1,23 +1,5 @@
-const { logError } = require('../util/logger')
-const { readFile, writeFile } = require('../util/files')
-const { repoPath, scriptPath } = require('../util/path')
-
-const fse = require('fs-extra')
-const path = require('path')
-
-const checkAlreadyExists = directoryPath => {
-  if (fse.existsSync(directoryPath)) {
-    logError(
-      'Variabler failed to initialize. It has been already initialized in the current directory'
-    )
-    process.exit(1)
-  }
-}
-
-const copyTemplate = variablerPath => {
-  fse.ensureDirSync(variablerPath)
-  fse.copySync(scriptPath('../template'), variablerPath)
-}
+const { checkNotExists, copyDirectory, readFile, writeFile } = require('../util/files')
+const { repoPath, scriptPath, variablerPath } = require('../util/path')
 
 const addGitIgnoreSection = () => {
   const gitignoreTemplate = `\n
@@ -33,11 +15,12 @@ const addGitIgnoreSection = () => {
   writeFile(gitignorePath, updatedContent)
 }
 
-module.exports = destinationPath => {
-  const variablerPath = path.resolve(repoPath(destinationPath), 'variabler')
-
-  checkAlreadyExists(variablerPath)
-  copyTemplate(variablerPath)
+module.exports = () => {
+  checkNotExists(
+    variablerPath('.'),
+    'Variabler failed to initialize. It has been already initialized in the current directory'
+  )
+  copyDirectory(scriptPath('../template'), variablerPath('.'))
   addGitIgnoreSection()
 
   console.log('Variabler has been successfully initialized')

@@ -1,8 +1,7 @@
+const { getUserInput } = require('../util/prompt')
 const { logError, logList } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
 const { repoPath } = require('../util/path')
-
-const prompt = require('prompt-sync')({ sigint: true })
 
 const getSettingsMap = (settings, variablesConfig) => {
   const settingsMap = Object.assign(
@@ -35,7 +34,7 @@ const getSettingsMap = (settings, variablesConfig) => {
       while (!value) {
         console.log(`Please select ${key}:`)
         console.log(valuesList)
-        const selectedIndex = parseInt(prompt(`> `)) - 1
+        const selectedIndex = parseInt(getUserInput()) - 1
         if (selectedIndex >= 0 && selectedIndex < values.length) value = values[selectedIndex]
       }
 

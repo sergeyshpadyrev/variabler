@@ -14,7 +14,6 @@ program
 program
   .command('init')
   .description('Initialize variabler in repository')
-  .argument('[path]', 'path to repository', '.')
   .action(require('./commands/init'))
 
 program

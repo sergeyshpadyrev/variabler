@@ -1,18 +1,10 @@
-const { logError } = require('../util/logger')
-const { readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { getUserInput } = require('./util/input')
 const { repoPath } = require('../util/path')
 
 const { execSync } = require('child_process')
 const fse = require('fs-extra')
 const path = require('path')
-const prompt = require('prompt-sync')({ sigint: true })
-
-const checkFileExists = filePath => {
-  if (!fse.existsSync(filePath)) {
-    logError('Failed to add file. File not found')
-    process.exit(1)
-  }
-}
 
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
@@ -20,7 +12,7 @@ const getTemplateName = (filePath, providedTemplateName) => {
   while (!templateName || fse.existsSync(repoPath(`./variabler/templates/${templateName}`))) {
     console.log(`Template named '${templateName}' already exists in variabler/templates directory`)
     console.log(`Please choose another name`)
-    templateName = prompt(`> `, templateName).trim()
+    templateName = getUserInput()
   }
 
   return templateName
@@ -57,7 +49,7 @@ const addFileToGitIgnore = configContent => {
 const removeFileFromGit = filePath => execSync(`git rm ${filePath}`, { encoding: 'utf-8' })
 
 module.exports = (filePath, { name: providedTemplateName }) => {
-  checkFileExists(filePath)
+  checkExists(filePath, 'Failed to add file. File not found')
 
   const templateName = getTemplateName(filePath, providedTemplateName)
   const templatePath = repoPath(`./variabler/templates/${templateName}`)
