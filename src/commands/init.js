@@ -18,9 +18,9 @@ const addGitIgnoreSection = () => {
 module.exports = () => {
   checkNotExists(
     variablerPath('.'),
-    'Variabler failed to initialize. It has been already initialized in the current directory'
+    'FAILED: Variabler has been already initialized in the current directory'
   )
-  copyDirectory(scriptPath('template'), variablerPath('.'))
+  copyDirectory(scriptPath('templates/default'), variablerPath('.'))
   addGitIgnoreSection()
 
   console.log('Variabler has been successfully initialized')

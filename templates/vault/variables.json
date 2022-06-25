@@ -1,0 +1,10 @@
+{
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "local": "vault://secret/local",
+    "staging": "vault://secret/staging",
+    "production": "vault://secret/production"
+  }
+}
