@@ -2,7 +2,7 @@ const { logError } = require('./logger')
 
 const isString = value => typeof value === 'string' || value instanceof String
 
-const loadVariables = async (config, key) => {
+const loadVariables = (config, key) => {
   const value = config[key]
   if (!isString(value)) return value
 
@@ -10,16 +10,13 @@ const loadVariables = async (config, key) => {
 
   switch (provider) {
     case 'vault':
-      return
+      // TODO add vault loading here
+      return {}
 
     default:
       logError(`Invalid provider "${provider}"`)
       process.exit(1)
   }
-
-  return {}
-
-  // add vault loading here
 }
 
 module.exports = {

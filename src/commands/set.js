@@ -55,7 +55,6 @@ const getSettingVariables = (settingsMap, variablesConfig) => {
 
     for (let i = 0; i < valueParts.length; i++) {
       const variablesKey = valueParts.slice(0, i + 1).join('.')
-      // TODO handle loadVariables as async !!!
       variables = { ...variables, ...loadVariables(keyVariables, variablesKey) }
     }
   })
