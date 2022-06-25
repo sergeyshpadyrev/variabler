@@ -3,8 +3,14 @@
     "VERSION": "1.2.3"
   },
   "env": {
-    "local": "vault://secret/local",
-    "staging": "vault://secret/staging",
+    "local": {
+      "API_URL": "http://localhost:8080",
+      "APP_NAME": "Local"
+    },
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "APP_NAME": "Staging"
+    },
     "production": "vault://secret/production"
   }
 }
