@@ -8,7 +8,7 @@ const addGitIgnoreSection = () => {
 /settings.json
 # </variabler>
 `
-  const gitignorePath = repoPath('./.gitignore')
+  const gitignorePath = repoPath('.gitignore')
   const content = readFile(gitignorePath)
   const updatedContent = content + gitignoreTemplate
 
