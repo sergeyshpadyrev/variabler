@@ -1,4 +1,7 @@
-const { logError, readFile, readJSON, repoPath, writeFile } = require('../util')
+const { logError, logList } = require('../util/logger')
+const { readFile, readJSON, writeFile } = require('../util/files')
+const { repoPath } = require('../util/path')
+
 const prompt = require('prompt-sync')({ sigint: true })
 
 const getSettingsMap = (settings, variablesConfig) => {
@@ -74,15 +77,6 @@ const processFile = ({ from, to }, variables) => {
   writeFile(repoPath(to), contentWithSubstitutions)
 }
 
-const printMapList = (name, mapList) => {
-  console.log()
-  console.log(`---- ${name} ----`)
-  console.log()
-  Object.keys(mapList)
-    .sort()
-    .forEach(key => console.log(`${key}: ${mapList[key]}`))
-}
-
 module.exports = settings => {
   try {
     const templatePaths = readJSON(repoPath('variabler/templates.json'))
@@ -97,8 +91,8 @@ module.exports = settings => {
 
     console.log()
     console.log(`Successfully set variables`)
-    printMapList('Params', settingsMap)
-    printMapList('Variables', variables)
+    logList('Params', settingsMap)
+    logList('Variables', variables)
     console.log()
   } catch (error) {
     logError(`Failed to set variables`)

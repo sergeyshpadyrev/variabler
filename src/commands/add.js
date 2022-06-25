@@ -1,4 +1,6 @@
-const { logError, readFile, readJSON, repoPath, writeFile, writeJSON } = require('../util')
+const { logError } = require('../util/logger')
+const { readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { repoPath } = require('../util/path')
 
 const { execSync } = require('child_process')
 const fse = require('fs-extra')

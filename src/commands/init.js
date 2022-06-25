@@ -1,4 +1,6 @@
-const { logError, readFile, repoPath, scriptPath, writeFile } = require('../util')
+const { logError } = require('../util/logger')
+const { readFile, writeFile } = require('../util/files')
+const { repoPath, scriptPath } = require('../util/path')
 
 const fse = require('fs-extra')
 const path = require('path')
