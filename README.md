@@ -336,30 +336,18 @@ To use Vault integration you need Vault CLI to be installed on your machine and 
 So you need to check that the following command works in your terminal:
 
 ```
-vault kv get -format=json secret/production
+vault kv get secret/production
 ```
 
-It shoud show you something like this:
+If it works, it shows you something like this:
 
 ```
-{
-  "request_id": "abc4dcff-9870-ecc3-2953-2a420506753f",
-  "lease_id": "",
-  "lease_duration": 0,
-  "renewable": false,
-  "data": {
-    "data": {
-      "API_URL": "https://production.example.com",
-      "APP_NAME": "Production"
-    },
-    "metadata": {
-      "created_time": "2022-06-25T16:46:57.208165Z",
-      "custom_metadata": null,
-      "deletion_time": "",
-      "destroyed": false,
-      "version": 1
-    }
-  },
-  "warnings": null
-}
+===== Secret Path =====
+secret/data/production
+
+====== Data ======
+Key         Value
+---         -----
+API_URL     https://production.example.com
+APP_NAME    Production
 ```
