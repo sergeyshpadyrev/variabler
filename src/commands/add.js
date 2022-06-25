@@ -1,24 +1,19 @@
-const { logError, readFile, readJSON, repoPath, writeFile, writeJSON } = require('../util')
+const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { executeCommand } = require('../util/executor')
+const { getUserInput } = require('../util/input')
+const { logSuccess } = require('../util/logger')
+const { repoPath, variablerPath } = require('../util/path')
 
-const { execSync } = require('child_process')
 const fse = require('fs-extra')
 const path = require('path')
-const prompt = require('prompt-sync')({ sigint: true })
-
-const checkFileExists = filePath => {
-  if (!fse.existsSync(filePath)) {
-    logError('Failed to add file. File not found')
-    process.exit(1)
-  }
-}
 
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (!templateName || fse.existsSync(repoPath(`./variabler/templates/${templateName}`))) {
-    console.log(`Template named '${templateName}' already exists in variabler/templates directory`)
+  while (!templateName || fse.existsSync(variablerPath(`templates/${templateName}`))) {
+    console.log(`Template named '${templateName}' already exists in templates directory`)
     console.log(`Please choose another name`)
-    templateName = prompt(`> `, templateName).trim()
+    templateName = getUserInput()
   }
 
   return templateName
@@ -29,7 +24,7 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
 }
 
 const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = repoPath('./variabler/templates.json')
+  const configPath = variablerPath('templates.json')
   const configContent = readJSON(configPath)
   configContent.push({ from: fileName, to: filePath })
   writeJSON(configPath, configContent)
@@ -37,7 +32,7 @@ const addTemplateToConfig = (fileName, filePath) => {
 }
 
 const addFileToGitIgnore = configContent => {
-  const gitignorePath = repoPath('./.gitignore')
+  const gitignorePath = repoPath('.gitignore')
   const content = readFile(gitignorePath)
 
   const getIgnorePath = ({ to }) => {
@@ -52,18 +47,18 @@ const addFileToGitIgnore = configContent => {
   writeFile(gitignorePath, updatedContent)
 }
 
-const removeFileFromGit = filePath => execSync(`git rm ${filePath}`, { encoding: 'utf-8' })
+const removeFileFromGit = filePath => executeCommand(`git rm ${filePath}`)
 
 module.exports = (filePath, { name: providedTemplateName }) => {
-  checkFileExists(filePath)
+  checkExists(filePath, 'File not found')
 
   const templateName = getTemplateName(filePath, providedTemplateName)
-  const templatePath = repoPath(`./variabler/templates/${templateName}`)
+  const templatePath = variablerPath(`templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
   const configContent = addTemplateToConfig(templateName, filePath)
   addFileToGitIgnore(configContent)
   removeFileFromGit(filePath)
 
-  console.log(`File '${filePath}' successfully added to Variabler`)
+  logSuccess(`File "${filePath}" has been added`)
 }

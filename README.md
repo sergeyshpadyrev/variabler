@@ -301,3 +301,53 @@ API_URL: https://production.example.com
 BUNDLE_ID: com.example.app.candidate
 VERSION: 1.2.3
 ```
+
+## Integrations
+
+### Vault
+
+Variabler can take variables from Vault secret manager.
+
+Let's say, you want to put production environment variables into Vault. <br/>
+You need to create a secret in a key-value storage and put the path to this secret to `variables.json`:
+
+```
+{
+  "common": {
+    "VERSION": "1.2.3"
+  },
+  "env": {
+    "local": {
+      "API_URL": "http://localhost:8080",
+      "APP_NAME": "Local"
+    },
+    "staging": {
+      "API_URL": "https://staging.example.com",
+      "APP_NAME": "Staging"
+    },
+    "production": "vault://secret/production"
+  }
+}
+
+```
+
+Variabler doesn't handle connection to Vault by itself. <br/>
+To use Vault integration you need Vault CLI to be installed on your machine and you should be logged into Vault. <br/>
+So you need to check that the following command works in your terminal:
+
+```
+vault kv get secret/production
+```
+
+If it works, it shows you something like this:
+
+```
+===== Secret Path =====
+secret/data/production
+
+====== Data ======
+Key         Value
+---         -----
+API_URL     https://production.example.com
+APP_NAME    Production
+```

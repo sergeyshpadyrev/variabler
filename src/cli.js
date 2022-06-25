@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
 const { Command } = require('commander')
-const { readJSON, scriptPath } = require('./util')
+const { readJSON } = require('./util/files')
+const { scriptPath } = require('./util/path')
 
 const program = new Command()
-const version = readJSON(scriptPath('../package.json')).version
 
-program.name('variabler').description('CLI for managing environment configs').version(version)
+program
+  .name('variabler')
+  .description('CLI for managing environment configs')
+  .version(readJSON(scriptPath('package.json')).version)
 
 program
   .command('init')
   .description('Initialize variabler in repository')
-  .argument('[path]', 'path to repository', '.')
   .action(require('./commands/init'))
 
 program
