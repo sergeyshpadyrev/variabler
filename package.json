@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/sergeyshpadyrev/variabler#readme",
   "dependencies": {
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "commander": "9.3.0",
     "fs-extra": "10.1.0",
     "jsonfile": "6.1.0",
