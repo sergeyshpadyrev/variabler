@@ -1,4 +1,4 @@
-const { getUserInput } = require('../util/prompt')
+const { getUserInput } = require('../util/input')
 const { logError, logList } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
 const { repoPath, variablerPath } = require('../util/path')
