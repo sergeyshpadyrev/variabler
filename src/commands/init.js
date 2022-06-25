@@ -20,7 +20,7 @@ module.exports = () => {
     variablerPath('.'),
     'Variabler failed to initialize. It has been already initialized in the current directory'
   )
-  copyDirectory(scriptPath('../template'), variablerPath('.'))
+  copyDirectory(scriptPath('template'), variablerPath('.'))
   addGitIgnoreSection()
 
   console.log('Variabler has been successfully initialized')

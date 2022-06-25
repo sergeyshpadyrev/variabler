@@ -9,7 +9,7 @@ const program = new Command()
 program
   .name('variabler')
   .description('CLI for managing environment configs')
-  .version(readJSON(scriptPath('./package.json')).version)
+  .version(readJSON(scriptPath('package.json')).version)
 
 program
   .command('init')
