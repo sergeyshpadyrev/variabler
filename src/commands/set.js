@@ -1,5 +1,8 @@
-const { logError, readFile, readJSON, repoPath, writeFile } = require('../util')
-const prompt = require('prompt-sync')({ sigint: true })
+const { getUserInput } = require('../util/input')
+const { loadVariables } = require('../util/loader')
+const { logError, logList, logSuccess } = require('../util/logger')
+const { readFile, readJSON, writeFile } = require('../util/files')
+const { repoPath, variablerPath } = require('../util/path')
 
 const getSettingsMap = (settings, variablesConfig) => {
   const settingsMap = Object.assign(
@@ -32,7 +35,7 @@ const getSettingsMap = (settings, variablesConfig) => {
       while (!value) {
         console.log(`Please select ${key}:`)
         console.log(valuesList)
-        const selectedIndex = parseInt(prompt(`> `)) - 1
+        const selectedIndex = parseInt(getUserInput()) - 1
         if (selectedIndex >= 0 && selectedIndex < values.length) value = values[selectedIndex]
       }
 
@@ -51,7 +54,8 @@ const getSettingVariables = (settingsMap, variablesConfig) => {
     const keyVariables = variablesConfig[key]
 
     for (let i = 0; i < valueParts.length; i++) {
-      variables = { ...variables, ...keyVariables[valueParts.slice(0, i + 1).join('.')] }
+      const variablesKey = valueParts.slice(0, i + 1).join('.')
+      variables = { ...variables, ...loadVariables(keyVariables, variablesKey) }
     }
   })
 
@@ -68,25 +72,16 @@ const substituteVariables = (content, variables) => {
 }
 
 const processFile = ({ from, to }, variables) => {
-  const templateFilePath = repoPath(`./variabler/templates/${from}`)
+  const templateFilePath = variablerPath(`templates/${from}`)
   const content = readFile(templateFilePath)
   const contentWithSubstitutions = substituteVariables(content, variables)
   writeFile(repoPath(to), contentWithSubstitutions)
 }
 
-const printMapList = (name, mapList) => {
-  console.log()
-  console.log(`---- ${name} ----`)
-  console.log()
-  Object.keys(mapList)
-    .sort()
-    .forEach(key => console.log(`${key}: ${mapList[key]}`))
-}
-
 module.exports = settings => {
   try {
-    const templatePaths = readJSON(repoPath('variabler/templates.json'))
-    const variablesConfig = readJSON(repoPath('variabler/variables.json'))
+    const templatePaths = readJSON(variablerPath('templates.json'))
+    const variablesConfig = readJSON(variablerPath('variables.json'))
 
     const settingsMap = getSettingsMap(settings, variablesConfig)
     const variables = {
@@ -95,13 +90,10 @@ module.exports = settings => {
     }
     templatePaths.forEach(file => processFile(file, variables))
 
-    console.log()
-    console.log(`Successfully set variables`)
-    printMapList('Params', settingsMap)
-    printMapList('Variables', variables)
-    console.log()
+    logSuccess(`Variables have been set`)
+    logList('Params', settingsMap)
+    logList('Variables', variables)
   } catch (error) {
-    logError(`Failed to set variables`)
     logError(error.message)
   }
 }
