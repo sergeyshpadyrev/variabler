@@ -1,6 +1,6 @@
 const fse = require('fs-extra')
 const json = require('jsonfile')
-const logger = require('./logger')
+const { logError } = require('./logger')
 
 const assert = (check, error) => {
   if (check) return
