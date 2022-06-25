@@ -1,16 +1,16 @@
 const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { executeCommand } = require('../util/execute')
 const { getUserInput } = require('./util/input')
-const { repoPath } = require('../util/path')
+const { repoPath, variablerPath } = require('../util/path')
 
-const { execSync } = require('child_process')
 const fse = require('fs-extra')
 const path = require('path')
 
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (!templateName || fse.existsSync(repoPath(`./variabler/templates/${templateName}`))) {
-    console.log(`Template named '${templateName}' already exists in variabler/templates directory`)
+  while (!templateName || fse.existsSync(variablerPath(`templates/${templateName}`))) {
+    console.log(`Template named '${templateName}' already exists in templates directory`)
     console.log(`Please choose another name`)
     templateName = getUserInput()
   }
@@ -23,7 +23,7 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
 }
 
 const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = repoPath('./variabler/templates.json')
+  const configPath = variablerPath('templates.json')
   const configContent = readJSON(configPath)
   configContent.push({ from: fileName, to: filePath })
   writeJSON(configPath, configContent)
@@ -31,7 +31,7 @@ const addTemplateToConfig = (fileName, filePath) => {
 }
 
 const addFileToGitIgnore = configContent => {
-  const gitignorePath = repoPath('./.gitignore')
+  const gitignorePath = repoPath('.gitignore')
   const content = readFile(gitignorePath)
 
   const getIgnorePath = ({ to }) => {
@@ -46,13 +46,13 @@ const addFileToGitIgnore = configContent => {
   writeFile(gitignorePath, updatedContent)
 }
 
-const removeFileFromGit = filePath => execSync(`git rm ${filePath}`, { encoding: 'utf-8' })
+const removeFileFromGit = filePath => executeCommand(`git rm ${filePath}`)
 
 module.exports = (filePath, { name: providedTemplateName }) => {
   checkExists(filePath, 'Failed to add file. File not found')
 
   const templateName = getTemplateName(filePath, providedTemplateName)
-  const templatePath = repoPath(`./variabler/templates/${templateName}`)
+  const templatePath = variablerPath(`templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
   const configContent = addTemplateToConfig(templateName, filePath)
