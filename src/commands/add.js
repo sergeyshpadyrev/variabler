@@ -1,6 +1,6 @@
 const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
 const { executeCommand } = require('../util/execute')
-const { getUserInput } = require('./util/input')
+const { getUserInput } = require('../util/input')
 const { repoPath, variablerPath } = require('../util/path')
 
 const fse = require('fs-extra')
