@@ -1,5 +1,6 @@
 const { getUserInput } = require('../util/input')
-const { logError, logList } = require('../util/logger')
+const { loadVariables } = require('../util/loader')
+const { logError, logList, logSuccess } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
 const { repoPath, variablerPath } = require('../util/path')
 
@@ -53,7 +54,9 @@ const getSettingVariables = (settingsMap, variablesConfig) => {
     const keyVariables = variablesConfig[key]
 
     for (let i = 0; i < valueParts.length; i++) {
-      variables = { ...variables, ...keyVariables[valueParts.slice(0, i + 1).join('.')] }
+      const variablesKey = valueParts.slice(0, i + 1).join('.')
+      // TODO handle loadVariables as async !!!
+      variables = { ...variables, ...loadVariables(keyVariables, variablesKey) }
     }
   })
 
@@ -88,13 +91,10 @@ module.exports = settings => {
     }
     templatePaths.forEach(file => processFile(file, variables))
 
-    console.log()
-    console.log(`Successfully set variables`)
+    logSuccess(`Variables have been set`)
     logList('Params', settingsMap)
     logList('Variables', variables)
-    console.log()
   } catch (error) {
-    logError(`Failed to set variables`)
     logError(error.message)
   }
 }

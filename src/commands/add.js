@@ -1,6 +1,7 @@
 const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
-const { executeCommand } = require('../util/execute')
+const { executeCommand } = require('../util/executor')
 const { getUserInput } = require('../util/input')
+const { logSuccess } = require('../util/logger')
 const { repoPath, variablerPath } = require('../util/path')
 
 const fse = require('fs-extra')
@@ -49,7 +50,7 @@ const addFileToGitIgnore = configContent => {
 const removeFileFromGit = filePath => executeCommand(`git rm ${filePath}`)
 
 module.exports = (filePath, { name: providedTemplateName }) => {
-  checkExists(filePath, 'Failed to add file. File not found')
+  checkExists(filePath, 'File not found')
 
   const templateName = getTemplateName(filePath, providedTemplateName)
   const templatePath = variablerPath(`templates/${templateName}`)
@@ -59,5 +60,5 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   addFileToGitIgnore(configContent)
   removeFileFromGit(filePath)
 
-  console.log(`File '${filePath}' successfully added to Variabler`)
+  logSuccess(`File "${filePath}" has been added`)
 }

@@ -1,4 +1,5 @@
 const { checkNotExists, copyDirectory, readFile, writeFile } = require('../util/files')
+const { logSuccess } = require('../util/logger')
 const { repoPath, scriptPath, variablerPath } = require('../util/path')
 
 const addGitIgnoreSection = () => {
@@ -18,10 +19,10 @@ const addGitIgnoreSection = () => {
 module.exports = () => {
   checkNotExists(
     variablerPath('.'),
-    'FAILED: Variabler has been already initialized in the current directory'
+    'Variabler has been already initialized in the current directory'
   )
   copyDirectory(scriptPath('templates/default'), variablerPath('.'))
   addGitIgnoreSection()
 
-  console.log('Variabler has been successfully initialized')
+  logSuccess('Variabler has been initialized')
 }
