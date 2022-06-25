@@ -309,7 +309,7 @@ VERSION: 1.2.3
 Variabler can take variables from Vault secret manager.
 
 Let's say, you want to put production environment variables into Vault. <br/>
-You need to create a secret in key-value storage and put the path to this secret to `variables.json`:
+You need to create a secret in a key-value storage and put the path to this secret to `variables.json`:
 
 ```
 {
@@ -333,8 +333,33 @@ You need to create a secret in key-value storage and put the path to this secret
 
 Variabler doesn't handle connection to Vault by itself. <br/>
 To use Vault integration you need Vault CLI to be installed on your machine and you should be logged into Vault. <br/>
-So for the secret defined above you need to check that the following command works in your terminal:
+So you need to check that the following command works in your terminal:
 
 ```
 vault kv get -format=json secret/production
+```
+
+It shoud show you something like this:
+
+```
+{
+  "request_id": "abc4dcff-9870-ecc3-2953-2a420506753f",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "data": {
+      "API_URL": "https://production.example.com",
+      "APP_NAME": "Production"
+    },
+    "metadata": {
+      "created_time": "2022-06-25T16:46:57.208165Z",
+      "custom_metadata": null,
+      "deletion_time": "",
+      "destroyed": false,
+      "version": 1
+    }
+  },
+  "warnings": null
+}
 ```
