@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2022-06-28
+
+### Add
+
+- Command `check` for checking constistensy between variable keys used in templates and variables defined in config
+
 ## [1.1.0] - 2022-06-25
 
 ### Add
