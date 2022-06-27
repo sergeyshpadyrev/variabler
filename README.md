@@ -8,7 +8,6 @@
 # Variabler
 
 Variabler is a simple tool for managing environment-dependent variables in JavaScript projects.<br/>
-Originally it was created to manage environments and branded in React Native apps but indeed you can use it for React, Node.js or any other JavaScript framework as well. It's platform independent.
 
 ## Installation
 
@@ -57,6 +56,8 @@ By default it creates two dummy templates: `api.js` and `settings.json` <br/>
 They are needed just to help you understand how to use Variabler
 
 ## Description
+
+Originally Variabler was created to manage environments and brands in React Native apps but indeed you can use it for React, Node.js or any other JavaScript framework as well. It's platform independent.
 
 Variabler is very convinient in the following cases:
 
