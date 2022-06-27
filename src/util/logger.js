@@ -1,12 +1,15 @@
 const colors = require('colors/safe')
 
 module.exports = {
-  logError: error => console.log(colors.red(`FAILED: ${error}`)),
+  logDivider: () => console.log('----'),
+  logError: error => console.log(colors.red(`ERROR: ${error}`)),
+  logInfo: (...info) => console.log(...info),
   logList: (name, list) => {
-    console.log(colors.green(`---- ${name} ----`))
-    Object.keys(list)
-      .sort()
-      .forEach(key => console.log(colors.green(`${key}: ${list[key]}`)))
+    console.log(`---- ${name} ----`)
+    Array.isArray(list)
+      ? list.forEach(element => console.log(element))
+      : Object.keys(list).forEach(key => console.log(`${key}: ${list[key]}`))
   },
-  logSuccess: message => console.log(colors.green(`SUCCESS: ${message}`))
+  logSuccess: message => console.log(colors.green(`SUCCESS: ${message}`)),
+  logWarning: message => console.log(colors.yellow(`WARNING: ${message}`))
 }

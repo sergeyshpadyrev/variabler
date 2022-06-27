@@ -12,16 +12,21 @@ program
   .version(readJSON(scriptPath('package.json')).version)
 
 program
-  .command('init')
-  .description('Initialize variabler in repository')
-  .action(require('./commands/init'))
-
-program
   .command('add')
   .description('Add file to variabler')
   .argument('{path}', 'path to file')
   .option('-n, --name <name>', 'template file name')
   .action(require('./commands/add'))
+
+program
+  .command('check')
+  .description('Checks consistency of configurations')
+  .action(require('./commands/check'))
+
+program
+  .command('init')
+  .description('Initialize Variabler in repository')
+  .action(require('./commands/init'))
 
 program
   .command('set')

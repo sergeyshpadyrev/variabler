@@ -1,97 +1,73 @@
 const { configurationPath, repoPath } = require('../util/path')
 const { getUserInput } = require('../util/input')
-const { loadVariables } = require('../util/loader')
+const { fillVariables, getVariables } = require('../util/variables')
 const { logError, logList, logSuccess } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
+const { sortListByKeys } = require('../util/common')
 
-const getSettingsMap = (settings, variablesConfig) => {
-  const settingsMap = Object.assign(
+const getCategories = (passedCategories, variablesConfig) => {
+  const categories = Object.assign(
     {},
-    ...settings.map(setting => {
-      const splitted = setting.split(':')
-      const settingKey = splitted[0]
-      const settingValue = splitted[1]
-      return { [settingKey]: settingValue }
+    ...passedCategories.map(category => {
+      const splitted = category.split(':')
+      const categoryKey = splitted[0]
+      const categoryValue = splitted[1]
+      return { [categoryKey]: categoryValue }
     })
   )
 
-  Object.keys(settingsMap).forEach(key => {
-    const value = settingsMap[key]
+  Object.keys(categories).forEach(categoryKey => {
+    const categoryValue = categories[categoryKey]
 
-    if (!variablesConfig.hasOwnProperty(key)) throw new Error(`Key ${key} not found in variables`)
-    if (!variablesConfig[key].hasOwnProperty(value))
-      throw new Error(`Key ${value} not found in ${key} variables`)
+    if (!variablesConfig.hasOwnProperty(categoryKey))
+      throw new Error(`Key ${categoryKey} not found in variables`)
+    if (!variablesConfig[categoryKey].hasOwnProperty(categoryValue))
+      throw new Error(`Key ${categoryValue} not found in ${categoryKey} variables`)
   })
 
   Object.keys(variablesConfig)
-    .filter(key => key !== 'common')
-    .forEach(key => {
-      if (settingsMap.hasOwnProperty(key)) return
+    .filter(categoryKey => categoryKey !== 'common')
+    .forEach(categoryKey => {
+      if (categories.hasOwnProperty(categoryKey)) return
 
-      const values = Object.keys(variablesConfig[key])
-      const valuesList = values.map((valueKey, index) => `${index + 1}. ${valueKey}`).join('\n')
+      const categoryValues = Object.keys(variablesConfig[categoryKey])
+      const categoryValuesList = categoryValues
+        .map((categoryValue, index) => `${index + 1}. ${categoryValue}`)
+        .join('\n')
 
-      let value = null
-      while (!value) {
-        console.log(`Please select ${key}:`)
-        console.log(valuesList)
+      let selectedCategoryValue = null
+      while (!selectedCategoryValue) {
+        console.log(`Please select ${categoryKey}:`)
+        console.log(categoryValuesList)
         const selectedIndex = parseInt(getUserInput()) - 1
-        if (selectedIndex >= 0 && selectedIndex < values.length) value = values[selectedIndex]
+        if (selectedIndex >= 0 && selectedIndex < categoryValues.length)
+          selectedCategoryValue = categoryValues[selectedIndex]
       }
 
-      settingsMap[key] = value
+      categories[categoryKey] = selectedCategoryValue
     })
 
-  return settingsMap
-}
-
-const getSettingVariables = (settingsMap, variablesConfig) => {
-  let variables = {}
-
-  Object.keys(settingsMap).forEach(key => {
-    const value = settingsMap[key]
-    const valueParts = value.split('.')
-    const keyVariables = variablesConfig[key]
-
-    for (let i = 0; i < valueParts.length; i++) {
-      const variablesKey = valueParts.slice(0, i + 1).join('.')
-      variables = { ...variables, ...loadVariables(keyVariables, variablesKey) }
-    }
-  })
-
-  return variables
-}
-
-const substituteVariables = (content, variables) => {
-  const reducer = (currentContent, variableName) => {
-    const variablePattern = new RegExp(`@${variableName}@`, 'g')
-    const variableValue = variables[variableName]
-    return currentContent.replace(variablePattern, variableValue)
-  }
-  return Object.keys(variables).reduce(reducer, content)
+  return sortListByKeys(categories)
 }
 
 const processFile = ({ from, to }, variables) => {
   const templateFilePath = configurationPath(`templates/${from}`)
   const content = readFile(templateFilePath)
-  const contentWithSubstitutions = substituteVariables(content, variables)
+  const contentWithSubstitutions = fillVariables(content, variables)
   writeFile(repoPath(to), contentWithSubstitutions)
 }
 
-module.exports = settings => {
+module.exports = passedCategories => {
   try {
     const templatePaths = readJSON(configurationPath('templates.json'))
     const variablesConfig = readJSON(configurationPath('variables.json'))
 
-    const settingsMap = getSettingsMap(settings, variablesConfig)
-    const variables = {
-      ...variablesConfig.common,
-      ...getSettingVariables(settingsMap, variablesConfig)
-    }
+    const categories = getCategories(passedCategories, variablesConfig)
+    const variables = getVariables(categories, variablesConfig)
     templatePaths.forEach(file => processFile(file, variables))
 
     logSuccess(`Variables have been set`)
-    logList('Params', settingsMap)
+    logList('Params', categories)
     logList('Variables', variables)
   } catch (error) {
     logError(error.message)
