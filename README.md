@@ -40,7 +40,7 @@ If you install Variabler as a dev dependency you can call it:
 - As `variabler` from `package.json` scripts
 - As `./node_modules/.bin/variabler` from command line
 
-## Initialization
+### After installation
 
 To add Variabler into your project run the following command in your project directory:
 
@@ -148,25 +148,29 @@ const baseURL = 'https://staging.example.com'
 export const get = url => fetch('GET', `${baseUrl}/${url}`)
 ```
 
-## Adding file
+## Commands
 
-To make file managed by Variabler run the following command:
+### add
 
-```sh
-variabler add ./path/to/file
-```
-
-It does the following things:
+Makes file managed by Variabler:
 
 - Moves the file from original path to `variabler/templates`
 - Removes the original file from git (you need to commit this change)
 - Adds path to the original file to `.gitignore`
 - Adds original path and template path to `variabler/templates.json`
 
-Now you can open the template file and put into it variable keys from `variabler/variables.json`
+After running this command you can open the template file and put into it variable keys from `variabler/variables.json`
+
+Example
+
+```sh
+variabler add ./path/to/file
+```
 
 If there already exists a template with the same name you will be asked to choose a new name.
 Other way you need to provide name option to the command:
+
+Example:
 
 ```sh
 # long way
@@ -175,21 +179,46 @@ variabler add ./path/to/file.txt --name myfile.txt
 variabler add ./path/to/file.txt -n myfile.txt
 ```
 
-## Setting variables
+### check
 
-Setting variables command does the following things:
+Checks the consistency between variable keys used in templates and variables defined in config:
+
+- Shows warning if variable is defined in config but not used in templates
+- Shows error if variable is used in templates but not defined in config
+
+Example:
+
+```
+variabler check
+```
+
+### init
+
+Initializes Variabler in your repository:
+
+- Adds `variabler` directory that contains templates, configs and variables
+- Adds variabler files section into `.gitignore`
+
+By default it creates two dummy templates: `api.js` and `settings.json` <br/>
+They are needed just to help you understand how to use Variabler
+
+Example:
+
+```sh
+variabler init
+```
+
+### set
+
+Sets variables:
 
 - Takes the files from `variabler/templates` directory
 - Fills the values from `variabler/variables.json` to these files
 - Copies the files to the project structure according to the paths defined in `variabler/templates.json`
 
-To set variables run the following command with the list of key/value pairs:
+Example:
 
-```sh
-#
-variabler set [key:value]
-
-# Examples
+```
 variabler set
 variabler set env:staging
 variabler set env:production brand:pepsi
@@ -197,7 +226,9 @@ variabler set env:production brand:pepsi
 
 If you don't pass any values to this command or don't pass enough of them, it will ask you to select one of the available options.
 
-## Multiple variable lists
+## Advanced configuration
+
+### Multiple variable lists
 
 It's possible to use a few lists of variables.
 
@@ -268,7 +299,7 @@ versionName "1.2.3"
 ...
 ```
 
-## Extending variable lists
+### Extending variable lists
 
 Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
 To do that we can inherit configurations in `variables.json`:
