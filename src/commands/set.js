@@ -1,8 +1,8 @@
+const { configurationPath, repoPath } = require('../util/path')
 const { getUserInput } = require('../util/input')
 const { loadVariables } = require('../util/loader')
 const { logError, logList, logSuccess } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
-const { repoPath, variablerPath } = require('../util/path')
 
 const getSettingsMap = (settings, variablesConfig) => {
   const settingsMap = Object.assign(
@@ -72,7 +72,7 @@ const substituteVariables = (content, variables) => {
 }
 
 const processFile = ({ from, to }, variables) => {
-  const templateFilePath = variablerPath(`templates/${from}`)
+  const templateFilePath = configurationPath(`templates/${from}`)
   const content = readFile(templateFilePath)
   const contentWithSubstitutions = substituteVariables(content, variables)
   writeFile(repoPath(to), contentWithSubstitutions)
@@ -80,8 +80,8 @@ const processFile = ({ from, to }, variables) => {
 
 module.exports = settings => {
   try {
-    const templatePaths = readJSON(variablerPath('templates.json'))
-    const variablesConfig = readJSON(variablerPath('variables.json'))
+    const templatePaths = readJSON(configurationPath('templates.json'))
+    const variablesConfig = readJSON(configurationPath('variables.json'))
 
     const settingsMap = getSettingsMap(settings, variablesConfig)
     const variables = {
