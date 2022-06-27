@@ -39,21 +39,13 @@ If you install Variabler as a dev dependency you can call it:
 - As `variabler` from `package.json` scripts
 - As `./node_modules/.bin/variabler` from command line
 
-### After installation
+## Initialization
 
-To add Variabler into your project run the following command in your project directory:
+To init Variabler in your repository run the following command in your project directory:
 
 ```sh
 variabler init
 ```
-
-It does the following things:
-
-- Adds `variabler` directory that contains templates, configs and variables
-- Adds variabler files section into `.gitignore`
-
-By default it creates two dummy templates: `api.js` and `settings.json` <br/>
-They are needed just to help you understand how to use Variabler
 
 ## Description
 
