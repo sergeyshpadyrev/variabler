@@ -5,6 +5,18 @@ const initialData = require('../constants/initialData')
 const { isString, sortListByKeys } = require('../util/common')
 const templatesConfigService = require('./templatesConfig.service')
 
+const checkConsistency = ({ onError, onWarning, templateVariableKeys, variables }) => {
+  const variablesKeys = Object.keys(variables)
+
+  templateVariableKeys.forEach(templateVariableKey => {
+    if (!variablesKeys.includes(templateVariableKey)) onError(templateVariableKey)
+  })
+
+  variablesKeys.forEach(variableKey => {
+    if (!templateVariableKeys.includes(variableKey)) onWarning(variableKey)
+  })
+}
+
 const fillVariables = (content, variables) => {
   const reducer = (currentContent, variableName) => {
     const variablePattern = new RegExp(`@${variableName}@`, 'g')
@@ -60,7 +72,7 @@ const loadVariables = categories => {
   return sortListByKeys(allVariables)
 }
 
-const listVariableKeysInTemplates = () => {
+const listTemplateVariableKeys = () => {
   const templatePaths = templatesConfigService.listTemplates()
   return sortListByKeys(
     templatePaths.flatMap(({ from }) => {
@@ -74,9 +86,10 @@ const listVariableKeysInTemplates = () => {
 }
 
 module.exports = {
+  checkConsistency,
   fillVariables,
   init,
   getConfig,
-  listVariableKeysInTemplates,
+  listTemplateVariableKeys,
   loadVariables
 }

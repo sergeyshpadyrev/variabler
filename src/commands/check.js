@@ -6,9 +6,8 @@ module.exports = () => {
   let checkPassed = true
 
   try {
-    const variableKeysInTemplates = variablesService.listVariableKeysInTemplates()
-
-    loggerService.logList('Variables in templates', variableKeysInTemplates)
+    const templateVariableKeys = variablesService.listTemplateVariableKeys()
+    loggerService.logList('Variables in templates', templateVariableKeys)
     loggerService.logDivider()
 
     const categoryKeysCombinations = categoriesService.getAllCategoryKeysCombinations()
@@ -18,21 +17,16 @@ module.exports = () => {
       let combinationPassed = true
 
       try {
-        const variables = variablesService.loadVariables(categoriesCombination)
-        const variablesKeys = Object.keys(variables)
-
-        variableKeysInTemplates.forEach(variableInTemplate => {
-          if (!variablesKeys.includes(variableInTemplate)) {
-            loggerService.logError(`Value for variable "${variableInTemplate}" not found`)
+        variablesService.checkConsistency({
+          onError: templateVariableKey => {
+            loggerService.logError(`Value for variable "${templateVariableKey}" not found`)
             combinationPassed = false
             checkPassed = false
-          }
-        })
-
-        variablesKeys.forEach(variableKey => {
-          if (!variableKeysInTemplates.includes(variableKey)) {
-            loggerService.logWarning(`Variable "${variableKey}" is not used in templates`)
-          }
+          },
+          onWarning: variableKey =>
+            loggerService.logWarning(`Variable "${variableKey}" is not used in templates`),
+          templateVariableKeys,
+          variables: variablesService.loadVariables(categoriesCombination)
         })
       } catch (error) {
         loggerService.logWarning(`Cannot check. ${error}`)

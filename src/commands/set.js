@@ -8,16 +8,20 @@ const variablesService = require('../services/variables.service')
 module.exports = passedCategories => {
   try {
     const categories = categoriesService.selectCategories(passedCategories)
+    const templateVariableKeys = variablesService.listTemplateVariableKeys()
     const variables = variablesService.loadVariables(categories)
 
-    const variableKeysInTemplates = variablesService.listVariableKeysInTemplates()
-    variableKeysInTemplates.forEach(variableInTemplate => {
-      if (!variables.hasOwnProperty(variableInTemplate)) {
+    variablesService.checkConsistency({
+      onError: templateVariableKey => {
         loggerService.logError(
-          `Value for variable "${variableInTemplate}" not found in current configuration`
+          `Value for variable "${templateVariableKey}" not found in current configuration`
         )
         process.exit(1)
-      }
+      },
+      onWarning: variableKey =>
+        loggerService.logWarning(`Variable "${variableKey}" is not used in templates`),
+      templateVariableKeys,
+      variables
     })
 
     const processTemplate = ({ from, to }) => {

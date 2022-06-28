@@ -19,7 +19,7 @@ const getAllCategoryKeysCombinations = () => {
 }
 
 const selectCategories = passedCategories => {
-  const variablesConfig = variablesService.getVariablesConfig()
+  const variablesConfig = variablesService.getConfig()
   const categories = Object.assign(
     {},
     ...passedCategories.map(category => {
