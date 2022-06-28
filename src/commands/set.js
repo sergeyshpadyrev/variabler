@@ -1,8 +1,9 @@
 const { fillVariables, getVariables, getVariableKeysInTemplates } = require('../util/variables')
-const { loadTemplatePaths, readFile, writeFile } = require('../util/files')
+const { readFile, writeFile } = require('../util/files')
 const { logError, logList, logSuccess } = require('../util/logger')
 const { repoPath, templatePath } = require('../util/path')
 const { selectCategories } = require('../util/categories')
+const templatesConfigService = require('../services/templatesConfig.service')
 
 module.exports = passedCategories => {
   try {
@@ -24,7 +25,7 @@ module.exports = passedCategories => {
       writeFile(repoPath(to), contentWithSubstitutions)
     }
 
-    const templatePaths = loadTemplatePaths()
+    const templatePaths = templatesConfigService.listTemplates()
     templatePaths.forEach(file => processTemplate(file, variables))
 
     logSuccess(`Variables have been set`)

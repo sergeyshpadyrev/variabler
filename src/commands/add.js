@@ -1,8 +1,9 @@
-const { checkExists, readJSON, writeJSON } = require('../util/files')
+const { checkExists } = require('../util/files')
 const { configPath, repoPath } = require('../util/path')
 const { getUserInput } = require('../util/input')
+const gitService = require('../services/git.service')
 const { logSuccess } = require('../util/logger')
-const { removeFileFromGit, updateGitIgnore } = require('../util/git')
+const templatesConfigService = require('../services/templatesConfig.service')
 
 const fse = require('fs-extra')
 const path = require('path')
@@ -23,14 +24,6 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
   fse.copyFileSync(repoPath(filePath), repoPath(templateFilePath))
 }
 
-const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = configPath('templates.json')
-  const configContent = readJSON(configPath)
-  configContent.push({ from: fileName, to: filePath })
-  writeJSON(configPath, configContent)
-  return configContent
-}
-
 module.exports = (filePath, { name: providedTemplateName }) => {
   checkExists(filePath, 'File not found')
 
@@ -38,9 +31,9 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   const templatePath = configPath(`templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
-  addTemplateToConfig(templateName, filePath)
-  updateGitIgnore()
-  removeFileFromGit(filePath)
+  templatesConfigService.addTemplate(templateName, filePath)
+  gitService.updateGitIgnore()
+  gitService.removeFileFromGit(filePath)
 
   logSuccess(`File "${filePath}" has been added`)
 }
