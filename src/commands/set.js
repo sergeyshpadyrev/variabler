@@ -1,6 +1,6 @@
 const { fillVariables, getVariables, getVariableKeysInTemplates } = require('../util/variables')
 const { readFile, writeFile } = require('../util/files')
-const { logError, logList, logSuccess } = require('../util/logger')
+const loggerService = require('../services/logger.service')
 const { repoPath, templatePath } = require('../util/path')
 const { selectCategories } = require('../util/categories')
 const templatesConfigService = require('../services/templatesConfig.service')
@@ -13,7 +13,9 @@ module.exports = passedCategories => {
     const variableKeysInTemplates = getVariableKeysInTemplates()
     variableKeysInTemplates.forEach(variableInTemplate => {
       if (!variables.hasOwnProperty(variableInTemplate)) {
-        logError(`Value for variable "${variableInTemplate}" not found in current configuration`)
+        loggerService.logError(
+          `Value for variable "${variableInTemplate}" not found in current configuration`
+        )
         process.exit(1)
       }
     })
@@ -28,10 +30,10 @@ module.exports = passedCategories => {
     const templatePaths = templatesConfigService.listTemplates()
     templatePaths.forEach(file => processTemplate(file, variables))
 
-    logSuccess(`Variables have been set`)
-    logList('Params', categories)
-    logList('Variables', variables)
+    loggerService.logSuccess(`Variables have been set`)
+    loggerService.logList('Params', categories)
+    loggerService.logList('Variables', variables)
   } catch (error) {
-    logError(error.message)
+    loggerService.logError(error.message)
   }
 }

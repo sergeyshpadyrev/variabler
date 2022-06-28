@@ -1,6 +1,6 @@
 const { getAllCategoryKeysCombinations } = require('../util/categories')
 const { getVariables, getVariableKeysInTemplates } = require('../util/variables')
-const { logDivider, logError, logInfo, logList, logWarning, logSuccess } = require('../util/logger')
+const loggerService = require('../services/logger.service')
 
 module.exports = () => {
   let checkPassed = true
@@ -8,12 +8,12 @@ module.exports = () => {
   try {
     const variableKeysInTemplates = getVariableKeysInTemplates()
 
-    logList('Variables in templates', variableKeysInTemplates)
-    logDivider()
+    loggerService.logList('Variables in templates', variableKeysInTemplates)
+    loggerService.logDivider()
 
     const categoryKeysCombinations = getAllCategoryKeysCombinations()
     categoryKeysCombinations.forEach(categoriesCombination => {
-      logInfo('Checking configuration', JSON.stringify(categoriesCombination))
+      loggerService.logInfo('Checking configuration', JSON.stringify(categoriesCombination))
 
       let combinationPassed = true
 
@@ -23,7 +23,7 @@ module.exports = () => {
 
         variableKeysInTemplates.forEach(variableInTemplate => {
           if (!variablesKeys.includes(variableInTemplate)) {
-            logError(`Value for variable "${variableInTemplate}" not found`)
+            loggerService.logError(`Value for variable "${variableInTemplate}" not found`)
             combinationPassed = false
             checkPassed = false
           }
@@ -31,26 +31,26 @@ module.exports = () => {
 
         variablesKeys.forEach(variableKey => {
           if (!variableKeysInTemplates.includes(variableKey)) {
-            logWarning(`Variable "${variableKey}" is not used in templates`)
+            loggerService.logWarning(`Variable "${variableKey}" is not used in templates`)
           }
         })
       } catch (error) {
-        logWarning(`Cannot check. ${error}`)
+        loggerService.logWarning(`Cannot check. ${error}`)
       } finally {
         if (combinationPassed) console.info('Check passed')
-        logDivider()
+        loggerService.logDivider()
       }
     })
   } catch (error) {
-    logError(`Something went wrong. ${error.message}`)
+    loggerService.logError(`Something went wrong. ${error.message}`)
     process.exit(1)
   } finally {
     if (checkPassed) {
-      logSuccess('All checks passed')
+      loggerService.logSuccess('All checks passed')
       return
     }
 
-    logError('Some of checks failed')
+    loggerService.logError('Some of checks failed')
     process.exit(1)
   }
 }

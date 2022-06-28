@@ -1,3 +1,5 @@
+const isString = value => typeof value === 'string' || value instanceof String
+
 const sortListByKeys = list =>
   Array.isArray(list)
     ? list.sort()
@@ -9,5 +11,6 @@ const sortListByKeys = list =>
       )
 
 module.exports = {
+  isString,
   sortListByKeys
 }

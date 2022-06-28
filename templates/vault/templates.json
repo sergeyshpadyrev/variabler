@@ -1,4 +1,0 @@
-[
-  { "from": "api.js", "to": "./src/api.js" },
-  { "from": "settings.json", "to": "./settings.json" }
-]

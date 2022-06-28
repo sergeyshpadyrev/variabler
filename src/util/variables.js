@@ -1,10 +1,8 @@
 const { configPath } = require('./path')
 const { executeCommand } = require('./executor')
-const { logError } = require('./logger')
+const { isString } = require('./common')
 const { readFile, loadTemplatePaths, loadVariablesConfig } = require('./files')
 const { sortListByKeys } = require('./common')
-
-const isString = value => typeof value === 'string' || value instanceof String
 
 const loadVariables = (category, loadingValue) => {
   const variablesList = category[loadingValue]
@@ -22,7 +20,7 @@ const loadVariables = (category, loadingValue) => {
       return vaultData
 
     default:
-      logError(`Invalid provider "${provider}"`)
+      // logError(`Invalid provider "${provider}"`)
       process.exit(1)
   }
 }
