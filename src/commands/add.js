@@ -1,5 +1,5 @@
 const { checkExists, readJSON, writeJSON } = require('../util/files')
-const { configurationPath, repoPath } = require('../util/path')
+const { configPath, repoPath } = require('../util/path')
 const { getUserInput } = require('../util/input')
 const { logSuccess } = require('../util/logger')
 const { removeFileFromGit, updateGitIgnore } = require('../util/git')
@@ -10,7 +10,7 @@ const path = require('path')
 const getTemplateName = (filePath, providedTemplateName) => {
   let templateName = providedTemplateName || path.basename(filePath)
 
-  while (!templateName || fse.existsSync(configurationPath(`templates/${templateName}`))) {
+  while (!templateName || fse.existsSync(configPath(`templates/${templateName}`))) {
     console.log(`Template named '${templateName}' already exists in templates directory`)
     console.log(`Please choose another name`)
     templateName = getUserInput()
@@ -24,7 +24,7 @@ const copyFileToTemplates = (filePath, templateFilePath) => {
 }
 
 const addTemplateToConfig = (fileName, filePath) => {
-  const configPath = configurationPath('templates.json')
+  const configPath = configPath('templates.json')
   const configContent = readJSON(configPath)
   configContent.push({ from: fileName, to: filePath })
   writeJSON(configPath, configContent)
@@ -35,7 +35,7 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   checkExists(filePath, 'File not found')
 
   const templateName = getTemplateName(filePath, providedTemplateName)
-  const templatePath = configurationPath(`templates/${templateName}`)
+  const templatePath = configPath(`templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
   addTemplateToConfig(templateName, filePath)

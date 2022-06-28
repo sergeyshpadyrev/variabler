@@ -1,7 +1,7 @@
 const fse = require('fs-extra')
 const json = require('jsonfile')
 const { logError } = require('./logger')
-const { configurationPath } = require('./path')
+const { configPath } = require('./path')
 
 const assert = (check, error) => {
   if (check) return
@@ -17,8 +17,8 @@ const copyDirectory = (source, destination) => {
   fse.copySync(source, destination)
 }
 
-const loadTemplatePaths = () => readJSON(configurationPath('templates.json'))
-const loadVariablesConfig = () => readJSON(configurationPath('variables.json'))
+const loadTemplatePaths = () => readJSON(configPath('templates.json'))
+const loadVariablesConfig = () => readJSON(configPath('variables.json'))
 
 const readFile = path => fse.readFileSync(path, 'utf-8')
 const writeFile = (path, content) => {

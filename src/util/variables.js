@@ -1,4 +1,4 @@
-const { configurationPath } = require('./path')
+const { configPath } = require('./path')
 const { executeCommand } = require('./executor')
 const { logError } = require('./logger')
 const { readFile, loadTemplatePaths, loadVariablesConfig } = require('./files')
@@ -59,7 +59,7 @@ module.exports.getVariableKeysInTemplates = () => {
   const templatePaths = loadTemplatePaths()
   return sortListByKeys(
     templatePaths.flatMap(({ from }) => {
-      const templateFilePath = configurationPath(`templates/${from}`)
+      const templateFilePath = configPath(`templates/${from}`)
       const content = readFile(templateFilePath)
       const variablePattern = new RegExp(`@[^\s]*@`, 'g')
       const variableKeys = content.match(variablePattern)
