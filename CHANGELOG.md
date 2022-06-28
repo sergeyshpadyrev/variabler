@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.1] - 2022-06-28
+
+### Add
+
+- Command "set" checks for constistency between variable keys used in templates and selected variables
+
+### Fix
+
+- "Add command adds new section to .gitignore" bug
+
 ## [1.2.0] - 2022-06-28
 
 ### Add
