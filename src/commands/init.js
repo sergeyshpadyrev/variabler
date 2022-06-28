@@ -7,6 +7,5 @@ module.exports = () => {
   checkNotExists(configPath('.'), 'Variabler has been already initialized in the current directory')
   copyDirectory(scriptPath('templates/default'), configPath('.'))
   updateGitIgnore()
-
   logSuccess('Variabler has been initialized')
 }
