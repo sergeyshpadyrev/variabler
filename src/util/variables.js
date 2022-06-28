@@ -1,5 +1,7 @@
+const { configurationPath } = require('./path')
 const { executeCommand } = require('./executor')
 const { logError } = require('./logger')
+const { readFile, readJSON } = require('./files')
 const { sortListByKeys } = require('./common')
 
 const isString = value => typeof value === 'string' || value instanceof String
@@ -25,7 +27,7 @@ const loadVariables = (category, loadingValue) => {
   }
 }
 
-const fillVariables = (content, variables) => {
+module.exports.fillVariables = (content, variables) => {
   const reducer = (currentContent, variableName) => {
     const variablePattern = new RegExp(`@${variableName}@`, 'g')
     const variableValue = variables[variableName]
@@ -34,7 +36,7 @@ const fillVariables = (content, variables) => {
   return Object.keys(variables).reduce(reducer, content)
 }
 
-const getVariables = (categories, variablesConfig) => {
+module.exports.getVariables = (categories, variablesConfig) => {
   let variables = {}
 
   Object.keys(categories).forEach(categoryKey => {
@@ -52,4 +54,15 @@ const getVariables = (categories, variablesConfig) => {
   return sortListByKeys(allVariables)
 }
 
-module.exports = { fillVariables, getVariables }
+module.exports.getVariableKeysInTemplates = () => {
+  const templatePaths = readJSON(configurationPath('templates.json'))
+  return sortListByKeys(
+    templatePaths.flatMap(({ from }) => {
+      const templateFilePath = configurationPath(`templates/${from}`)
+      const content = readFile(templateFilePath)
+      const variablePattern = new RegExp(`@[^\s]*@`, 'g')
+      const variableKeys = content.match(variablePattern)
+      return variableKeys ? variableKeys.map(key => key.substring(1, key.length - 1)) : []
+    })
+  )
+}

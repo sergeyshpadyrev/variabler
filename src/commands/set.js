@@ -1,6 +1,6 @@
 const { configurationPath, repoPath } = require('../util/path')
 const { getUserInput } = require('../util/input')
-const { fillVariables, getVariables } = require('../util/variables')
+const { fillVariables, getVariables, getVariableKeysInTemplates } = require('../util/variables')
 const { logError, logList, logSuccess } = require('../util/logger')
 const { readFile, readJSON, writeFile } = require('../util/files')
 const { sortListByKeys } = require('../util/common')
@@ -64,6 +64,15 @@ module.exports = passedCategories => {
 
     const categories = getCategories(passedCategories, variablesConfig)
     const variables = getVariables(categories, variablesConfig)
+
+    const variableKeysInTemplates = getVariableKeysInTemplates()
+    variableKeysInTemplates.forEach(variableInTemplate => {
+      if (!variables.hasOwnProperty(variableInTemplate)) {
+        logError(`Value for variable "${variableInTemplate}" not found in current configuration`)
+        process.exit(1)
+      }
+    })
+
     templatePaths.forEach(file => processFile(file, variables))
 
     logSuccess(`Variables have been set`)

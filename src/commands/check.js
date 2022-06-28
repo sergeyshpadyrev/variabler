@@ -1,25 +1,14 @@
 const { configurationPath } = require('../util/path')
-const { getVariables } = require('../util/variables')
+const { getVariables, getVariableKeysInTemplates } = require('../util/variables')
 const { logDivider, logError, logInfo, logList, logWarning, logSuccess } = require('../util/logger')
-const { readFile, readJSON } = require('../util/files')
-const { sortListByKeys } = require('../util/common')
+const { readJSON } = require('../util/files')
 
 module.exports = () => {
   let checkPassed = true
 
   try {
-    const templatePaths = readJSON(configurationPath('templates.json'))
     const variablesConfig = readJSON(configurationPath('variables.json'))
-
-    const variableKeysInTemplates = sortListByKeys(
-      templatePaths.flatMap(({ from }) => {
-        const templateFilePath = configurationPath(`templates/${from}`)
-        const content = readFile(templateFilePath)
-        const variablePattern = new RegExp(`@[^\s]*@`, 'g')
-        const variableKeys = content.match(variablePattern)
-        return variableKeys ? variableKeys.map(key => key.substring(1, key.length - 1)) : []
-      })
-    )
+    const variableKeysInTemplates = getVariableKeysInTemplates()
 
     logList('Variables in templates', variableKeysInTemplates)
     logDivider()
