@@ -1,9 +1,9 @@
-const { getUserInput } = require('./input')
-const { loadVariablesConfig } = require('./files')
-const { sortListByKeys } = require('./common')
+const { getUserInput } = require('../util/input')
+const { sortListByKeys } = require('../util/common')
+const variablesService = require('./variables.service')
 
-module.exports.getAllCategoryKeysCombinations = () => {
-  const variablesConfig = loadVariablesConfig()
+const getAllCategoryKeysCombinations = () => {
+  const variablesConfig = variablesService.getConfig()
 
   const produceCategoryKeysCombinations = ([head, ...tail]) => {
     const categoryValues = Object.keys(variablesConfig[head])
@@ -18,8 +18,8 @@ module.exports.getAllCategoryKeysCombinations = () => {
   return produceCategoryKeysCombinations(categoryKeys)
 }
 
-module.exports.selectCategories = passedCategories => {
-  const variablesConfig = loadVariablesConfig()
+const selectCategories = passedCategories => {
+  const variablesConfig = variablesService.getVariablesConfig()
   const categories = Object.assign(
     {},
     ...passedCategories.map(category => {
@@ -62,4 +62,9 @@ module.exports.selectCategories = passedCategories => {
     })
 
   return sortListByKeys(categories)
+}
+
+module.exports = {
+  getAllCategoryKeysCombinations,
+  selectCategories
 }

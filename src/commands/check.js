@@ -1,24 +1,24 @@
-const { getAllCategoryKeysCombinations } = require('../util/categories')
-const { getVariables, getVariableKeysInTemplates } = require('../util/variables')
+const categoriesService = require('../services/categories.service')
 const loggerService = require('../services/logger.service')
+const variablesService = require('../services/variables.service')
 
 module.exports = () => {
   let checkPassed = true
 
   try {
-    const variableKeysInTemplates = getVariableKeysInTemplates()
+    const variableKeysInTemplates = variablesService.listVariableKeysInTemplates()
 
     loggerService.logList('Variables in templates', variableKeysInTemplates)
     loggerService.logDivider()
 
-    const categoryKeysCombinations = getAllCategoryKeysCombinations()
+    const categoryKeysCombinations = categoriesService.getAllCategoryKeysCombinations()
     categoryKeysCombinations.forEach(categoriesCombination => {
       loggerService.logInfo('Checking configuration', JSON.stringify(categoriesCombination))
 
       let combinationPassed = true
 
       try {
-        const variables = getVariables(categoriesCombination)
+        const variables = variablesService.loadVariables(categoriesCombination)
         const variablesKeys = Object.keys(variables)
 
         variableKeysInTemplates.forEach(variableInTemplate => {

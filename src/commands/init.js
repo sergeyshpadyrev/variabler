@@ -6,14 +6,14 @@ const loggerService = require('../services/logger.service')
 const messages = require('../constants/messages')
 const templatesService = require('../services/templates.service')
 const templatesConfigService = require('../services/templatesConfig.service')
-const variablesConfigService = require('../services/variablesConfig.service')
+const variablesService = require('../services/variables.service')
 
 module.exports = () => {
   assertionService.assertNotExists(configPath('.'), errors.alreadyInitialized)
 
   templatesService.init()
   templatesConfigService.init()
-  variablesConfigService.init()
+  variablesService.init()
 
   gitService.updateGitIgnore()
   loggerService.logSuccess(messages.initialized)

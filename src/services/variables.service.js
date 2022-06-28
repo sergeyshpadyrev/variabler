@@ -1,10 +1,25 @@
-const { configPath } = require('./path')
-const { executeCommand } = require('./executor')
-const { isString } = require('./common')
-const { readFile, loadTemplatePaths, loadVariablesConfig } = require('./files')
-const { sortListByKeys } = require('./common')
+const { configPath, variablesConfigPath } = require('../util/path')
+const { ensureDirectory, readFile, readJSON, writeJSON } = require('../util/files')
+const { executeCommand } = require('../util/executor')
+const initialData = require('../constants/initialData')
+const { isString, sortListByKeys } = require('../util/common')
+const templatesConfigService = require('./templatesConfig.service')
 
-const loadVariables = (category, loadingValue) => {
+const fillVariables = (content, variables) => {
+  const reducer = (currentContent, variableName) => {
+    const variablePattern = new RegExp(`@${variableName}@`, 'g')
+    const variableValue = variables[variableName]
+    return currentContent.replace(variablePattern, variableValue)
+  }
+  return Object.keys(variables).reduce(reducer, content)
+}
+
+const init = () => {
+  ensureDirectory(configPath())
+  writeJSON(configPath('variables.json'), initialData.variables)
+}
+
+const loadVariablesForCategoryValue = (category, loadingValue) => {
   const variablesList = category[loadingValue]
   if (!isString(variablesList)) return variablesList
 
@@ -25,17 +40,9 @@ const loadVariables = (category, loadingValue) => {
   }
 }
 
-module.exports.fillVariables = (content, variables) => {
-  const reducer = (currentContent, variableName) => {
-    const variablePattern = new RegExp(`@${variableName}@`, 'g')
-    const variableValue = variables[variableName]
-    return currentContent.replace(variablePattern, variableValue)
-  }
-  return Object.keys(variables).reduce(reducer, content)
-}
-
-module.exports.getVariables = categories => {
-  const variablesConfig = loadVariablesConfig()
+const getConfig = () => readJSON(variablesConfigPath())
+const loadVariables = categories => {
+  const variablesConfig = getConfig()
   let variables = {}
 
   Object.keys(categories).forEach(categoryKey => {
@@ -45,7 +52,7 @@ module.exports.getVariables = categories => {
 
     for (let i = 0; i < categoryValueParts.length; i++) {
       const loadingCategoryValue = categoryValueParts.slice(0, i + 1).join('.')
-      variables = { ...variables, ...loadVariables(category, loadingCategoryValue) }
+      variables = { ...variables, ...loadVariablesForCategoryValue(category, loadingCategoryValue) }
     }
   })
 
@@ -53,8 +60,8 @@ module.exports.getVariables = categories => {
   return sortListByKeys(allVariables)
 }
 
-module.exports.getVariableKeysInTemplates = () => {
-  const templatePaths = loadTemplatePaths()
+const listVariableKeysInTemplates = () => {
+  const templatePaths = templatesConfigService.listTemplates()
   return sortListByKeys(
     templatePaths.flatMap(({ from }) => {
       const templateFilePath = configPath(`templates/${from}`)
@@ -64,4 +71,12 @@ module.exports.getVariableKeysInTemplates = () => {
       return variableKeys ? variableKeys.map(key => key.substring(1, key.length - 1)) : []
     })
   )
+}
+
+module.exports = {
+  fillVariables,
+  init,
+  getConfig,
+  listVariableKeysInTemplates,
+  loadVariables
 }

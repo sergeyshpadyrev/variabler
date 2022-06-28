@@ -7,6 +7,7 @@ const repoPath = (filePath = '.') => path.resolve(process.cwd(), filePath)
 const scriptPath = (filePath = '.') => path.resolve(__dirname, '../..', filePath)
 const templatePath = filePath => configPath(`templates/${filePath}`)
 const templatesConfigPath = () => configPath('templates.json')
+const variablesConfigPath = () => configPath('variables.json')
 
 module.exports = {
   basename,
@@ -15,5 +16,6 @@ module.exports = {
   repoPath,
   scriptPath,
   templatePath,
-  templatesConfigPath
+  templatesConfigPath,
+  variablesConfigPath
 }

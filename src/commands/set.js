@@ -1,16 +1,16 @@
-const { fillVariables, getVariables, getVariableKeysInTemplates } = require('../util/variables')
+const categoriesService = require('../services/categories.service')
 const { readFile, writeFile } = require('../util/files')
 const loggerService = require('../services/logger.service')
 const { repoPath, templatePath } = require('../util/path')
-const { selectCategories } = require('../util/categories')
 const templatesConfigService = require('../services/templatesConfig.service')
+const variablesService = require('../services/variables.service')
 
 module.exports = passedCategories => {
   try {
-    const categories = selectCategories(passedCategories)
-    const variables = getVariables(categories)
+    const categories = categoriesService.selectCategories(passedCategories)
+    const variables = variablesService.loadVariables(categories)
 
-    const variableKeysInTemplates = getVariableKeysInTemplates()
+    const variableKeysInTemplates = variablesService.listVariableKeysInTemplates()
     variableKeysInTemplates.forEach(variableInTemplate => {
       if (!variables.hasOwnProperty(variableInTemplate)) {
         loggerService.logError(
@@ -23,7 +23,7 @@ module.exports = passedCategories => {
     const processTemplate = ({ from, to }) => {
       const templateFilePath = templatePath(from)
       const content = readFile(templateFilePath)
-      const contentWithSubstitutions = fillVariables(content, variables)
+      const contentWithSubstitutions = variablesService.fillVariables(content, variables)
       writeFile(repoPath(to), contentWithSubstitutions)
     }
 
