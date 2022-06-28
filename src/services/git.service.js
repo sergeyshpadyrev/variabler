@@ -3,7 +3,7 @@ const { gitignoreFormatPath, repoPath } = require('../util/path')
 const { readFile, writeFile } = require('../util/files')
 const templatesConfigService = require('./templatesConfig.service')
 
-const removeFileFromGit = filePath => executeCommand(`git rm ${filePath}`)
+const removeFileFromGit = filePath => executeCommand(`git rm ${repoPath(filePath)}`)
 
 const updateGitIgnore = () => {
   const templatePaths = templatesConfigService.listTemplates()

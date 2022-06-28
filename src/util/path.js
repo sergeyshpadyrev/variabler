@@ -1,5 +1,6 @@
 const path = require('path')
 
+const basename = filePath => path.basename(filePath)
 const configPath = filePath => repoPath(`variabler/${filePath}`)
 const gitignoreFormatPath = filePath => `/${path.relative(repoPath('.'), repoPath(filePath))}`
 const repoPath = filePath => path.resolve(process.cwd(), filePath)
@@ -8,6 +9,7 @@ const templatePath = filePath => configPath(`templates/${filePath}`)
 const templatesConfigPath = () => configPath('templates.json')
 
 module.exports = {
+  basename,
   configPath,
   gitignoreFormatPath,
   repoPath,

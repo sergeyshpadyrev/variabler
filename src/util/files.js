@@ -9,12 +9,17 @@ const assert = (check, error) => {
   logError(error)
   process.exit(1)
 }
-const checkExists = (path, error) => assert(fse.existsSync(path), error)
-const checkNotExists = (path, error) => assert(!fse.existsSync(path), error)
+const assertExists = (path, error) => assert(checkExists(path), error)
+const assertNotExists = (path, error) => assert(!checkExists(path), error)
+
+const checkExists = path => fse.existsSync(path)
 
 const copyDirectory = (source, destination) => {
   fse.ensureDirSync(destination)
   fse.copySync(source, destination)
+}
+const copyFile = (source, destination) => {
+  fse.copyFileSync(source, destination)
 }
 
 const loadTemplatePaths = () => readJSON(configPath('templates.json'))
@@ -30,9 +35,11 @@ const readJSON = path => json.readFileSync(path)
 const writeJSON = (path, content) => json.writeFileSync(path, content, { spaces: 2 })
 
 module.exports = {
+  assertExists,
+  assertNotExists,
   checkExists,
-  checkNotExists,
   copyDirectory,
+  copyFile,
   loadTemplatePaths,
   loadVariablesConfig,
   readFile,
