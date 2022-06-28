@@ -1,7 +1,7 @@
 const { configurationPath } = require('./path')
 const { executeCommand } = require('./executor')
 const { logError } = require('./logger')
-const { readFile, readJSON } = require('./files')
+const { readFile, loadTemplatePaths, loadVariablesConfig } = require('./files')
 const { sortListByKeys } = require('./common')
 
 const isString = value => typeof value === 'string' || value instanceof String
@@ -36,7 +36,8 @@ module.exports.fillVariables = (content, variables) => {
   return Object.keys(variables).reduce(reducer, content)
 }
 
-module.exports.getVariables = (categories, variablesConfig) => {
+module.exports.getVariables = categories => {
+  const variablesConfig = loadVariablesConfig()
   let variables = {}
 
   Object.keys(categories).forEach(categoryKey => {
@@ -55,7 +56,7 @@ module.exports.getVariables = (categories, variablesConfig) => {
 }
 
 module.exports.getVariableKeysInTemplates = () => {
-  const templatePaths = readJSON(configurationPath('templates.json'))
+  const templatePaths = loadTemplatePaths()
   return sortListByKeys(
     templatePaths.flatMap(({ from }) => {
       const templateFilePath = configurationPath(`templates/${from}`)

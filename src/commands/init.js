@@ -1,20 +1,7 @@
-const { checkNotExists, copyDirectory, readFile, writeFile } = require('../util/files')
-const { configurationPath, repoPath, scriptPath } = require('../util/path')
+const { checkNotExists, copyDirectory } = require('../util/files')
+const { configurationPath, scriptPath } = require('../util/path')
 const { logSuccess } = require('../util/logger')
-
-const addGitIgnoreSection = () => {
-  const gitignoreTemplate = `\n
-# <variabler>
-/src/api.js
-/settings.json
-# </variabler>
-`
-  const gitignorePath = repoPath('.gitignore')
-  const content = readFile(gitignorePath)
-  const updatedContent = content + gitignoreTemplate
-
-  writeFile(gitignorePath, updatedContent)
-}
+const { updateGitIgnore } = require('../util/git')
 
 module.exports = () => {
   checkNotExists(
@@ -22,7 +9,7 @@ module.exports = () => {
     'Variabler has been already initialized in the current directory'
   )
   copyDirectory(scriptPath('templates/default'), configurationPath('.'))
-  addGitIgnoreSection()
+  updateGitIgnore()
 
   logSuccess('Variabler has been initialized')
 }

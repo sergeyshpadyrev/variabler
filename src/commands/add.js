@@ -1,8 +1,8 @@
-const { checkExists, readFile, readJSON, writeFile, writeJSON } = require('../util/files')
+const { checkExists, readJSON, writeJSON } = require('../util/files')
 const { configurationPath, repoPath } = require('../util/path')
-const { executeCommand } = require('../util/executor')
 const { getUserInput } = require('../util/input')
 const { logSuccess } = require('../util/logger')
+const { removeFileFromGit, updateGitIgnore } = require('../util/git')
 
 const fse = require('fs-extra')
 const path = require('path')
@@ -31,24 +31,6 @@ const addTemplateToConfig = (fileName, filePath) => {
   return configContent
 }
 
-const addFileToGitIgnore = configContent => {
-  const gitignorePath = repoPath('.gitignore')
-  const content = readFile(gitignorePath)
-
-  const getIgnorePath = ({ to }) => {
-    const relativePath = path.relative(repoPath('.'), repoPath(to))
-    return `/${relativePath}`
-  }
-
-  const originalIgnoreLines = new RegExp('# variabler files start[^]*# variabler files end', 'g')
-  const updatedIgnoreLines =
-    '# <variabler>\n' + configContent.map(getIgnorePath).join('\n') + '\n# </variabler>'
-  const updatedContent = content.replace(originalIgnoreLines, updatedIgnoreLines)
-  writeFile(gitignorePath, updatedContent)
-}
-
-const removeFileFromGit = filePath => executeCommand(`git rm ${filePath}`)
-
 module.exports = (filePath, { name: providedTemplateName }) => {
   checkExists(filePath, 'File not found')
 
@@ -56,8 +38,8 @@ module.exports = (filePath, { name: providedTemplateName }) => {
   const templatePath = configurationPath(`templates/${templateName}`)
   copyFileToTemplates(filePath, templatePath)
 
-  const configContent = addTemplateToConfig(templateName, filePath)
-  addFileToGitIgnore(configContent)
+  addTemplateToConfig(templateName, filePath)
+  updateGitIgnore()
   removeFileFromGit(filePath)
 
   logSuccess(`File "${filePath}" has been added`)
