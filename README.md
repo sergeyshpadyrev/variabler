@@ -60,23 +60,47 @@ Usually environments and branded apps have different bundle ids, have different 
 
 To manage it all in React Native you need to create its own Android flavour and iOS target for each environment and somehow manage all the differences between environemnts and branded apps. Variabler make it way much easier. Let's say we want to create `staging` and `production` apps.
 
-First, we create variables config:
+First, we create config:
 
 ```json
 {
-  "common": {
-    "VERSION": "1.2.3"
-  },
-  "env": {
-    "staging": {
-      "API_URL": "https://staging.example.com",
-      "BUNDLE_ID": "com.example.app.staging"
+  "configurations": {
+    "default": {
+      "variables": {
+        "VERSION": "1.2.3"
+      }
     },
-    "production": {
-      "API_URL": "https://production.example.com",
-      "BUNDLE_ID": "com.example.app"
+    "env": {
+      "local": {
+        "variables": {
+          "API_URL": "http://localhost:8080",
+          "APP_NAME": "Local"
+        }
+      },
+      "staging": {
+        "variables": {
+          "API_URL": "https://staging.example.com",
+          "APP_NAME": "Staging"
+        }
+      },
+      "production": {
+        "variables": {
+          "API_URL": "https://production.example.com",
+          "APP_NAME": "Production"
+        }
+      }
     }
-  }
+  },
+  "templates": [
+    {
+      "from": "api.js",
+      "to": "src/api.js"
+    },
+    {
+      "from": "build.gradle",
+      "to": "android/app/build.gradle"
+    }
+  ]
 }
 ```
 
@@ -97,15 +121,6 @@ export const get = url => fetch('GET', `${baseUrl}/${url}`)
 applicationId "@BUNDLE_ID@"
 versionName "@VERSION@"
 ...
-```
-
-Then we add template paths config:
-
-```json
-[
-  { "from": "api.js", "to": "./src/api.js" },
-  { "from": "build.gradle", "to": "./android/app/build.gradle" }
-]
 ```
 
 Finally, we add file destination paths to `.gitignore`:
@@ -234,25 +249,38 @@ First, we create variables config:
 
 ```json
 {
-  "brand": {
-    "cola": {
-      "BUNDLE_ID": "com.example.cola"
+  "configurations": {
+    "default": {
+      "variables": {
+        "VERSION": "1.2.3"
+      }
     },
-    "pepsi": {
-      "BUNDLE_ID": "com.example.pepsi"
+    "brand": {
+      "cola": {
+        "variables": {
+          "BUNDLE_ID": "com.example.cola"
+        }
+      },
+      "pepsi": {
+        "variables": {
+          "BUNDLE_ID": "com.example.pepsi"
+        }
+      }
+    },
+    "env": {
+      "staging": {
+        "variables": {
+          "BUNDLE_EXTENSION": ".staging"
+        }
+      },
+      "production": {
+        "variables": {
+          "BUNDLE_EXTENSION": ""
+        }
+      }
     }
   },
-  "common": {
-    "VERSION": "1.2.3"
-  },
-  "env": {
-    "staging": {
-      "BUNDLE_EXTENSION": ".staging"
-    },
-    "production": {
-      "BUNDLE_EXTENSION": ""
-    }
-  }
+  "templates": [{ "from": "build.gradle", "to": "./android/app/build.gradle" }]
 }
 ```
 
@@ -263,12 +291,6 @@ After, we create `build.gradle` file template:
 applicationId "@BUNDLE_ID@@BUNDLE_EXTENSION@"
 versionName "@VERSION@"
 ...
-```
-
-Then we add template paths config:
-
-```json
-[{ "from": "build.gradle", "to": "./android/app/build.gradle" }]
 ```
 
 Finally, we add file destination paths to `.gitignore`:
@@ -299,22 +321,36 @@ To do that we can inherit configurations in `variables.json`:
 
 ```json
 {
-  "common": {
-    "VERSION": "1.2.3"
-  },
-  "env": {
-    "staging": {
-      "API_URL": "https://staging.example.com",
-      "BUNDLE_ID": "com.example.app.staging"
+  "configurations": {
+    "default": {
+      "variables": {
+        "VERSION": "1.2.3"
+      }
     },
-    "production": {
-      "API_URL": "https://production.example.com",
-      "BUNDLE_ID": "com.example.app"
-    },
-    "production.candidate": {
-      "BUNDLE_ID": "com.example.app.candidate"
+    "env": {
+      "staging": {
+        "variables": {
+          "API_URL": "https://staging.example.com",
+          "BUNDLE_ID": "com.example.app.staging"
+        }
+      },
+      "production": {
+        "variables": {
+          "API_URL": "https://production.example.com",
+          "BUNDLE_ID": "com.example.app"
+        }
+      },
+      "production.candidate": {
+        "variables": {
+          "BUNDLE_ID": "com.example.app.candidate"
+        }
+      }
     }
-  }
+  },
+  "templates": [
+    { "from": "api.js", "to": "src/api.js" },
+    { "from": "build.gradle", "to": "android/app/build.gradle" }
+  ]
 }
 ```
 
@@ -335,24 +371,31 @@ Variabler can take variables from Vault secret manager.
 Let's say, you want to put production environment variables into Vault. <br/>
 You need to create a secret in a key-value storage and put the path to this secret to `variables.json`:
 
-```
+```json
 {
-  "common": {
-    "VERSION": "1.2.3"
+  "configurations": {
+    "default": {
+      "variables": {
+        "VERSION": "1.2.3"
+      }
+    },
+    "env": {
+      "staging": {
+        "variables": {
+          "API_URL": "https://staging.example.com",
+          "APP_NAME": "Staging"
+        }
+      },
+      "production": {
+        "variables": "vault://secret/production"
+      }
+    }
   },
-  "env": {
-    "local": {
-      "API_URL": "http://localhost:8080",
-      "APP_NAME": "Local"
-    },
-    "staging": {
-      "API_URL": "https://staging.example.com",
-      "APP_NAME": "Staging"
-    },
-    "production": "vault://secret/production"
-  }
+  "templates": [
+    { "from": "api.js", "to": "src/api.js" },
+    { "from": "build.gradle", "to": "android/app/build.gradle" }
+  ]
 }
-
 ```
 
 Variabler doesn't handle connection to Vault by itself. <br/>
