@@ -2,7 +2,7 @@ const config = {
   configurations: {
     default: {
       files: {
-        appIcon: 'production.png'
+        sampleFile: 'sample.txt'
       },
       variables: {
         VERSION: '1.2.3'
@@ -11,7 +11,7 @@ const config = {
     env: {
       local: {
         files: {
-          appIcon: 'local.png'
+          appIcon: 'icon/local.png'
         },
         variables: {
           API_URL: 'http://localhost:8080',
@@ -20,7 +20,7 @@ const config = {
       },
       staging: {
         files: {
-          appIcon: 'staging.png'
+          appIcon: 'icon/staging.png'
         },
         variables: {
           API_URL: 'https://staging.example.com',
@@ -28,6 +28,9 @@ const config = {
         }
       },
       production: {
+        files: {
+          appIcon: 'production.png'
+        },
         variables: {
           API_URL: 'https://production.example.com',
           APP_NAME: 'Production'
@@ -35,14 +38,23 @@ const config = {
       }
     }
   },
-  files: [{ id: 'appIcon', to: './assets/icon.png' }],
+  files: [
+    { id: 'appIcon', to: 'assets/icon.png' },
+    { id: 'sampleFile', to: 'sample.txt' }
+  ],
   templates: [
-    { from: 'api.js', to: './src/api.js' },
-    { from: 'settings.json', to: './settings.json' }
+    { from: 'api.js', to: 'src/api.js' },
+    { from: 'settings.json', to: 'settings.json' }
   ]
 }
 
-const files = ['local.png', 'staging.png', 'production.png']
+const files = [
+  { from: 'sample.txt', to: 'sample.txt' },
+
+  { from: 'local.png', to: 'icon/local.png' },
+  { from: 'staging.png', to: 'icon/staging.png' },
+  { from: 'production.png', to: 'icon/production.png' }
+]
 const templates = [
   { content: `export const BASE_API_URL = '@API_URL@'`, name: 'api.js' },
   {

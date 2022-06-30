@@ -6,8 +6,9 @@ const { readFile, writeFile } = require('../util/files')
 const removeFileFromGit = filePath => executeCommand(`git rm ${repoPath(filePath)}`)
 
 const updateGitIgnore = () => {
-  const templatePaths = configService.listTemplates()
-  const pathLines = templatePaths.map(({ to }) => gitignoreFormatPath(to)).join('\n')
+  const files = configService.listFiles()
+  const templates = configService.listTemplates()
+  const pathLines = [...files, ...templates].map(({ to }) => gitignoreFormatPath(to)).join('\n')
 
   const variablerSection = `# <variabler>\n${pathLines}\n# </variabler>`
   const variablerSectionPattern = new RegExp('# <variabler>[^]*# </variabler>')

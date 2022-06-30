@@ -9,10 +9,11 @@ const addTemplate = (name, path) =>
     ...config,
     templates: [...config.templates, { from: name, to: path }]
   }))
-
+const listFiles = () => readConfig().files
 const listTemplates = () => readConfig().templates
 
 module.exports = {
   addTemplate,
+  listFiles,
   listTemplates
 }

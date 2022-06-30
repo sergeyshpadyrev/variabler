@@ -1,7 +1,7 @@
+const configService = require('./config.service')
 const { executeCommand } = require('../util/executor')
 const { isString, sortListByKeys } = require('../util/common')
 const { readFile, readJSON } = require('../util/files')
-// const templatesConfigService = require('./templatesConfig.service')
 const { variablerDirectoryPath, variablesConfigPath } = require('../util/path')
 
 const checkConsistency = ({ onError, onWarning, templateVariableKeys, variables }) => {
@@ -67,7 +67,7 @@ const loadVariables = categories => {
 }
 
 const listTemplateVariableKeys = () => {
-  const templatePaths = templatesConfigService.listTemplates()
+  const templatePaths = configService.listTemplates()
   return sortListByKeys(
     templatePaths.flatMap(({ from }) => {
       const templateFilePath = variablerDirectoryPath(`templates/${from}`)
