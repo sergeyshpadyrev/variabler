@@ -2,14 +2,14 @@
 
 const { Command } = require('commander')
 const { readJSON } = require('./util/files')
-const { scriptPath } = require('./util/path')
+const { variablerNodeModulePath } = require('./util/path')
 
 const program = new Command()
 
 program
   .name('variabler')
   .description('CLI for managing environment configs')
-  .version(readJSON(scriptPath('package.json')).version)
+  .version(readJSON(variablerNodeModulePath('package.json')).version)
 
 program
   .command('add')

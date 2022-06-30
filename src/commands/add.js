@@ -4,7 +4,7 @@ const gitService = require('../services/git.service')
 const loggerService = require('../services/logger.service')
 const messages = require('../constants/messages')
 const templatesService = require('../services/templates.service')
-const templatesConfigService = require('../services/templatesConfig.service')
+// const templatesConfigService = require('../services/templatesConfig.service')
 const { repoPath } = require('../util/path')
 
 module.exports = (path, { name: defaultName }) => {

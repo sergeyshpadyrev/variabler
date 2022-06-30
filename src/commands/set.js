@@ -2,7 +2,7 @@ const categoriesService = require('../services/categories.service')
 const { readFile, writeFile } = require('../util/files')
 const loggerService = require('../services/logger.service')
 const { repoPath, templatePath } = require('../util/path')
-const templatesConfigService = require('../services/templatesConfig.service')
+// const templatesConfigService = require('../services/templatesConfig.service')
 const variablesService = require('../services/variables.service')
 
 module.exports = passedCategories => {

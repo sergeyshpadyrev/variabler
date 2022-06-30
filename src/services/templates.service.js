@@ -8,15 +8,6 @@ const addTemplate = (name, path) => {
   copyFile(repoPath(path), templatePath(name))
 }
 
-const init = () => {
-  ensureDirectory(templatePath('.'))
-
-  initialData.templateFiles.forEach(({ content, name }) => {
-    const write = isString(content) ? writeFile : writeJSON
-    write(templatePath(name), content)
-  })
-}
-
 const selectFreeName = (path, defaultName) => {
   let name = defaultName || basename(path)
 
@@ -31,6 +22,5 @@ const selectFreeName = (path, defaultName) => {
 
 module.exports = {
   addTemplate,
-  init,
   selectFreeName
 }
