@@ -4,7 +4,6 @@ const { isString, sortListByKeys } = require('../util/common')
 const loggerService = require('./logger.service')
 const { readFile } = require('../util/files')
 const { variablerDirectoryPath } = require('../util/path')
-const { files } = require('../constants/initialData')
 
 const checkConsistency = ({ onError, onWarning, templateVariableKeys, variables }) => {
   const variablesKeys = Object.keys(variables)

@@ -5,7 +5,6 @@ const { filePath, repoPath, templatePath } = require('../util/path')
 const loggerService = require('../services/logger.service')
 const variablesService = require('../services/variables.service')
 
-// TODO add files support
 module.exports = passedCategories => {
   try {
     const categories = categoriesService.selectCategories(passedCategories)
