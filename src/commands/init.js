@@ -8,9 +8,7 @@ const messages = require('../constants/messages')
 
 module.exports = () => {
   assertionService.assertNotExists(variablerDirectoryPath('.'), errors.alreadyInitialized)
-
   initializationService.init()
-
   gitService.updateGitIgnore()
   loggerService.logSuccess(messages.initialized)
 }
