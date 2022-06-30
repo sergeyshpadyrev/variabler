@@ -30,9 +30,10 @@ const listTemplateVariableKeys = () => {
   )
 }
 
-const selectFreeName = (path, defaultName) => {
+const selectFreeName = (path, defaultName, isFile) => {
+  const basePath = isFile ? filePath : templatePath
   let name = defaultName || basename(path)
-  while (!name || checkExists(templatePath(name))) {
+  while (!name || checkExists(basePath(name))) {
     console.log(`Template named '${name}' already exists in templates directory`)
     console.log(`Please choose another name`)
     name = getUserInput()

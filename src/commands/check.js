@@ -1,15 +1,15 @@
 const checksService = require('../services/checks.service')
 const categoriesService = require('../services/categories.service')
 const configService = require('../services/config.service')
+const filesService = require('../services/files.service')
 const loaderService = require('../services/loader.service')
 const loggerService = require('../services/logger.service')
-const templatesService = require('../services/templates.service')
 
 module.exports = () => {
   let checkPassed = true
 
   try {
-    const templateVariableKeys = templatesService.listTemplateVariableKeys()
+    const templateVariableKeys = filesService.listTemplateVariableKeys()
     loggerService.logList('Variables in templates', templateVariableKeys)
     loggerService.logDivider()
 
