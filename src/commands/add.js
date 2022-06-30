@@ -7,6 +7,7 @@ const messages = require('../constants/messages')
 const templatesService = require('../services/templates.service')
 const { repoPath, relativeToRepoPath } = require('../util/path')
 
+// TODO add --file option
 module.exports = (path, { name: defaultName }) => {
   const fullPath = repoPath(path)
   assertionService.assertExists(fullPath, errors.fileNotFound)

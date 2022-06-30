@@ -4,6 +4,7 @@ const { isString, sortListByKeys } = require('../util/common')
 const loggerService = require('./logger.service')
 const { readFile } = require('../util/files')
 const { variablerDirectoryPath } = require('../util/path')
+const { files } = require('../constants/initialData')
 
 const checkConsistency = ({ onError, onWarning, templateVariableKeys, variables }) => {
   const variablesKeys = Object.keys(variables)
@@ -47,9 +48,34 @@ const loadVariablesForCategoryValue = (category, loadingValue) => {
   }
 }
 
+const loadFilesForCategoryValue = (category, loadingValue) => {
+  const variablesList = category[loadingValue].files
+  return variablesList
+  // if (!isString(variablesList)) return variablesList
+
+  // const valueParts = variablesList.split('://')
+  // const provider = valueParts[0]
+  // const path = valueParts[1]
+
+  // switch (provider) {
+  //   case 'vault':
+  //     const vaultCommandResponse = executeCommand(`vault kv get -format=json ${path}`)
+  //     const vaultData = JSON.parse(vaultCommandResponse).data.data
+
+  //     return vaultData
+
+  //   default:
+  //     loggerService.logError(`Invalid provider "${provider}"`)
+  //     process.exit(1)
+  // }
+}
+
 const loadVariables = categories => {
   const configurations = configService.listConfigurations()
+  const fileDestinations = configService.listFiles()
+
   let variables = {}
+  let files = {}
 
   Object.keys(categories).forEach(categoryKey => {
     const categoryValue = categories[categoryKey]
@@ -62,11 +88,23 @@ const loadVariables = categories => {
         ...variables,
         ...loadVariablesForCategoryValue(category, loadingCategoryValue)
       }
+      files = {
+        ...files,
+        ...loadFilesForCategoryValue(category, loadingCategoryValue)
+      }
     }
   })
 
-  const allVariables = { ...configurations.default.variables, ...variables }
-  return sortListByKeys(allVariables)
+  const allVariables = sortListByKeys({ ...configurations.default.variables, ...variables })
+  const allFiles = { ...configurations.default.files, ...files }
+
+  const allFilesDestinations = Object.keys(allFiles).map(fileId => {
+    const from = allFiles[fileId]
+    const to = fileDestinations.find(({ id }) => id === fileId).to
+    return { from, to }
+  })
+
+  return { files: allFilesDestinations, variables: allVariables }
 }
 
 const listTemplateVariableKeys = () => {

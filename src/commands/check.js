@@ -27,7 +27,7 @@ module.exports = () => {
           onWarning: variableKey =>
             loggerService.logWarning(`Variable "${variableKey}" is not used in templates`),
           templateVariableKeys,
-          variables: variablesService.loadVariables(categoriesCombination)
+          variables: variablesService.loadVariables(categoriesCombination).variables
         })
       } catch (error) {
         loggerService.logWarning(`Cannot check. ${error}`)
