@@ -2,6 +2,7 @@ const categoriesService = require('../services/categories.service')
 const loggerService = require('../services/logger.service')
 const variablesService = require('../services/variables.service')
 
+// TODO Add check for files consistency as well
 module.exports = () => {
   let checkPassed = true
 

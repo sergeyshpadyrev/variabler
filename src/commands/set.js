@@ -1,8 +1,8 @@
 const categoriesService = require('../services/categories.service')
+const configService = require('../services/config.service')
 const { readFile, writeFile } = require('../util/files')
 const loggerService = require('../services/logger.service')
 const { repoPath, templatePath } = require('../util/path')
-// const templatesConfigService = require('../services/templatesConfig.service')
 const variablesService = require('../services/variables.service')
 
 module.exports = passedCategories => {
@@ -31,8 +31,8 @@ module.exports = passedCategories => {
       writeFile(repoPath(to), contentWithSubstitutions)
     }
 
-    const templatePaths = templatesConfigService.listTemplates()
-    templatePaths.forEach(file => processTemplate(file, variables))
+    const templates = configService.listTemplates()
+    templates.forEach(processTemplate)
 
     loggerService.logSuccess(`Variables have been set`)
     loggerService.logList('Params', categories)

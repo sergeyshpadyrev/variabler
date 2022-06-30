@@ -1,12 +1,14 @@
+const configService = require('./config.service')
 const { getUserInput } = require('../util/input')
 const { sortListByKeys } = require('../util/common')
-const variablesService = require('./variables.service')
+
+const filterNonDefault = category => category !== 'default'
 
 const getAllCategoryKeysCombinations = () => {
-  const variablesConfig = variablesService.getConfig()
+  const configurations = configService.listConfigurations()
 
   const produceCategoryKeysCombinations = ([head, ...tail]) => {
-    const categoryValues = Object.keys(variablesConfig[head])
+    const categoryValues = Object.keys(configurations[head])
     const headValues = categoryValues.map(categoryValue => ({ [head]: categoryValue }))
     const mergeWithChildren = value =>
       produceCategoryKeysCombinations(tail).map(childValue => ({ ...value, ...childValue }))
@@ -14,12 +16,12 @@ const getAllCategoryKeysCombinations = () => {
     return tail.length > 0 ? headValues.flatMap(mergeWithChildren) : headValues
   }
 
-  const categoryKeys = Object.keys(variablesConfig).filter(key => key !== 'common')
+  const categoryKeys = Object.keys(configurations).filter(filterNonDefault)
   return produceCategoryKeysCombinations(categoryKeys)
 }
 
 const selectCategories = passedCategories => {
-  const variablesConfig = variablesService.getConfig()
+  const configurations = configService.listConfigurations()
   const categories = Object.assign(
     {},
     ...passedCategories.map(category => {
@@ -33,18 +35,18 @@ const selectCategories = passedCategories => {
   Object.keys(categories).forEach(categoryKey => {
     const categoryValue = categories[categoryKey]
 
-    if (!variablesConfig.hasOwnProperty(categoryKey))
+    if (!configurations.hasOwnProperty(categoryKey))
       throw new Error(`Key ${categoryKey} not found in variables`)
-    if (!variablesConfig[categoryKey].hasOwnProperty(categoryValue))
+    if (!configurations[categoryKey].hasOwnProperty(categoryValue))
       throw new Error(`Key ${categoryValue} not found in ${categoryKey} variables`)
   })
 
-  Object.keys(variablesConfig)
-    .filter(categoryKey => categoryKey !== 'common')
+  Object.keys(configurations)
+    .filter(filterNonDefault)
     .forEach(categoryKey => {
       if (categories.hasOwnProperty(categoryKey)) return
 
-      const categoryValues = Object.keys(variablesConfig[categoryKey])
+      const categoryValues = Object.keys(configurations[categoryKey])
       const categoryValuesList = categoryValues
         .map((categoryValue, index) => `${index + 1}. ${categoryValue}`)
         .join('\n')

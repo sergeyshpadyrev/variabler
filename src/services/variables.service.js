@@ -1,8 +1,9 @@
 const configService = require('./config.service')
 const { executeCommand } = require('../util/executor')
 const { isString, sortListByKeys } = require('../util/common')
-const { readFile, readJSON } = require('../util/files')
-const { variablerDirectoryPath, variablesConfigPath } = require('../util/path')
+const loggerService = require('./logger.service')
+const { readFile } = require('../util/files')
+const { variablerDirectoryPath } = require('../util/path')
 
 const checkConsistency = ({ onError, onWarning, templateVariableKeys, variables }) => {
   const variablesKeys = Object.keys(variables)
@@ -26,7 +27,7 @@ const fillVariables = (content, variables) => {
 }
 
 const loadVariablesForCategoryValue = (category, loadingValue) => {
-  const variablesList = category[loadingValue]
+  const variablesList = category[loadingValue].variables
   if (!isString(variablesList)) return variablesList
 
   const valueParts = variablesList.split('://')
@@ -41,28 +42,30 @@ const loadVariablesForCategoryValue = (category, loadingValue) => {
       return vaultData
 
     default:
-      // logError(`Invalid provider "${provider}"`)
+      loggerService.logError(`Invalid provider "${provider}"`)
       process.exit(1)
   }
 }
 
-const getConfig = () => readJSON(variablesConfigPath())
 const loadVariables = categories => {
-  const variablesConfig = getConfig()
+  const configurations = configService.listConfigurations()
   let variables = {}
 
   Object.keys(categories).forEach(categoryKey => {
     const categoryValue = categories[categoryKey]
     const categoryValueParts = categoryValue.split('.')
-    const category = variablesConfig[categoryKey]
+    const category = configurations[categoryKey]
 
     for (let i = 0; i < categoryValueParts.length; i++) {
       const loadingCategoryValue = categoryValueParts.slice(0, i + 1).join('.')
-      variables = { ...variables, ...loadVariablesForCategoryValue(category, loadingCategoryValue) }
+      variables = {
+        ...variables,
+        ...loadVariablesForCategoryValue(category, loadingCategoryValue)
+      }
     }
   })
 
-  const allVariables = { ...variablesConfig.common, ...variables }
+  const allVariables = { ...configurations.default.variables, ...variables }
   return sortListByKeys(allVariables)
 }
 
@@ -82,7 +85,6 @@ const listTemplateVariableKeys = () => {
 module.exports = {
   checkConsistency,
   fillVariables,
-  getConfig,
   listTemplateVariableKeys,
   loadVariables
 }
