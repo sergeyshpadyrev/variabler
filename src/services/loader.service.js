@@ -3,8 +3,8 @@ const { executeCommand } = require('../util/executor')
 const { isString, sortListByKeys } = require('../util/common')
 const loggerService = require('./logger.service')
 
-const loadVariables = (category, loadingValue) => {
-  const variablesList = category[loadingValue].variables
+const loadVariables = (category, categoryValue) => {
+  const variablesList = category[categoryValue].variables || {}
   if (!isString(variablesList)) return variablesList
 
   const valueParts = variablesList.split('://')
@@ -24,28 +24,6 @@ const loadVariables = (category, loadingValue) => {
   }
 }
 
-const loadFiles = (category, loadingValue) => {
-  const filesList = category[loadingValue].files || {}
-  return filesList || {}
-  // if (!isString(variablesList)) return variablesList
-
-  // const valueParts = variablesList.split('://')
-  // const provider = valueParts[0]
-  // const path = valueParts[1]
-
-  // switch (provider) {
-  //   case 'vault':
-  //     const vaultCommandResponse = executeCommand(`vault kv get -format=json ${path}`)
-  //     const vaultData = JSON.parse(vaultCommandResponse).data.data
-
-  //     return vaultData
-
-  //   default:
-  //     loggerService.logError(`Invalid provider "${provider}"`)
-  //     process.exit(1)
-  // }
-}
-
 const load = categories => {
   const configurations = configService.listConfigurations()
   const fileDestinations = configService.listFiles()
@@ -53,23 +31,29 @@ const load = categories => {
   let variables = {}
   let files = {}
 
-  Object.keys(categories).forEach(categoryKey => {
-    const categoryValue = categories[categoryKey]
-    const categoryValueParts = categoryValue.split('.')
+  const loadCategory = (categoryKey, categoryValue) => {
     const category = configurations[categoryKey]
+    categoryValue = categoryValue || categories[categoryKey]
 
-    for (let i = 0; i < categoryValueParts.length; i++) {
-      const loadingCategoryValue = categoryValueParts.slice(0, i + 1).join('.')
-      variables = {
-        ...variables,
-        ...loadVariables(category, loadingCategoryValue)
-      }
-      files = {
-        ...files,
-        ...loadFiles(category, loadingCategoryValue)
-      }
+    const parent = category[categoryValue].extends
+    if (parent && !category.hasOwnProperty(parent)) {
+      loggerService.logError(`"${categoryValue}" extends "${parent}" that doesn't exist`)
+      process.exit(1)
     }
-  })
+
+    if (parent) loadCategory(categoryKey, parent)
+
+    files = {
+      ...files,
+      ...(category[categoryValue].files || {})
+    }
+    variables = {
+      ...variables,
+      ...loadVariables(category, categoryValue)
+    }
+  }
+
+  Object.keys(categories).forEach(categoryKey => loadCategory(categoryKey))
 
   const allVariables = sortListByKeys({ ...configurations.default.variables, ...variables })
   const allFiles = { ...configurations.default.files, ...files }

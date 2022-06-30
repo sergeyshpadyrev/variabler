@@ -317,7 +317,7 @@ versionName "1.2.3"
 ### Extending variable lists
 
 Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
-To do that we can inherit configurations in `variables.json`:
+To do that we can inherit configurations in `variables.json` with `extends` claim:
 
 ```json
 {
@@ -341,6 +341,7 @@ To do that we can inherit configurations in `variables.json`:
         }
       },
       "production.candidate": {
+        "extends": "production",
         "variables": {
           "BUNDLE_ID": "com.example.app.candidate"
         }

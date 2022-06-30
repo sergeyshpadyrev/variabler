@@ -46,8 +46,8 @@ module.exports = passedCategories => {
 
     loggerService.logSuccess(`Variables have been set`)
     loggerService.logList('Params', categories)
-    loggerService.logList('Files', filesToLog)
-    loggerService.logList('Variables', variables)
+    loggerService.logList('Selected Variables', variables)
+    loggerService.logList('Selected Files', filesToLog)
     loggerService.logList('Created Files', createdFilesToLog)
   } catch (error) {
     loggerService.logError(error.message)
