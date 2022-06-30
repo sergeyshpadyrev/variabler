@@ -7,7 +7,20 @@ const updateConfig = update => writeJSON(configPath(), update(readConfig()))
 const addFile = (name, path) =>
   updateConfig(config => {
     const newFile = { id: name, to: path }
-    return { ...config, files: [...config.files, newFile] }
+    return {
+      ...config,
+      configurations: {
+        ...config.configurations,
+        default: {
+          ...config.configurations.default,
+          files: {
+            ...(config.configurations.default.files || {}),
+            [name]: name
+          }
+        }
+      },
+      files: [...config.files, newFile]
+    }
   })
 
 const addTemplate = (name, path) =>

@@ -11,7 +11,7 @@ module.exports = (path, { file: isFile, name: defaultName }) => {
   const fullPath = repoPath(path)
   checksService.assertExists(fullPath, errors.fileNotFound)
 
-  const name = templatesService.selectFreeName(path, defaultName, isFile)
+  const name = filesService.selectFreeName(path, defaultName, isFile)
   const relativePath = relativeToRepoPath(fullPath)
 
   if (isFile) {
