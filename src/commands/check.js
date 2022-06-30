@@ -1,13 +1,15 @@
+const checksService = require('../services/checks.service')
 const categoriesService = require('../services/categories.service')
+const configService = require('../services/config.service')
+const loaderService = require('../services/loader.service')
 const loggerService = require('../services/logger.service')
-const variablesService = require('../services/variables.service')
+const templatesService = require('../services/templates.service')
 
-// TODO Add check for files consistency as well
 module.exports = () => {
   let checkPassed = true
 
   try {
-    const templateVariableKeys = variablesService.listTemplateVariableKeys()
+    const templateVariableKeys = templatesService.listTemplateVariableKeys()
     loggerService.logList('Variables in templates', templateVariableKeys)
     loggerService.logDivider()
 
@@ -16,21 +18,27 @@ module.exports = () => {
       loggerService.logInfo('Checking configuration', JSON.stringify(categoriesCombination))
 
       let combinationPassed = true
+      const onError = () => {
+        combinationPassed = false
+        checkPassed = false
+      }
 
+      const { files, variables } = loaderService.load(categoriesCombination)
       try {
-        variablesService.checkConsistency({
-          onError: templateVariableKey => {
-            loggerService.logError(`Value for variable "${templateVariableKey}" not found`)
-            combinationPassed = false
-            checkPassed = false
-          },
-          onWarning: variableKey =>
-            loggerService.logWarning(`Variable "${variableKey}" is not used in templates`),
+        checksService.checkVariablesConsistency({
+          onError,
           templateVariableKeys,
-          variables: variablesService.loadVariables(categoriesCombination).variables
+          variables
+        })
+
+        const configFiles = configService.listFiles()
+        checksService.checkFilesConsistency({
+          configFiles,
+          files,
+          onError
         })
       } catch (error) {
-        loggerService.logWarning(`Cannot check. ${error}`)
+        loggerService.logWarning(`Something went wrong. ${error.message}`)
       } finally {
         if (combinationPassed) console.info('Check passed')
         loggerService.logDivider()

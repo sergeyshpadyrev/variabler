@@ -4,6 +4,12 @@ const { readJSON, writeJSON } = require('../util/files')
 const readConfig = () => readJSON(configPath())
 const updateConfig = update => writeJSON(configPath(), update(readConfig()))
 
+const addFile = (name, path) =>
+  updateConfig(config => {
+    const newFile = { id: name, to: path }
+    return { ...config, files: [...config.files, newFile] }
+  })
+
 const addTemplate = (name, path) =>
   updateConfig(config => {
     const newTemplate = { from: name, to: path }
@@ -15,6 +21,7 @@ const listFiles = () => readConfig().files
 const listTemplates = () => readConfig().templates
 
 module.exports = {
+  addFile,
   addTemplate,
   listConfigurations,
   listFiles,

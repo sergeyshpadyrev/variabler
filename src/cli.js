@@ -15,6 +15,7 @@ program
   .command('add')
   .description('Add file to variabler')
   .argument('{path}', 'path to file')
+  .option('-f, --file', 'adds file to files')
   .option('-n, --name <name>', 'template file name')
   .action(require('./commands/add'))
 

@@ -1,36 +1,37 @@
 const categoriesService = require('../services/categories.service')
+const checksService = require('../services/checks.service')
 const configService = require('../services/config.service')
 const { copyFile, readFile, writeFile } = require('../util/files')
 const { filePath, repoPath, templatePath } = require('../util/path')
+const loaderService = require('../services/loader.service')
 const loggerService = require('../services/logger.service')
-const variablesService = require('../services/variables.service')
+const templatesService = require('../services/templates.service')
 
 module.exports = passedCategories => {
   try {
     const categories = categoriesService.selectCategories(passedCategories)
     const templates = configService.listTemplates()
-    const templateVariableKeys = variablesService.listTemplateVariableKeys()
-    const { files, variables } = variablesService.loadVariables(categories)
+    const templateVariableKeys = templatesService.listTemplateVariableKeys()
+    const { files, variables } = loaderService.load(categories)
     const filesToLog = files.map(({ from }) => from).sort()
     const createdFilesToLog = [...templates, ...files].map(({ to }) => to).sort()
+    const onError = () => process.exit(1)
 
-    variablesService.checkConsistency({
-      onError: templateVariableKey => {
-        loggerService.logError(
-          `Value for variable "${templateVariableKey}" not found in current configuration`
-        )
-        process.exit(1)
-      },
-      onWarning: variableKey =>
-        loggerService.logWarning(`Variable "${variableKey}" is not used in templates`),
+    checksService.checkVariablesConsistency({
+      onError,
       templateVariableKeys,
       variables
+    })
+    checksService.checkFilesConsistency({
+      configFiles: configService.listFiles(),
+      files,
+      onError
     })
 
     const processTemplate = ({ from, to }) => {
       const templateFilePath = templatePath(from)
       const content = readFile(templateFilePath)
-      const contentWithSubstitutions = variablesService.fillVariables(content, variables)
+      const contentWithSubstitutions = templatesService.fillVariables(content, variables)
       writeFile(repoPath(to), contentWithSubstitutions)
     }
 
