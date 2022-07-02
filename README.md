@@ -92,14 +92,8 @@ First, we create config:
     }
   },
   "templates": [
-    {
-      "from": "api.js",
-      "to": "src/api.js"
-    },
-    {
-      "from": "build.gradle",
-      "to": "android/app/build.gradle"
-    }
+    { "from": "api.js", "to": "src/api.js" },
+    { "from": "build.gradle", "to": "android/app/build.gradle" }
   ]
 }
 ```
