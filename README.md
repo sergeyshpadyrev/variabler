@@ -159,15 +159,19 @@ Makes file managed by Variabler:
 - Moves the file from original path to `variabler/templates`
 - Removes the original file from git (you need to commit this change)
 - Adds path to the original file to `.gitignore`
-- Adds original path and template path to `variabler/templates.json`
+- Adds original path and template path to `variabler/config.json`
 
-After running this command you can open the template file and put into it variable keys from `variabler/variables.json`
+After running this command you can open the template file and put into it variable keys from `variabler/config.json`
 
-Example
+Example:
 
 ```sh
 variabler add ./path/to/file
 ```
+
+#### Options
+
+##### Name
 
 If there already exists a template with the same name you will be asked to choose a new name.
 Other way you need to provide name option to the command:
@@ -181,9 +185,27 @@ variabler add ./path/to/file.txt --name myfile.txt
 variabler add ./path/to/file.txt -n myfile.txt
 ```
 
+##### File
+
+If you want to add file not as template but as file you can use the following options:
+
+Example:
+
+```sh
+# long way
+variabler add --file assets/icon.png
+# short way
+variabler add -f assets/icon.png
+```
+
 ### check
 
-Checks the consistency between variable keys used in templates and variables defined in config:
+Checks the consistency:
+
+- Between variable keys used in templates and variables defined in config
+- Between file destinations and file sources defined in config
+
+Result:
 
 - Shows warning if variable is defined in config but not used in templates
 - Shows error if variable is used in templates but not defined in config
@@ -198,11 +220,11 @@ variabler check
 
 Initializes Variabler in your repository:
 
-- Adds `variabler` directory that contains templates, configs and variables
+- Adds `variabler` directory that contains files, templates and config
 - Adds variabler files section into `.gitignore`
 
-By default it creates two dummy templates: `api.js` and `settings.json` <br/>
-They are needed just to help you understand how to use Variabler
+By default it creates two dummy templates (`api.js` and `settings.json`) and dummy icon files. <br/>
+It's needed just to help you understand how to use Variabler.
 
 Example:
 
@@ -215,8 +237,13 @@ variabler init
 Sets variables:
 
 - Takes the files from `variabler/templates` directory
-- Fills the values from `variabler/variables.json` to these files
-- Copies the files to the project structure according to the paths defined in `variabler/templates.json`
+- Fills the values from `variabler/config.json` to these files
+- Copies the files to the project structure according to the paths defined in `variabler/config.json`
+
+Copies files:
+
+- Take the files from `variabler/files` directory
+- Copies the files to the project structure according to the paths defined in `variabler/config.json`
 
 Example:
 
@@ -229,6 +256,67 @@ variabler set env:production brand:pepsi
 If you don't pass any values to this command or don't pass enough of them, it will ask you to select one of the available options.
 
 ## Advanced configuration
+
+### Working with files
+
+Variabler can copy environment-dependent files.
+Usually it's needed for copying brand-specific icons or environement-specific binary files.
+
+Let's say we need to use different icons for different app environments.
+We create directory `variabler/files/icon` and put three files there:
+
+- `local.png`
+- `staging.png`
+- `production.png`
+
+Then we add file configuration to `config.json`:
+
+```json
+{
+  "configurations": {
+    "default": {
+      "variables": {
+        ...
+      }
+    },
+    "env": {
+      "local": {
+        "files": {
+          "appIcon": "icon/local.png"
+        },
+        "variables": {
+          ...
+        }
+      },
+      "staging": {
+        "files": {
+          "appIcon": "icon/staging.png"
+        },
+        "variables": {
+          ...
+        }
+      },
+      "production": {
+        "files": {
+          "appIcon": "icon/production.png"
+        },
+        "variables": {
+          ...
+        }
+      },
+    }
+  },
+  "files": [
+    { "id": "appIcon", "to": "assets/icon.png" }
+  ],
+  "templates": [
+    ...
+  ]
+}
+```
+
+That's it! <br/>
+Now `variabler set` command will copy the icon for selected environment to `assets/icon.png` destination.
 
 ### Multiple variable lists
 
@@ -311,7 +399,7 @@ versionName "1.2.3"
 ### Extending variable lists
 
 Let's say we need to have production candidate environment that is the same as production one but with a different bundle id. <br/>
-To do that we can inherit configurations in `variables.json` with `extends` claim:
+To do that we can inherit configurations in `config.json` with `extends` claim:
 
 ```json
 {
@@ -364,7 +452,7 @@ VERSION: 1.2.3
 Variabler can take variables from Vault secret manager.
 
 Let's say, you want to put production environment variables into Vault. <br/>
-You need to create a secret in a key-value storage and put the path to this secret to `variables.json`:
+You need to create a secret in a key-value storage and put the path to this secret to `config.json`:
 
 ```json
 {

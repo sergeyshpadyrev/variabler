@@ -1,9 +1,6 @@
 const config = {
   configurations: {
     default: {
-      files: {
-        sampleFile: 'sample.txt'
-      },
       variables: {
         VERSION: '1.2.3'
       }
@@ -38,10 +35,7 @@ const config = {
       }
     }
   },
-  files: [
-    { id: 'appIcon', to: 'assets/icon.png' },
-    { id: 'sampleFile', to: 'sample.txt' }
-  ],
+  files: [{ id: 'appIcon', to: 'assets/icon.png' }],
   templates: [
     { from: 'api.js', to: 'src/api.js' },
     { from: 'settings.json', to: 'settings.json' }
@@ -49,8 +43,6 @@ const config = {
 }
 
 const files = [
-  { from: 'sample.txt', to: 'sample.txt' },
-
   { from: 'local.png', to: 'icon/local.png' },
   { from: 'staging.png', to: 'icon/staging.png' },
   { from: 'production.png', to: 'icon/production.png' }
