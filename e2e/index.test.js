@@ -4,6 +4,8 @@ beforeAll(() => {
   run(`npx create-react-native-app ${testDirectoryName} --yes --use-npm`)
   runInRepo('git config user.email "test@test.com"')
   runInRepo('git config user.name "Test user"')
+  runInRepo('git add --all')
+  runInRepo('git diff-index --quiet HEAD || git commit -m "Initial commit"')
 })
 
 beforeEach(() => {
