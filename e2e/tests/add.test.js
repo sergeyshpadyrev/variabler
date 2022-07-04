@@ -1,4 +1,4 @@
-const { expectFileExists, expectFileNotExists, runInRepo } = require('../common')
+const { expectFileExists, expectFileNotExists, runInRepo } = require('../util')
 
 describe('Add command', () => {
   it('should add file', () => {

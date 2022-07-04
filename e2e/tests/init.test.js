@@ -1,4 +1,4 @@
-const { expectFileExists, expectFileNotExists, runInRepo } = require('../common')
+const { expectFileExists, expectFileNotExists, runInRepo } = require('../util')
 
 describe('Init command ', () => {
   it('should create working template', () => {

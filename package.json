@@ -5,7 +5,7 @@
   "main": "src/cli.js",
   "bin": "./src/cli.js",
   "scripts": {
-    "test": "jest e2e/tests/**.test.js --runInBand"
+    "test": "jest e2e/index.test.js"
   },
   "repository": {
     "type": "git",
