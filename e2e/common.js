@@ -10,10 +10,9 @@ const expectFileExists = path => expect(checkExists(`${testDirectoryName}/${path
 const expectFileNotExists = path => expect(checkExists(`${testDirectoryName}/${path}`)).toBe(false)
 
 beforeAll(() => {
-  run('git config --global user.email "sergeyshpadyrev@gmail.com"')
-  run('git config --global user.name "Sergey Shpadyrev"')
-
   run(`npx create-react-native-app ${testDirectoryName} --yes --use-npm`)
+  runInRepo('git config user.email "test@test.com"')
+  runInRepo('git config user.name "Test user"')
 })
 
 afterAll(() => {
