@@ -12,7 +12,7 @@ describe('Add command', () => {
     expectFileExists('variabler/templates/build.gradle')
   })
 
-  it('should add same named files', () => {
+  it('should add same named files with passed --name option passed', () => {
     expectFileExists('android/build.gradle')
     expectFileExists('android/app/build.gradle')
 
@@ -22,6 +22,24 @@ describe('Add command', () => {
     runInRepo('variabler init')
     runInRepo('variabler add android/app/build.gradle')
     runInRepo('variabler add android/build.gradle --name build2.gradle')
+
+    expectFileNotExists('android/app/build.gradle')
+    expectFileNotExists('android/build.gradle')
+
+    expectFileExists('variabler/templates/build.gradle')
+    expectFileExists('variabler/templates/build2.gradle')
+  })
+
+  it('should add same named files with passed -n option passed', () => {
+    expectFileExists('android/build.gradle')
+    expectFileExists('android/app/build.gradle')
+
+    expectFileNotExists('variabler/templates/build.gradle')
+    expectFileNotExists('variabler/templates/build2.gradle')
+
+    runInRepo('variabler init')
+    runInRepo('variabler add android/app/build.gradle')
+    runInRepo('variabler add android/build.gradle -n build2.gradle')
 
     expectFileNotExists('android/app/build.gradle')
     expectFileNotExists('android/build.gradle')

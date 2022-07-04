@@ -3,8 +3,8 @@ const { execSync } = require('child_process')
 
 const testDirectoryName = 'e2e-test-directory'
 
-const run = command => execSync(command, { encoding: 'utf-8' })
-const runInRepo = command => run(`cd ${testDirectoryName} && ${command}`)
+const run = (command, options = {}) => execSync(command, { encoding: 'utf-8', ...options })
+const runInRepo = (command, options = {}) => run(`cd ${testDirectoryName} && ${command}`, options)
 
 const expectFileExists = path => expect(checkExists(`${testDirectoryName}/${path}`)).toBe(true)
 const expectFileNotExists = path => expect(checkExists(`${testDirectoryName}/${path}`)).toBe(false)

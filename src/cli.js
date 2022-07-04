@@ -9,7 +9,7 @@ const program = new Command()
 program
   .name('variabler')
   .description('CLI for managing environment configs')
-  .version(readJSON(variablerNodeModulePath('package.json')).version)
+  .version(readJSON(variablerNodeModulePath('package.json')).version, '-v, --version')
 
 program
   .command('add')
