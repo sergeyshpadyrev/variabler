@@ -1,6 +1,6 @@
 {
   "name": "variabler",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Environment configs made easy",
   "main": "src/cli.js",
   "bin": "./src/cli.js",
