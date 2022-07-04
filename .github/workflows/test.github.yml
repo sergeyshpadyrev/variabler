@@ -9,53 +9,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install variabler globally
-        run: npm ci && npm link
-      - name: Create a React Native app
-        run: npx create-react-native-app example --yes --use-npm
-        working-directory: ../
-      - name: Init git repo for the React Native app
-        run: |
-          git config --global user.email "test@example.com"
-          git config --global user.name "John Example"
-          git add --all
-          git commit -m "Init"
-        working-directory: ../example
-      - name: Check variabler version
-        run: variabler -V
-        working-directory: ../example
-      - name: Init variabler
-        run: variabler init
-        working-directory: ../example
-      - name: Set staging environment
-        run: variabler set env:staging
-        working-directory: ../example
-      - name: Check environment files exist
-        run: |
-          [ -e "./src/api.js" ] && echo "api.js exists" || exit 1
-          [ -e "./settings.json" ] && echo "settings.json exists" || exit 1
-        working-directory: ../example
-      - name: Add build.gradle file
-        run: variabler add ./android/app/build.gradle
-        working-directory: ../example
-      - name: Check added file moved
-        run: |
-          [ -e "./android/app/build.gradle" ] && exit 1 || echo "android/app/build.gradle doesn't exist"
-          [ -e "./variabler/templates/build.gradle" ] && echo "templates/build.gradle exists" || exit 1
-        working-directory: ../example
-      - name: Add another build.gradle file
-        run: variabler add ./android/build.gradle --name build.main.gradle
-        working-directory: ../example
-      - name: Check added file moved
-        run: |
-          [ -e "./android/build.gradle" ] && exit 1 || echo "android/build.gradle doesn't exist"
-          [ -e "./variabler/templates/build.main.gradle" ] && echo "templates/build.main.gradle exists" || exit 1
-        working-directory: ../example
-      - name: Set staging environment
-        run: variabler set env:staging
-        working-directory: ../example
-      - name: Check set files
-        run: |
-          [ -e "./android/build.gradle" ] && echo "android/build.gradle exists" || exit 1
-          [ -e "./android/app/build.gradle" ] && echo "android/app/build.gradle exists" || exit 1
-        working-directory: ../example
+      - name: Install modules
+        run: npm ci
+      - name: Link
+        run: npm link
+      - name: Test
+        run: npm test

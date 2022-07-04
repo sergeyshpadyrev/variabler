@@ -4,7 +4,9 @@
   "description": "Environment configs made easy",
   "main": "src/cli.js",
   "bin": "./src/cli.js",
-  "scripts": {},
+  "scripts": {
+    "test": "jest e2e/e2e.test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sergeyshpadyrev/variabler.git"
@@ -28,5 +30,8 @@
     "fs-extra": "10.1.0",
     "jsonfile": "6.1.0",
     "prompt-sync": "4.2.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.2"
   }
 }

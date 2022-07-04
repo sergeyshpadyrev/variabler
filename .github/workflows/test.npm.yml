@@ -10,14 +10,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Create a React Native app
-        run: cd .. && npx create-react-native-app example --yes --use-npm
-      - name: Install variabler to the React Native app
+      - name: Install modules
+        run: npm ci
+      - name: Install variabler from NPM
         run: npm install -g variabler
-        working-directory: ../example
-      - name: Init variabler
-        run: variabler init
-        working-directory: ../example
-      - name: Set staging environment
-        run: variabler set env:staging
-        working-directory: ../example
+      - name: Test
+        run: npm test
